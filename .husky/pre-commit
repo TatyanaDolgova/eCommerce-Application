@@ -1,1 +1,1 @@
-npm --prefix fun-chat run lint:staged
+npm run lint:staged

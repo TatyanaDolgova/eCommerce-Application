@@ -21,12 +21,23 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint \"src/**.ts?(x)\"",
+    "lint:fix": "eslint --fix \"src/**.ts?(x)\"",
+    "lint:staged": "lint-staged",
+    "ci:format": "prettier \"src/**.ts?(x)\" --check",
+    "format": "prettier \"src/**.ts?(x)\" --write"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
+    "extends": ["react-app", "react-app/jest"],
+    "rules": {
+    },
+    "overrides": [
+      {
+        "files": ["**/*.ts?(x)"],
+        "rules": {
+        }
+      }
     ]
   },
   "browserslist": {

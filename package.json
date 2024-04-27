@@ -17,10 +17,14 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-typescript-sort-keys": "^2.3.0",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.4",
     "prettier": "^3.2.5",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
+    "react-router-dom": "^6.23.0",
     "react-scripts": "5.0.1",
+    "sort-by": "^1.2.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -72,22 +76,60 @@
       "no-var": "error",
       "no-debugger": "error",
       "no-console": "warn",
-      "no-restricted-syntax": ["off", "ForOfStatement"],
+      "no-restricted-syntax": [
+        "off",
+        "ForOfStatement"
+      ],
       "lines-between-class-members": "off",
       "class-methods-use-this": "error",
-      "quotes": ["error", "single"],
-      "semi": ["error", "always"],
-      "object-curly-spacing": ["error", "always"],
-      "key-spacing": ["error", { "afterColon": true }],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
+      "key-spacing": [
+        "error",
+        {
+          "afterColon": true
+        }
+      ],
       "no-multi-spaces": "error",
-      "sort-imports": ["error", { "ignoreDeclarationSort": true }],
-      "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+      "sort-imports": [
+        "error",
+        {
+          "ignoreDeclarationSort": true
+        }
+      ],
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ],
       "import/prefer-default-export": "off",
-      "import/no-duplicates": ["error", { "considerQueryString": true }],
+      "import/no-duplicates": [
+        "error",
+        {
+          "considerQueryString": true
+        }
+      ],
       "import/order": [
         "error",
         {
-          "groups": ["builtin", "external", "internal", "parent", "sibling"],
+          "groups": [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling"
+          ],
           "newlines-between": "always",
           "alphabetize": {
             "order": "asc",
@@ -95,25 +137,54 @@
           }
         }
       ],
-      "import/exports-last": ["error"],
-      "import/newline-after-import": ["error"],
+      "import/exports-last": [
+        "error"
+      ],
+      "import/newline-after-import": [
+        "error"
+      ],
       "padding-line-between-statements": [
         "error",
-        { "blankLine": "always", "prev": "*", "next": "return" },
-        { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+        {
+          "blankLine": "always",
+          "prev": "*",
+          "next": "return"
+        },
+        {
+          "blankLine": "always",
+          "prev": [
+            "const",
+            "let",
+            "var"
+          ],
+          "next": "*"
+        },
         {
           "blankLine": "any",
-          "prev": ["const", "let", "var"],
-          "next": ["const", "let", "var"]
+          "prev": [
+            "const",
+            "let",
+            "var"
+          ],
+          "next": [
+            "const",
+            "let",
+            "var"
+          ]
         }
       ],
       "prettier/prettier": "error",
-      "@typescript-eslint/return-await": ["error", "in-try-catch"],
+      "@typescript-eslint/return-await": [
+        "error",
+        "in-try-catch"
+      ],
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/unbound-method": "error",
       "@typescript-eslint/no-misused-promises": [
         "error",
-        { "checksVoidReturn": false }
+        {
+          "checksVoidReturn": false
+        }
       ],
       "@typescript-eslint/no-unsafe-member-access": "error",
       "@typescript-eslint/no-unsafe-call": "error",
@@ -123,7 +194,6 @@
           "default": {
             "memberTypes": [
               "signature",
-
               "public-instance-field",
               "protected-instance-field",
               "private-instance-field",
@@ -133,12 +203,10 @@
               "public-abstract-field",
               "protected-abstract-field",
               "field",
-
               "public-constructor",
               "protected-constructor",
               "private-constructor",
               "constructor",
-
               "public-instance-get",
               "protected-instance-get",
               "private-instance-get",
@@ -148,7 +216,6 @@
               "public-abstract-get",
               "protected-abstract-get",
               "get",
-
               "public-instance-set",
               "protected-instance-set",
               "private-instance-set",
@@ -158,7 +225,6 @@
               "public-abstract-set",
               "protected-abstract-set",
               "set",
-
               "public-instance-method",
               "protected-instance-method",
               "private-instance-method",

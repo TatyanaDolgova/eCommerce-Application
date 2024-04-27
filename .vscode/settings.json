@@ -5,6 +5,7 @@
     },
     "eslint.workingDirectories": ["/src", "/tests"],
     "npm.exclude": ["**/dist"],
+    "css.lint.unknownAtRules": "ignore",
     "files.exclude": {
       "**/.git": true,
       "**/.svn": true,

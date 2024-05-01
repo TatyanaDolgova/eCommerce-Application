@@ -1,5 +1,32 @@
 # eCommerce-Application
 
+# Project Description:
+
+Our project is an online store for indoor plants. The main goal of the project is to provide users with a convenient platform to browse and purchase a variety of indoor plants, as well as related products and accessories.
+
+# Technology Stack:
+
+1. React
+2. Webpack
+3. Jest
+4. ESLint
+5. Prettier
+6. CommerceTools
+
+# Setting Up and Running the Project Locally
+
+Step 1: Clone the Repository
+
+```git clone https://github.com/TatyanaDolgova/eCommerce-Application```
+
+Step 2: Install Dependencies
+
+```npm install```
+
+Step 3: Run the Project
+
+```npm start```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -40,6 +67,30 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+### `npm run lint`
+
+Runs ESLint to check syntax and code style in TypeScript files. It checks all files with the .ts or .tsx extension in the src folder.
+
+### `npm run lint:fix`
+
+Runs ESLint with the --fix option to automatically fix any syntax and code style issues found.
+
+### `npm run lint:staged`
+
+Runs lint-staged to check only the changed files in the Git index before committing. This helps maintain consistency in commits and prevents unchecked code from being added.
+
+### `npm run ci:format`
+
+Runs Prettier to check that all files in the src folder adhere to formatting standards.
+
+### `npm run format`
+
+Runs Prettier to automatically format files in the src folder according to defined standards.
+
+### `npm run prepare`
+
+Runs Husky to initialize Git hooks from the .husky folder. Husky is used to add pre-commit hooks that can run scripts before committing, such as lint-staged.
 
 ## Learn More
 

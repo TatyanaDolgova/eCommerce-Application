@@ -1,4 +1,5 @@
 @import-normalize;
+@import '../node_modules/modern-normalize/modern-normalize.css';
 
 @import './components/Button/Button.css';
 @import './components/Input/Input.css';

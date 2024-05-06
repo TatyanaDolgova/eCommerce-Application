@@ -15,7 +15,7 @@ function LoginForm(props: LoginFormProps) {
     const emailInput = target[0] as HTMLInputElement;
     const email = emailInput.value;
     const passwordInput = target[1] as HTMLInputElement;
-    const password = emailInput.value;
+    const password = passwordInput.value;
 
     const message = validateLoginForm(email, password);
 

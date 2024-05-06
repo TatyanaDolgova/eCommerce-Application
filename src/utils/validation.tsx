@@ -1,18 +1,8 @@
 const emailRegexp = new RegExp('^[\\-a-zA-z]+@[\\-a-zA-z]+.[\\-a-zA-z]+$');
-// const passwordRegexp = new RegExp(
-//   '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$',
-// );
-// const passwordRegexp = {
-//     hasNumber: new RegExp(@"[0-9]+"),
-//     hasUpperChar = new Regex(@"[A-Z]+"),
-//     hasMiniMaxChars = new Regex(@".{8,15}"),
-//     hasLowerChar = new Regex(@"[a-z]+"),
-//     hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]"),
-// }
 
 function validateEmail(email: string) {
   if (!emailRegexp.test(email)) {
-    return 'Email address must be properly formatted (e.g., user@example.com) and should not contain leading or trailing whitespace';
+    return 'Email address must be properly formatted (e.g., user@example.com) and should not contain whitespace';
   }
 
   return undefined;

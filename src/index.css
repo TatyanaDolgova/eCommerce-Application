@@ -5,6 +5,14 @@
 @import './components/Input/Input.css';
 @import './components/Label/Label.css';
 
+:root {
+  --cambridge-blue: #809885ff;
+  --platinum: #E3E3E3ff;
+  --silver: #B1B2B1ff;
+  --dark-moss-green: #3A5F25ff;
+  --antiflash-white: #EBEBEBff;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -22,4 +30,9 @@ code {
 #root {
   min-width: 100%;
   min-height: 100vh;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
 }

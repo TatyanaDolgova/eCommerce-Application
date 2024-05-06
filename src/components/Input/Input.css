@@ -5,11 +5,19 @@
   border-bottom: 1px solid #346c39;
   cursor: pointer;
   padding: 10px;
+  border-radius: 10px;
 }
 
 .submit_input {
-  background-color: #346c39;
+  background-color: var(--dark-moss-green);
   border-radius: inherit;
+  color: var(--antiflash-white);
+  transition: all 0.3s ease-in-out;
+}
+
+.submit_input:hover {
+  background-color: var(--platinum);
+  color: var(--dark-moss-green);
 }
 
 .show_password_input {

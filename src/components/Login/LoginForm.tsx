@@ -8,17 +8,13 @@ import Input from '../Input/Input';
 import Label from '../Label/Label';
 
 function LoginForm(props: LoginFormProps) {
-  let isShown = false;
-
   const [passwordInputType, setPasswordInputType] = useState('password');
 
   function showPassord() {
-    if (isShown) {
-      setPasswordInputType('password');
-      isShown = false;
-    } else {
+    if (passwordInputType === 'password') {
       setPasswordInputType('text');
-      isShown = true;
+    } else {
+      setPasswordInputType('password');
     }
   }
 

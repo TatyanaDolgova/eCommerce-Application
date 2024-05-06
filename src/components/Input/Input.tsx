@@ -6,6 +6,7 @@ function Input(props: InputProps) {
       placeholder={props.placeholder}
       onChange={props.callback}
       id={props.id}
+      max={props.max}
       name={props.name}
       required={props.required}
       value={props.value}
@@ -17,6 +18,7 @@ interface InputProps {
   callback?: VoidFunction; //this might have to change to some other type of function
   classes: string;
   id?: string;
+  max?: string;
   name?: string;
   placeholder?: string;
   required?: boolean;

@@ -1,13 +1,9 @@
-.input {
+.select {
+  padding: 10px 7px;
+  border: none;
   min-width: 200px;
   width: 80%;
   border: none;
   border-bottom: 1px solid #346c39;
   cursor: pointer;
-  padding: 10px;
-}
-
-.submit_input {
-  background-color: #346c39;
-  border-radius: inherit;
 }

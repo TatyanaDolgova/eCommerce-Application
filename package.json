@@ -35,11 +35,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint \"src/**.ts?(x)\"",
-    "lint:fix": "eslint --fix \"src/**.ts?(x)\"",
+    "lint": "eslint \"src/**/*.ts?(x)\"",
+    "lint:fix": "eslint --fix \"src/**/*.ts?(x)\"",
     "lint:staged": "lint-staged",
-    "ci:format": "prettier \"src/**.ts?(x)\" --check",
-    "format": "prettier \"src/**.ts?(x)\" --write",
+    "ci:format": "prettier \"src/**/*.ts?(x)\" --check",
+    "format": "prettier \"src/**/*.ts?(x)\" --write",
     "prepare": "husky .husky"
   },
   "eslintConfig": {

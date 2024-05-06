@@ -11,3 +11,22 @@
   background-color: #346c39;
   border-radius: inherit;
 }
+
+.show_password_input {
+  width: 30px;
+  height: 30px;
+  min-width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  border: none;
+  background-image: url(../../assets/icons/seen.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.show_password_input:checked {
+  background-image: url(../../assets/icons/unseen.png);
+}

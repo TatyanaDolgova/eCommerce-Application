@@ -7,12 +7,12 @@
 
 :root {
   --cambridge-blue: #809885ff;
-  --platinum: #E3E3E3ff;
-  --silver: #B1B2B1ff;
-  --dark-moss-green: #3A5F25ff;
-  --antiflash-white: #EBEBEBff;
+  --platinum: #e3e3e3ff;
+  --silver: #b1b2b1ff;
+  --dark-moss-green: #3a5f25ff;
+  --antiflash-white: #ebebebff;
   --background-color: rgba(248, 249, 244, 0.8);
-  --error-message-color: #DA5E5E;
+  --error-message-color: #da5e5e;
 }
 
 body {

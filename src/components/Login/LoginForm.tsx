@@ -1,11 +1,27 @@
 import './LoginForm.css';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { emailProps, passwordProps } from '../../utils/validation';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
 
 function LoginForm(props: LoginFormProps) {
+  let isShown = false;
+
+  const [passwordInputType, setPasswordInputType] = useState('password');
+
+  function showPassord() {
+    if (isShown) {
+      setPasswordInputType('password');
+      isShown = false;
+    } else {
+      setPasswordInputType('text');
+      isShown = true;
+    }
+  }
+
   const {
     register,
     handleSubmit,
@@ -30,14 +46,7 @@ function LoginForm(props: LoginFormProps) {
       <h1 className="page_title">Login</h1>
       <Label classes="label" text="Email" for="email_input"></Label>
       <input
-        {...register('email', {
-          required: 'Email is required',
-          pattern: {
-            value: /^[\\-a-zA-z]+@[\\-a-zA-z]+.[\\-a-zA-z]+$/,
-            message:
-              'Email address must be properly formatted (e.g., user@example.com) and should not contain whitespace ',
-          },
-        })}
+        {...register('email', emailProps)}
         className="input email_input"
         type="email"
         id="email_input"
@@ -46,25 +55,21 @@ function LoginForm(props: LoginFormProps) {
       ></input>
       <p className="error_message">{errors.email?.message}</p>
       <Label classes="label" text="Password" for="password_input"></Label>
-      <input
-        {...register('password', {
-          required: 'Password is required.',
-          minLength: {
-            value: 8,
-            message: 'Password must be at least 8 characters long.',
-          },
-          pattern: {
-            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,25}$/,
-            message:
-              'Password must contain at least one uppercase and one lowercase letter, one digit and one special character.',
-          },
-        })}
-        className="input password_input"
-        type="password"
-        id="password_input"
-        required={true}
-        placeholder="Type your password"
-      ></input>
+      <div className="input_wrapper">
+        <input
+          {...register('password', passwordProps)}
+          className="input password_input"
+          type={passwordInputType}
+          id="password_input"
+          required={true}
+          placeholder="Type your password"
+        ></input>
+        <Input
+          classes="input show_password_input"
+          type="checkbox"
+          callback={showPassord}
+        ></Input>
+      </div>
       <p className="error_message">{errors.password?.message}</p>
       <Input classes="input submit_input" type="submit" value="Login"></Input>
     </form>

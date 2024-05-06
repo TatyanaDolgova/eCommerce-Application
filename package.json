@@ -19,6 +19,7 @@
     "eslint-plugin-typescript-sort-keys": "^2.3.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
+    "modern-normalize": "^2.0.0",
     "prettier": "^3.2.5",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",

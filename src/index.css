@@ -1,4 +1,5 @@
 @import-normalize;
+@import '../node_modules/modern-normalize/modern-normalize.css';
 
 @import './components/Button/Button.css';
 @import './components/Input/Input.css';
@@ -26,10 +27,9 @@ code {
     monospace;
 }
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+#root {
+  min-width: 100%;
+  min-height: 100vh;
 }
 
 .wrapper {

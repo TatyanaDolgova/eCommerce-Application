@@ -8,6 +8,7 @@ function Input(props: InputProps) {
       id={props.id}
       name={props.name}
       required={props.required}
+      value={props.value}
     ></input>
   );
 }
@@ -20,6 +21,7 @@ interface InputProps {
   placeholder?: string;
   required?: boolean;
   type: string;
+  value?: string;
 }
 
 export default Input;

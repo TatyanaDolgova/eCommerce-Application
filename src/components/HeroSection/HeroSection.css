@@ -1,0 +1,31 @@
+.hero {
+  background-color: var(--platinum);
+}
+
+.hero-wrapper {
+  position: relative;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 85vh;
+
+  background-image: url('../../assets/hero.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.hero-title {
+  max-width: 600px;
+  color: rgb(0, 0, 0);
+  font-size: 70px;
+  line-height: 110px;
+  font-weight: 800;
+}
+
+.hero-title--high {
+  color: rgb(57, 181, 74);
+  font-size: 120px;
+  font-weight: 800;
+  letter-spacing: 0%;
+}

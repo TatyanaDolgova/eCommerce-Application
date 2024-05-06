@@ -21,12 +21,14 @@ function LoginForm(props: LoginFormProps) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
       email: '',
       password: '',
     },
+    mode: 'all',
   });
 
   function submitLoginData(data: object) {

@@ -8,6 +8,9 @@ const Header = () => {
       <Link className="header-logo" to="/">
         Plantify
       </Link>
+      <Link to="/home" className="header-link">
+        Home
+      </Link>
       <nav>
         <ul className="header-links">
           <li>

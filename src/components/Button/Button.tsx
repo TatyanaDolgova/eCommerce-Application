@@ -13,7 +13,7 @@ function BaseButton(props: ButtonProps) {
 }
 
 interface ButtonProps {
-  callback: MouseEventHandler;
+  callback?: MouseEventHandler;
   classes: string;
   text: string;
   type: 'button' | 'submit' | 'reset' | undefined;

@@ -11,15 +11,14 @@
   --silver: #b1b2b1ff;
   --dark-moss-green: #3a5f25ff;
   --antiflash-white: #ebebebff;
+  --background-color: rgba(248, 249, 244, 0.8);
+  --error-message-color: #da5e5e;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Montserrat", sans-serif;
+
 }
 
 code {

@@ -5,8 +5,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  background-color: rgba(248, 249, 244, 0.8);
-  border: 1px solid #f8f9f4;
+  gap: 10px;
+  background-color: var(--background-color);
+  border: 1px solid var(--background-color);
   border-radius: 10px;
+}
+
+.error_message {
+  max-width: 80%;
+  text-align: center;
+  color: var(--error-message-color);
 }

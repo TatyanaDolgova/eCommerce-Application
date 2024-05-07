@@ -1,6 +1,7 @@
 .login_page {
   min-width: 100%;
   min-height: 90vh;
+  padding: 2%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,4 +9,11 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.input_wrapper {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

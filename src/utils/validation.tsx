@@ -1,41 +1,27 @@
-const emailRegexp = new RegExp('^[\\-a-zA-z]+@[\\-a-zA-z]+.[\\-a-zA-z]+$');
-// const passwordRegexp = new RegExp(
-//   '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$',
-// );
-// const passwordRegexp = {
-//     hasNumber: new RegExp(@"[0-9]+"),
-//     hasUpperChar = new Regex(@"[A-Z]+"),
-//     hasMiniMaxChars = new Regex(@".{8,15}"),
-//     hasLowerChar = new Regex(@"[a-z]+"),
-//     hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]"),
-// }
+const emailRegExp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{1,8}$/);
 
-function validateEmail(email: string) {
-  if (!emailRegexp.test(email)) {
-    return 'Email address must be properly formatted (e.g., user@example.com) and should not contain leading or trailing whitespace';
-  }
+export const passwordRegExp = new RegExp(
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,25}$/,
+);
 
-  return undefined;
-}
+export const passwordProps = {
+  required: 'Password is required.',
+  minLength: {
+    value: 8,
+    message: 'Password must be at least 8 characters long.',
+  },
+  pattern: {
+    value: passwordRegExp,
+    message:
+      'Password must contain at least one uppercase and one lowercase letter, one digit and one special character.',
+  },
+};
 
-function validatePassword(password: string) {
-  if (password.length < 8) {
-    return 'Password must be at least 8 characters long';
-  }
-
-  return undefined;
-}
-
-export function validateLoginForm(email: string, password: string) {
-  let mistake;
-
-  if (validateEmail(email)) {
-    mistake = validateEmail(email);
-  }
-
-  if (validatePassword(password)) {
-    mistake = validatePassword(password);
-  }
-
-  return mistake;
-}
+export const emailProps = {
+  required: 'Email is required',
+  pattern: {
+    value: emailRegExp,
+    message:
+      'Email address must be properly formatted (e.g., user@example.com) and should not contain whitespace.',
+  },
+};

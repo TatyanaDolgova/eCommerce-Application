@@ -75,7 +75,7 @@ function LoginForm(props: LoginFormProps) {
 }
 
 interface LoginFormProps {
-  classes: string;
+  classes?: string;
 }
 
 export default LoginForm;

@@ -1,0 +1,14 @@
+.inputs-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.address-label {
+  grid-row-start: 6;
+  grid-row-end: 10;
+}
+
+input[type='date'] {
+    color: #000;
+}

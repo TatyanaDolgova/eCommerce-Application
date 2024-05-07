@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@commercetools/platform-sdk": "^7.8.0",
+    "@commercetools/sdk-client-v2": "^2.5.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -35,6 +37,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+
     "lint": "eslint \"src/**/*.ts?(x)\"",
     "lint:fix": "eslint --fix \"src/**/*.ts?(x)\"",
     "lint:staged": "lint-staged",
@@ -275,6 +278,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.6.11",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2"
   },

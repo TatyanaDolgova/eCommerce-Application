@@ -7,6 +7,7 @@ import {
   Client,
   ClientBuilder,
   HttpMiddlewareOptions,
+  PasswordAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 
 export default class CtpClient {
@@ -67,9 +68,38 @@ export default class CtpClient {
       fetch,
     };
 
-    new ClientBuilder()
+    return new ClientBuilder()
       .withProjectKey(this.projectKey)
       .withAnonymousSessionFlow(options)
+      .withHttpMiddleware(httpMiddlewareOptions)
+      .withLoggerMiddleware()
+      .build();
+  }
+
+  createLoggedInClient() {
+    const options: PasswordAuthMiddlewareOptions = {
+      host: this.oauthUri,
+      projectKey: this.projectKey,
+      credentials: {
+        clientId: this.clientId,
+        clientSecret: 'Ttj-BiXTcQ095yXCXvZxiR8Xij5tCX7n',
+        user: {
+          username: 'sdk2@example.com',
+          password: 'Test1234!',
+        },
+      },
+      scopes: this.scopes,
+      fetch,
+    };
+
+    const httpMiddlewareOptions: HttpMiddlewareOptions = {
+      host: this.baseUri,
+      fetch,
+    };
+
+    return new ClientBuilder()
+      .withProjectKey(this.projectKey)
+      .withPasswordFlow(options)
       .withHttpMiddleware(httpMiddlewareOptions)
       .withLoggerMiddleware()
       .build();

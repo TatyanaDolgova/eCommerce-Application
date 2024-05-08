@@ -1,8 +1,10 @@
 import './LoginForm.css';
 
+import { CustomerSignin } from '@commercetools/platform-sdk';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { customerRepository } from '../../services/CustomerRepository';
 import { emailProps, passwordProps } from '../../utils/validation';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
@@ -31,8 +33,11 @@ function LoginForm(props: LoginFormProps) {
     mode: 'all',
   });
 
-  function submitLoginData(data: object) {
+  async function submitLoginData(data: CustomerSignin) {
     console.log(data);
+    const customerData: CustomerSignin = data;
+
+    await customerRepository.createLoggedInCustomer(customerData);
   }
 
   return (

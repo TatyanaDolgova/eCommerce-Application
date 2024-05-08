@@ -12,3 +12,14 @@
 input[type='date'] {
     color: #000;
 }
+
+.select {
+  padding: 10px 7px;
+  border: none;
+  min-width: 200px;
+  width: 80%;
+  border: none;
+  border-bottom: 1px solid #346c39;
+  cursor: pointer;
+  border-radius: 10px;
+}

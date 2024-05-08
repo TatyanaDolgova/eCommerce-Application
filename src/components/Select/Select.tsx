@@ -1,6 +1,6 @@
 import './Select.css';
 
-function Select(props: SelectProps) {
+function CustomSelect(props: SelectProps) {
   return (
     <select className={props.classes} name={props.name} id={props.id}>
       <option value="">Please select an option</option>
@@ -17,4 +17,4 @@ interface SelectProps {
   name: string;
   options: Array<string>;
 }
-export default Select;
+export default CustomSelect;

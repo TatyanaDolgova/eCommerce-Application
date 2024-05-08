@@ -3,7 +3,6 @@ import './RegistrationForm.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import {
-  countryProps,
   emailProps,
   minBirthDate,
   nameProps,
@@ -31,10 +30,29 @@ function RegistrationForm() {
     handleSubmit,
     formState: { errors },
     getValues,
+    watch,
   } = useForm<FormFields>();
   const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data);
+    const customerDraft = {
+      email: data.email,
+      password: data.password,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      dateOfBirth: data.birthDate,
+      addresses: [
+        {
+          country: data.country,
+          city: data.city,
+          postalCode: data.postalCode,
+          street: data.street,
+        },
+      ],
+    };
+
+    console.log(customerDraft);
   };
+
+  const watchCountry = watch('country');
 
   return (
     <form
@@ -153,11 +171,16 @@ function RegistrationForm() {
           )}
         </div>
         <div className="input-wrapper">
-          <input
-            {...register('country', countryProps)}
-            className="input"
-            placeholder="Country"
-          ></input>
+          <select
+            {...register('country')}
+            id="country"
+            name="country"
+            className="select"
+          >
+            <option value="US">USA</option>
+            <option value="Russia">Russia</option>
+            <option value="Croatia">Croatia</option>
+          </select>
           {errors.country && (
             <div className="error_message">{errors.country.message}</div>
           )}

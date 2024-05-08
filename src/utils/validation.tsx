@@ -25,3 +25,54 @@ export const emailProps = {
       'Email address must be properly formatted (e.g., user@example.com) and should not contain whitespace.',
   },
 };
+
+export const nameProps = (field: string) => {
+  return {
+    required: `${field} is required`,
+    pattern: {
+      value: /^[a-zA-Z]*$/,
+      message: `${field} should not contain numbers or special characters`,
+    },
+  };
+};
+
+export const minBirthDate = () => {
+  const date = new Date();
+  const year = date.getFullYear() - 13;
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
+
+export const postCodeProps = (countryValue: string) => {
+  return {
+    required: 'Postal code is required',
+    validate: (value: string) => {
+      const USRegexp = /^[0-9]{5}$/;
+      const RussiaRegexp = /^[0-9]{6}$/;
+
+      if (
+        (countryValue === 'US' || countryValue === 'Croatia') &&
+        !USRegexp.test(value)
+      ) {
+        return `The postcode for ${countryValue} should contain 5 digits`;
+      } else if (countryValue === 'Russia' && !RussiaRegexp.test(value)) {
+        return 'The postcode for Russia should contain 6 digits';
+      } else {
+        return true;
+      }
+    },
+  };
+};
+
+export const countryProps = {
+  required: 'Country is required',
+  validate: (value: string) => {
+    if (value === 'Russia' || value === 'US' || value === 'Croatia') {
+      return true;
+    } else {
+      return 'Country should be Russia, Croatia or US';
+    }
+  },
+};

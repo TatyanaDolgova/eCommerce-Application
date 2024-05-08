@@ -1,23 +1,26 @@
-import { ApiRoot, CustomerDraft } from '@commercetools/platform-sdk';
+import {
+  CustomerDraft,
+  createApiBuilderFromCtpClient,
+} from '@commercetools/platform-sdk';
 
 import CtpClient from './CtpClient';
 
 export default class CustomerRepository {
-  apiRoot: ApiRoot;
-
   projectKey: string;
 
   constructor() {
-    const newClient = new CtpClient();
-
-    this.apiRoot = CtpClient.getApiRoot(newClient.getClient());
     this.projectKey = 'ecommerce2024rss';
   }
 
-  async createCustomer(customerData: CustomerDraft) {
+  static async createCustomer(customerData: CustomerDraft) {
     try {
-      const customer = await this.apiRoot
-        .withProjectKey({ projectKey: this.projectKey })
+      const client = new CtpClient();
+      const anonimousClient = client.createAnonimusClient();
+      const apiRoot = createApiBuilderFromCtpClient(
+        anonimousClient,
+      ).withProjectKey({ projectKey: 'ecommerce2024rss' });
+
+      const customer = await apiRoot
         .customers()
         .post({
           body: customerData,

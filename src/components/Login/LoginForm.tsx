@@ -1,10 +1,14 @@
 import './LoginForm.css';
 
-import { CustomerSignin } from '@commercetools/platform-sdk';
+import {
+  ApiRoot,
+  ByProjectKeyRequestBuilder,
+  CustomerSignin,
+} from '@commercetools/platform-sdk';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { customerRepository } from '../../services/CustomerRepository';
+import { CustomerRepository } from '../../services/CustomerRepository';
 import { emailProps, passwordProps } from '../../utils/validation';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
@@ -23,7 +27,6 @@ function LoginForm(props: LoginFormProps) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -34,10 +37,24 @@ function LoginForm(props: LoginFormProps) {
   });
 
   async function submitLoginData(data: CustomerSignin) {
-    console.log(data);
-    const customerData: CustomerSignin = data;
+    const apiRoot = props.apiRoot;
 
-    await customerRepository.createLoggedInCustomer(customerData);
+    try {
+      const customer = await apiRoot
+        .login()
+        .post({ body: data })
+        .execute()
+        .then(({ body }) => {
+          console.log(body);
+        });
+
+      return customer;
+    } catch (error) {
+      console.log(error);
+
+      return error;
+    }
+    // await customerRepository.createLoggedInCustomer(data);
   }
 
   return (
@@ -80,6 +97,8 @@ function LoginForm(props: LoginFormProps) {
 }
 
 interface LoginFormProps {
+  apiRoot: ByProjectKeyRequestBuilder;
+
   classes?: string;
 }
 

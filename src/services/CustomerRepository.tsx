@@ -8,51 +8,24 @@ import {
 
 import CtpClient from './CtpClient';
 
-export default class CustomerRepository {
-  // anonCustomerApiRoot: ByProjectKeyRequestBuilder;
+export class CustomerRepository {
+  static apiRoot: ByProjectKeyRequestBuilder;
 
-  projectKey: string;
+  static projectKey = 'ecommerce2024rss';
 
-  constructor() {
-    this.projectKey = 'ecommerce2024rss';
+  public static createAnonimusCustomer(): ByProjectKeyRequestBuilder {
+    const ctpClient = new CtpClient();
+    const anonimousClient = ctpClient.createAnonimusClient();
+    const apiRoot = createApiBuilderFromCtpClient(
+      anonimousClient,
+    ).withProjectKey({ projectKey: CustomerRepository.projectKey });
+
+    CustomerRepository.apiRoot = apiRoot;
+
+    return apiRoot;
   }
 
-  // private createAnonimusCustomer() {
-  //   const ctpClient = new CtpClient();
-  //   const anonimousClient = ctpClient.createAnonimusClient();
-  //   const apiRoot = createApiBuilderFromCtpClient(
-  //     anonimousClient,
-  //   ).withProjectKey({ projectKey: 'ecommerce2024rss' });
-
-  //   this.anonCustomerApiRoot = apiRoot;
-  // }
-
-  public async createLoggedInCustomer(customerData: CustomerSignin) {
-    try {
-      const client = new CtpClient();
-      const anonimousClient = client.createLoggedInClient();
-      const apiRoot = createApiBuilderFromCtpClient(
-        anonimousClient,
-      ).withProjectKey({ projectKey: 'ecommerce2024rss' });
-
-      const customer = await apiRoot
-        .login()
-        .post({ body: customerData })
-        .execute()
-        .then(({ body }) => {
-          console.log(body);
-          console.log(this);
-        });
-
-      return customer;
-    } catch (error) {
-      console.log(error);
-
-      return error;
-    }
-  }
-
-  static async createCustomer(customerData: CustomerDraft) {
+  public static async createCustomer(customerData: CustomerDraft) {
     try {
       const client = new CtpClient();
       const anonimousClient = client.createAnonimusClient();
@@ -72,6 +45,28 @@ export default class CustomerRepository {
       return error;
     }
   }
-}
 
-export const customerRepository = new CustomerRepository();
+  public static async createLoggedInCustomer(customerData: CustomerSignin) {
+    try {
+      // const client = new CtpClient();
+      // const anonimousClient = client.createLoggedInClient();
+      // const apiRoot = createApiBuilderFromCtpClient(
+      //   anonimousClient,
+      // ).withProjectKey({ projectKey: this.projectKey });
+
+      const customer = await CustomerRepository.apiRoot
+        .login()
+        .post({ body: customerData })
+        .execute()
+        .then(({ body }) => {
+          console.log(body);
+        });
+
+      return customer;
+    } catch (error) {
+      console.log(error);
+
+      return error;
+    }
+  }
+}

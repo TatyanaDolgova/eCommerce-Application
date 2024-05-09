@@ -6,14 +6,16 @@ import { LoginPage } from './pages/login/LoginPage';
 import MainPage from './pages/MainPage';
 import RegistrationPage from './pages/RegistrationPage';
 import CtpClient from './services/CtpClient';
-import { customerRepository } from './services/CustomerRepository';
+import { CustomerRepository } from './services/CustomerRepository';
 
 function App() {
+  const apiRoot = CustomerRepository.createAnonimusCustomer();
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<MainPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage apiRoot={apiRoot} />} />
         <Route path="/registration" element={<RegistrationPage />} />
       </Routes>
     </BrowserRouter>

@@ -57,7 +57,6 @@ export default class CtpClient {
       credentials: {
         clientId: this.clientId,
         clientSecret: 'Ttj-BiXTcQ095yXCXvZxiR8Xij5tCX7n',
-        anonymousId: '4',
       },
       scopes: this.scopes,
       fetch,

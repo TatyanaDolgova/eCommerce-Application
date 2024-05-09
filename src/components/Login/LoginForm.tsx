@@ -1,27 +1,39 @@
 import './LoginForm.css';
 
+import {
+  ByProjectKeyRequestBuilder,
+  CustomerSignin,
+} from '@commercetools/platform-sdk';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { CustomerRepository } from '../../services/CustomerRepository';
+import { serverErrorMessages } from '../../utils/ErrorHandler';
 import { emailProps, passwordProps } from '../../utils/validation';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
 
 function LoginForm(props: LoginFormProps) {
   const [passwordInputType, setPasswordInputType] = useState('password');
+  const [serverMessageError, setServerMessageError] = useState('');
 
-  function showPassord() {
+  const showPassord = () => {
     if (passwordInputType === 'password') {
       setPasswordInputType('text');
     } else {
       setPasswordInputType('password');
     }
-  }
+  };
+
+  const clearServerMessageError = () => {
+    if (serverMessageError) {
+      setServerMessageError('');
+    }
+  };
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -31,8 +43,18 @@ function LoginForm(props: LoginFormProps) {
     mode: 'all',
   });
 
-  function submitLoginData(data: object) {
-    console.log(data);
+  async function submitLoginData(data: CustomerSignin) {
+    const response = await CustomerRepository.createLoggedInCustomer(data);
+
+    if (response instanceof Error) {
+      console.log('Form error msg');
+      console.log(response.message);
+      if (response.message === serverErrorMessages.loginError.errorMessage) {
+        setServerMessageError(serverErrorMessages.loginError.userMessage);
+      }
+    } else {
+      CustomerRepository.setLoggedApiRoot();
+    }
   }
 
   return (
@@ -50,6 +72,7 @@ function LoginForm(props: LoginFormProps) {
         id="email_input"
         required={true}
         placeholder="Type your email"
+        onInput={clearServerMessageError}
       ></input>
       <p className="error_message">{errors.email?.message}</p>
       <Label classes="label" text="Password" for="password_input"></Label>
@@ -61,6 +84,7 @@ function LoginForm(props: LoginFormProps) {
           id="password_input"
           required={true}
           placeholder="Type your password"
+          onInput={clearServerMessageError}
         ></input>
         <Input
           classes="input show_password_input"
@@ -69,12 +93,15 @@ function LoginForm(props: LoginFormProps) {
         ></Input>
       </div>
       <p className="error_message">{errors.password?.message}</p>
+      <p className="error_message">{serverMessageError}</p>
       <Input classes="input submit_input" type="submit" value="Login"></Input>
     </form>
   );
 }
 
 interface LoginFormProps {
+  apiRoot: ByProjectKeyRequestBuilder;
+
   classes?: string;
 }
 

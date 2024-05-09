@@ -6,6 +6,7 @@ import {
 } from '@commercetools/platform-sdk';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
@@ -31,6 +32,9 @@ function LoginForm(props: LoginFormProps) {
     }
   };
 
+  const navigate = useNavigate();
+  const redirectToMain = () => navigate('/*', { replace: true });
+
   const {
     register,
     handleSubmit,
@@ -47,13 +51,12 @@ function LoginForm(props: LoginFormProps) {
     const response = await CustomerRepository.createLoggedInCustomer(data);
 
     if (response instanceof Error) {
-      console.log('Form error msg');
-      console.log(response.message);
       if (response.message === serverErrorMessages.loginError.errorMessage) {
         setServerMessageError(serverErrorMessages.loginError.userMessage);
       }
     } else {
       CustomerRepository.setLoggedApiRoot();
+      redirectToMain();
     }
   }
 

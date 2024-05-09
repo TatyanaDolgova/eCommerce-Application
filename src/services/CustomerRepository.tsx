@@ -23,7 +23,7 @@ export class CustomerRepository {
 
     CustomerRepository.apiRoot = apiRoot;
 
-    return apiRoot;
+    return CustomerRepository.apiRoot;
   }
 
   public static async createCustomer(customerData: CustomerDraft) {

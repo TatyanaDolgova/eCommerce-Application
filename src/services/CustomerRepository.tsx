@@ -1,7 +1,8 @@
 import {
-  ApiRoot,
   ByProjectKeyRequestBuilder,
+  ClientResponse,
   CustomerDraft,
+  CustomerSignInResult,
   CustomerSignin,
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
@@ -48,25 +49,25 @@ export class CustomerRepository {
 
   public static async createLoggedInCustomer(customerData: CustomerSignin) {
     try {
-      // const client = new CtpClient();
-      // const anonimousClient = client.createLoggedInClient();
-      // const apiRoot = createApiBuilderFromCtpClient(
-      //   anonimousClient,
-      // ).withProjectKey({ projectKey: this.projectKey });
-
-      const customer = await CustomerRepository.apiRoot
-        .login()
-        .post({ body: customerData })
-        .execute()
-        .then(({ body }) => {
-          console.log(body);
-        });
+      const customer: ClientResponse<CustomerSignInResult> =
+        await CustomerRepository.apiRoot
+          .login()
+          .post({ body: customerData })
+          .execute();
 
       return customer;
     } catch (error) {
-      console.log(error);
-
       return error;
     }
+  }
+
+  public static setLoggedApiRoot() {
+    const ctpClient = new CtpClient();
+    const anonimousClient = ctpClient.createLoggedInClient();
+    const apiRoot = createApiBuilderFromCtpClient(
+      anonimousClient,
+    ).withProjectKey({ projectKey: CustomerRepository.projectKey });
+
+    CustomerRepository.apiRoot = apiRoot;
   }
 }

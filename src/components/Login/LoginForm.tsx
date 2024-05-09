@@ -1,7 +1,6 @@
 import './LoginForm.css';
 
 import {
-  ApiRoot,
   ByProjectKeyRequestBuilder,
   CustomerSignin,
 } from '@commercetools/platform-sdk';
@@ -15,6 +14,7 @@ import Label from '../Label/Label';
 
 function LoginForm(props: LoginFormProps) {
   const [passwordInputType, setPasswordInputType] = useState('password');
+  const [ServerMessageError, setServerMessageError] = useState('');
 
   function showPassord() {
     if (passwordInputType === 'password') {
@@ -37,24 +37,15 @@ function LoginForm(props: LoginFormProps) {
   });
 
   async function submitLoginData(data: CustomerSignin) {
-    const apiRoot = props.apiRoot;
+    const response = await CustomerRepository.createLoggedInCustomer(data);
 
-    try {
-      const customer = await apiRoot
-        .login()
-        .post({ body: data })
-        .execute()
-        .then(({ body }) => {
-          console.log(body);
-        });
-
-      return customer;
-    } catch (error) {
-      console.log(error);
-
-      return error;
+    if (response instanceof Error) {
+      console.log('Form error msg');
+      console.log(response.message);
+      setServerMessageError(response.message);
     }
-    // await customerRepository.createLoggedInCustomer(data);
+
+    CustomerRepository.setLoggedApiRoot();
   }
 
   return (
@@ -91,6 +82,7 @@ function LoginForm(props: LoginFormProps) {
         ></Input>
       </div>
       <p className="error_message">{errors.password?.message}</p>
+      <p className="error_message">{ServerMessageError}</p>
       <Input classes="input submit_input" type="submit" value="Login"></Input>
     </form>
   );

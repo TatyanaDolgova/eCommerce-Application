@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { CustomerRepository } from '../../services/CustomerRepository';
+import { serverErrorMessages } from '../../utils/ErrorHandler';
 import { emailProps, passwordProps } from '../../utils/validation';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
@@ -48,7 +49,9 @@ function LoginForm(props: LoginFormProps) {
     if (response instanceof Error) {
       console.log('Form error msg');
       console.log(response.message);
-      setServerMessageError(response.message);
+      if (response.message === serverErrorMessages.loginError.errorMessage) {
+        setServerMessageError(serverErrorMessages.loginError.userMessage);
+      }
     } else {
       CustomerRepository.setLoggedApiRoot();
     }

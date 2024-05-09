@@ -33,7 +33,7 @@ function LoginForm(props: LoginFormProps) {
   };
 
   const navigate = useNavigate();
-  const redirectToMain = () => navigate('/*', { replace: true });
+  const redirectToMain = () => navigate('/home');
 
   const {
     register,

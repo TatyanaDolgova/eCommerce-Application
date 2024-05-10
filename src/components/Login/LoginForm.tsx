@@ -6,6 +6,7 @@ import {
 } from '@commercetools/platform-sdk';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
@@ -31,6 +32,9 @@ function LoginForm(props: LoginFormProps) {
     }
   };
 
+  const navigate = useNavigate();
+  const redirectToMain = () => navigate('/home');
+
   const {
     register,
     handleSubmit,
@@ -52,6 +56,7 @@ function LoginForm(props: LoginFormProps) {
       }
     } else {
       CustomerRepository.setLoggedApiRoot();
+      redirectToMain();
     }
   }
 

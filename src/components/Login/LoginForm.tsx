@@ -2,6 +2,8 @@ import './LoginForm.css';
 
 import {
   ByProjectKeyRequestBuilder,
+  ClientResponse,
+  CustomerSignInResult,
   CustomerSignin,
 } from '@commercetools/platform-sdk';
 import { useState } from 'react';

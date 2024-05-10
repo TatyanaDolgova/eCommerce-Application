@@ -8,6 +8,7 @@ import {
 } from '@commercetools/platform-sdk';
 
 import CtpClient from './CtpClient';
+import { logInIDStorage } from './LocalStorage';
 
 export class CustomerRepository {
   static apiRoot: ByProjectKeyRequestBuilder;
@@ -55,9 +56,15 @@ export class CustomerRepository {
           .post({ body: customerData })
           .execute();
 
+      const customerID: string = customer.body.customer.id;
+
+      logInIDStorage.setLoginStatus(customerID);
+
       return customer;
     } catch (error) {
-      return error;
+      if (error instanceof Error) {
+        return error;
+      }
     }
   }
 

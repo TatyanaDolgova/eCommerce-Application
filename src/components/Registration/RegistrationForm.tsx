@@ -1,7 +1,11 @@
 import './RegistrationForm.css';
 
+import { CustomerDraft } from '@commercetools/platform-sdk';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { CustomerRepository } from '../../services/CustomerRepository';
+import { serverErrorMessages } from '../../utils/ErrorHandler';
 import {
   emailProps,
   minBirthDate,
@@ -36,24 +40,38 @@ function RegistrationForm() {
     getValues,
     watch,
   } = useForm<FormFields>();
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    const customerDraft = {
+  const [serverMessageError, setServerMessageError] = useState('');
+
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    const customerDraft: CustomerDraft = {
       email: data.email,
       password: data.password,
       firstName: data.firstName,
       lastName: data.lastName,
-      dateOfBirth: data.birthDate,
+      dateOfBirth: data.birthDate.toString(),
       addresses: [
         {
           country: data.country,
           city: data.city,
           postalCode: data.postalCode,
-          street: data.street,
+          streetName: data.street,
         },
       ],
     };
 
-    console.log(customerDraft);
+    const response = await CustomerRepository.createCustomer(customerDraft);
+
+    if (response instanceof Error) {
+      if (
+        response.message === serverErrorMessages.registrationError.errorMessage
+      ) {
+        setServerMessageError(
+          serverErrorMessages.registrationError.userMessage,
+        );
+      }
+    } else {
+      setServerMessageError('User is successfully registered');
+    }
   };
 
   const watchCountry = watch('country');
@@ -279,6 +297,7 @@ function RegistrationForm() {
           text="Use the same address for both shipping and billing"
         ></Label>
       </div>
+      <p className="error_message">{serverMessageError}</p>
       <BaseButton classes="button" text="Sign up" type="submit" />
     </form>
   );

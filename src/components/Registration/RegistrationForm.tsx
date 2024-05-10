@@ -22,6 +22,8 @@ type FormFields = {
   city2: string;
   country: string;
   country2: string;
+  defaultBilling: boolean;
+  defaultShipping: boolean;
   email: string;
   firstName: string;
   lastName: string;
@@ -56,7 +58,17 @@ function RegistrationForm() {
           postalCode: data.postalCode,
           streetName: data.street,
         },
+        {
+          country: data.country2,
+          city: data.city2,
+          postalCode: data.postalCode2,
+          streetName: data.street2,
+        },
       ],
+      defaultShippingAddress: data.defaultShipping ? 0 : undefined,
+      defaultBillingAddress: data.defaultBilling ? 1 : undefined,
+      shippingAddresses: [0],
+      billingAddresses: [1],
     };
 
     const response = await CustomerRepository.createCustomer(customerDraft);
@@ -207,6 +219,7 @@ function RegistrationForm() {
           </div>
           <div className="input-wrapper">
             <input
+              {...register('defaultShipping')}
               type="checkbox"
               id="defaultShipping"
               name="defaultShipping"
@@ -273,6 +286,7 @@ function RegistrationForm() {
           </div>
           <div className="input-wrapper">
             <input
+              {...register('defaultBilling')}
               type="checkbox"
               id="defaultBilling"
               name="defaultBilling"

@@ -47,8 +47,6 @@ function LoginForm(props: LoginFormProps) {
     const response = await CustomerRepository.createLoggedInCustomer(data);
 
     if (response instanceof Error) {
-      console.log('Form error msg');
-      console.log(response.message);
       if (response.message === serverErrorMessages.loginError.errorMessage) {
         setServerMessageError(serverErrorMessages.loginError.userMessage);
       }

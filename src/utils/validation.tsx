@@ -53,11 +53,11 @@ export const postCodeProps = (countryValue: string) => {
       const RussiaRegexp = /^[0-9]{6}$/;
 
       if (
-        (countryValue === 'US' || countryValue === 'Croatia') &&
+        (countryValue === 'US' || countryValue === 'HR') &&
         !USRegexp.test(value)
       ) {
-        return `The postcode for ${countryValue} should contain 5 digits`;
-      } else if (countryValue === 'Russia' && !RussiaRegexp.test(value)) {
+        return `The postcode for ${countryValue === 'US' ? 'US' : 'Croatia'} should contain 5 digits`;
+      } else if (countryValue === 'RU' && !RussiaRegexp.test(value)) {
         return 'The postcode for Russia should contain 6 digits';
       } else {
         return true;

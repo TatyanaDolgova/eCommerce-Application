@@ -4,13 +4,8 @@
   gap: 5px;
 }
 
-.address-label {
-  grid-row-start: 6;
-  grid-row-end: 10;
-}
-
 input[type='date'] {
-    color: #000;
+  color: #000;
 }
 
 .select {
@@ -22,4 +17,34 @@ input[type='date'] {
   border-bottom: 1px solid #346c39;
   cursor: pointer;
   border-radius: 10px;
+}
+
+.fieldset {
+  padding: 20px 10%;
+  border-color: var(--dark-moss-green);
+border-width: 1px;
+display: flex;
+flex-direction: column;
+gap: 5px;
+}
+
+.fieldset legend {
+padding: 0 10px;
+color: var(--dark-moss-green);
+}
+.fieldset .input-wrapper:last-child {
+margin-top: 10px;
+}
+
+.fieldset .input, .fieldset .select {
+width: 100%;
+}
+
+.sameAddress {
+justify-content: flex-start;
+gap: 20px;
+}
+
+.sameAddress label {
+margin-left: 0;
 }

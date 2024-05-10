@@ -55,7 +55,7 @@ function LoginForm(props: LoginFormProps) {
         setServerMessageError(serverErrorMessages.loginError.userMessage);
       }
     } else {
-      CustomerRepository.setLoggedApiRoot();
+      CustomerRepository.setLoggedApiRoot(data);
       redirectToMain();
     }
   }

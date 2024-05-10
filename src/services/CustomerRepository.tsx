@@ -61,9 +61,9 @@ export class CustomerRepository {
     }
   }
 
-  public static setLoggedApiRoot() {
+  public static setLoggedApiRoot(customerData: CustomerSignin) {
     const ctpClient = new CtpClient();
-    const anonimousClient = ctpClient.createLoggedInClient();
+    const anonimousClient = ctpClient.createLoggedInClient(customerData);
     const apiRoot = createApiBuilderFromCtpClient(
       anonimousClient,
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });

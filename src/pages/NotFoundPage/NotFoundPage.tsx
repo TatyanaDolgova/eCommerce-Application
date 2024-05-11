@@ -11,7 +11,7 @@ const NotFoundPage = () => {
           Sorry, the page you are looking for does not exist.
         </p>
         <Link to="/" className="not-found-link">
-          Go to Home
+          Go to Home Page
         </Link>
         <div className="not-found-image"></div>
       </div>

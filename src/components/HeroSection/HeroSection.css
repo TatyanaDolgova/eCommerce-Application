@@ -3,6 +3,7 @@
   background-image: url('../../assets/images/backgrounds/hero.jpg');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: cover;
   height: 90vh;
   padding: 0 20px;
 }
@@ -18,8 +19,10 @@
 }
 
 .hero-title {
+  text-align: center;
   max-width: 600px;
   color: rgb(0, 0, 0);
+  margin: 0 auto;
   font-size: 70px;
   line-height: 110px;
   font-weight: 800;
@@ -32,34 +35,19 @@
   letter-spacing: 0%;
 }
 
-@media screen and (max-width: 1250px) {
-  .hero-title {
-    font-size: 60px;
-    line-height: 90px;
-  }
 
+@media screen and (max-width: 1000px) {
   .hero-title--high {
     font-size: 100px;
   }
-}
-
-@media screen and (max-width: 1100px) {
-  .hero {
-    background-size: cover;
-    height: 600px;
-  }
-
-  .hero-title--high {
-    font-size: 90px;
-  }
 
   .hero-title {
-    font-size: 50px;
+    font-size: 60px;
     line-height: 80px;
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 560px) {
 
   .hero-title {
     font-size: 40px;
@@ -69,19 +57,4 @@
   .hero-title--high {
     font-size: 70px;
   }
-}
-
-@media screen and (max-width: 700px) {
-  .hero {
-    background-image: url('../../assets/images/backgrounds/hero_2.jpg');
-  }
-
-  .hero-wrapper {
-    align-items: center;
-  }
-
-  .hero-title {
-    text-align: center;
-  }
-
 }

@@ -1,0 +1,22 @@
+body {
+  background-color: var(--cambridge-blue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--error-message-color);
+}
+
+p {
+  font-size: 1.2rem;
+  color: #434a50;
+}

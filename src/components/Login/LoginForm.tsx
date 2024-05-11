@@ -2,8 +2,6 @@ import './LoginForm.css';
 
 import {
   ByProjectKeyRequestBuilder,
-  ClientResponse,
-  CustomerSignInResult,
   CustomerSignin,
 } from '@commercetools/platform-sdk';
 import { useState } from 'react';
@@ -57,7 +55,6 @@ function LoginForm(props: LoginFormProps) {
         setServerMessageError(serverErrorMessages.loginError.userMessage);
       }
     } else {
-      CustomerRepository.setLoggedApiRoot(data);
       redirectToMain();
     }
   }

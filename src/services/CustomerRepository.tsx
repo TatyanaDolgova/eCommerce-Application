@@ -60,6 +60,8 @@ export class CustomerRepository {
 
       logInIDStorage.setLoginStatus(customerID);
 
+      CustomerRepository.setLoggedApiRoot(customerData);
+
       return customer;
     } catch (error) {
       if (error instanceof Error) {
@@ -68,11 +70,11 @@ export class CustomerRepository {
     }
   }
 
-  public static setLoggedApiRoot(customerData: CustomerSignin) {
+  static setLoggedApiRoot(customerData: CustomerSignin) {
     const ctpClient = new CtpClient();
-    const anonimousClient = ctpClient.createLoggedInClient(customerData);
+    const loggedInClient = ctpClient.createLoggedInClient(customerData);
     const apiRoot = createApiBuilderFromCtpClient(
-      anonimousClient,
+      loggedInClient,
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
 
     CustomerRepository.apiRoot = apiRoot;

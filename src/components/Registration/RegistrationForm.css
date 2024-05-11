@@ -48,3 +48,8 @@ gap: 20px;
 .sameAddress label {
 margin-left: 0;
 }
+
+.disabled-input {
+pointer-events: none;
+opacity: 50%;
+}

@@ -1,6 +1,11 @@
 .header {
-  max-width: 1200px;
+  background-color: var(--fern-green);
+}
+
+.header-wrapper {
   height: 10vh;
+  min-height: 70px;
+  max-width: 1200px;
   padding: 20px;
   display: flex;
   justify-content: space-between;
@@ -16,19 +21,42 @@
 
 .header-link {
   text-decoration: none;
-
-  color: #000;
+  color: #fff;
   font-size: 20px;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0%;
 }
 
+.sign-in-link,
+.sign-up-link {
+  background-color: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 16px;
+}
+
+.sign-in-link:hover,
+.sign-up-link:hover {
+  background-color: #fff;
+  color: var(--fern-green);
+  ;
+}
+
 .header-logo {
-  color: rgb(57, 181, 74);
+  color: #fff;
   font-size: 40px;
   font-weight: 700;
   line-height: 24px;
   letter-spacing: 0%;
   text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .header-link {
+    font-size: 15px;
+  }
 }

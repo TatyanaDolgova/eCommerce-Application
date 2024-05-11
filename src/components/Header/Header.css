@@ -4,6 +4,7 @@
 
 .header-wrapper {
   height: 10vh;
+  min-height: 70px;
   max-width: 1200px;
   padding: 20px;
   display: flex;

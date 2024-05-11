@@ -32,6 +32,7 @@ type FormFields = {
   postalCode2: string;
   street: string;
   street2: string;
+  useSameAddress: boolean;
 };
 
 function RegistrationForm() {
@@ -43,6 +44,18 @@ function RegistrationForm() {
     watch,
   } = useForm<FormFields>();
   const [serverMessageError, setServerMessageError] = useState('');
+  const [billingCountry, setBillingCountry] = useState('US');
+  const [billingCity, setBillingCity] = useState('');
+  const [billingPostCode, setBillingPostCode] = useState('');
+  const [billingStreet, setBillingStreet] = useState('');
+  const [disabledClass, setDisabledClass] = useState('');
+
+  function setSameAddress() {
+    setBillingCity(getValues('city'));
+    setBillingPostCode(getValues('postalCode'));
+    setBillingStreet(getValues('street'));
+    setBillingCountry(getValues('country'));
+  }
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     const customerDraft: CustomerDraft = {
@@ -86,8 +99,11 @@ function RegistrationForm() {
     }
   };
 
-  const watchCountry = watch('country');
-  const watchCountry2 = watch('country2');
+  const watchCountry = watch();
+  // const watchCountry2 = watch('country2');
+  // const watchSame = watch('useSameAddress');
+
+  // setSameAddress();
 
   return (
     <form
@@ -175,6 +191,11 @@ function RegistrationForm() {
               id="addressInput"
               type="text"
               placeholder="Street"
+              onChange={(e) => {
+                if (getValues('useSameAddress')) {
+                  setBillingStreet(e.target.value);
+                }
+              }}
             />
             {errors.street && (
               <div className="error_message">{errors.street.message}</div>
@@ -186,6 +207,11 @@ function RegistrationForm() {
               className="input"
               type="text"
               placeholder="City"
+              onChange={(e) => {
+                if (getValues('useSameAddress')) {
+                  setBillingCity(e.target.value);
+                }
+              }}
             />
             {errors.city && (
               <div className="error_message">{errors.city.message}</div>
@@ -197,6 +223,11 @@ function RegistrationForm() {
               className="input"
               type="text"
               placeholder="Postal Code"
+              onChange={(e) => {
+                if (getValues('useSameAddress')) {
+                  setBillingPostCode(e.target.value);
+                }
+              }}
             />
             {errors.postalCode && (
               <div className="error_message">{errors.postalCode.message}</div>
@@ -208,6 +239,11 @@ function RegistrationForm() {
               id="country"
               name="country"
               className="select"
+              onChange={(e) => {
+                if (getValues('useSameAddress')) {
+                  setBillingCountry(e.target.value);
+                }
+              }}
             >
               <option value="US">USA</option>
               <option value="RU">Russia</option>
@@ -238,10 +274,16 @@ function RegistrationForm() {
               {...register('street2', {
                 required: 'Street is required',
               })}
-              className="input"
+              className={`input ${disabledClass}`}
               id="street2"
               type="text"
               placeholder="Street"
+              value={billingStreet}
+              onChange={(e) => {
+                if (!getValues('useSameAddress')) {
+                  setBillingStreet(e.target.value);
+                }
+              }}
             />
             {errors.street2 && (
               <div className="error_message">{errors.street2.message}</div>
@@ -250,9 +292,15 @@ function RegistrationForm() {
           <div className="input-wrapper">
             <input
               {...register('city2', nameProps('City'))}
-              className="input"
+              className={`input ${disabledClass}`}
               type="text"
               placeholder="City"
+              value={billingCity}
+              onChange={(e) => {
+                if (!getValues('useSameAddress')) {
+                  setBillingCity(e.target.value);
+                }
+              }}
             />
             {errors.city2 && (
               <div className="error_message">{errors.city2.message}</div>
@@ -260,10 +308,16 @@ function RegistrationForm() {
           </div>
           <div className="input-wrapper">
             <input
-              {...register('postalCode2', postCodeProps(getValues('country2')))}
-              className="input"
+              {...register('postalCode2', postCodeProps(`${billingCountry}`))}
+              className={`input ${disabledClass}`}
               type="text"
               placeholder="Postal Code"
+              value={billingPostCode}
+              onChange={(e) => {
+                if (!getValues('useSameAddress')) {
+                  setBillingPostCode(e.target.value);
+                }
+              }}
             />
             {errors.postalCode2 && (
               <div className="error_message">{errors.postalCode2.message}</div>
@@ -274,7 +328,13 @@ function RegistrationForm() {
               {...register('country2')}
               id="country2"
               name="country2"
-              className="select"
+              className={`select ${disabledClass}`}
+              value={billingCountry}
+              onChange={(e) => {
+                if (!getValues('useSameAddress')) {
+                  setBillingCountry(e.target.value);
+                }
+              }}
             >
               <option value="US">USA</option>
               <option value="RU">Russia</option>
@@ -301,9 +361,18 @@ function RegistrationForm() {
       </div>
       <div className="input_wrapper sameAddress">
         <input
+          {...register('useSameAddress')}
           type="checkbox"
           id="useSameAddress"
           name="useSameAddress"
+          onChange={(e) => {
+            if (e.target.checked) {
+              setSameAddress();
+              setDisabledClass('disabled-input');
+            } else {
+              setDisabledClass('');
+            }
+          }}
         ></input>
         <Label
           classes="label"

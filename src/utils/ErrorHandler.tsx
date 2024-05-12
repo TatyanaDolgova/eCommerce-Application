@@ -7,6 +7,16 @@ export const serverErrorMessages = {
   registrationError: {
     errorMessage:
       'There is already an existing customer with the provided email.',
-    userMessage: 'Customer already exists. Please, try another email.',
+    userMessage:
+      'Customer with this email already exists. Please, login or try another email.',
+  },
+  inputError: {
+    errorMessage: 'Request body does not contain valid JSON.',
+    userMessage:
+      'You have submitted incorrect data, please check and submit again',
+  },
+  serverError: {
+    errorMessage: 'Write operations are temporarily unavailable',
+    userMessage: 'Server is temporarily unavailable. Please, try again later',
   },
 };

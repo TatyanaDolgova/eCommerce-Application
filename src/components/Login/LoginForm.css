@@ -16,3 +16,9 @@
   text-align: center;
   color: var(--error-message-color);
 }
+
+.register_link {
+  margin-left: 10px;
+  text-decoration: none;
+  color: var( --error-message-color);
+}

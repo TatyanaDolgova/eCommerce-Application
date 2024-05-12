@@ -3,7 +3,7 @@ import './RegistrationForm.css';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
@@ -58,6 +58,9 @@ function RegistrationForm() {
     setBillingCountry(getValues('country'));
   }
 
+  const navigate = useNavigate();
+  const redirectToMain = () => navigate('/home');
+
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     const customerDraft: CustomerDraft = {
       email: data.email,
@@ -97,14 +100,24 @@ function RegistrationForm() {
       }
     } else {
       setServerMessageError('User is successfully registered');
+      const loginData = {
+        email: data.email,
+        password: data.password,
+      };
+      const login = await CustomerRepository.createLoggedInCustomer(loginData);
+
+      if (login instanceof Error) {
+        if (login.message === serverErrorMessages.loginError.errorMessage) {
+          setServerMessageError(serverErrorMessages.loginError.userMessage);
+        }
+      } else {
+        CustomerRepository.setLoggedApiRoot();
+        redirectToMain();
+      }
     }
   };
 
-  const watchCountry = watch();
-  // const watchCountry2 = watch('country2');
-  // const watchSame = watch('useSameAddress');
-
-  // setSameAddress();
+  watch();
 
   return (
     <form

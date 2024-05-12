@@ -1,4 +1,4 @@
-class LogInIDStorage {
+class UserStatusStorage {
   private key = 'LoginUserID_JSFE2023Q4';
 
   public checkLoginStatus(): boolean {
@@ -28,4 +28,4 @@ class LogInIDStorage {
   }
 }
 
-export const logInIDStorage = new LogInIDStorage();
+export const logInIDStorage = new UserStatusStorage();

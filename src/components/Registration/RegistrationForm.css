@@ -22,34 +22,44 @@ input[type='date'] {
 .fieldset {
   padding: 20px 10%;
   border-color: var(--dark-moss-green);
-border-width: 1px;
-display: flex;
-flex-direction: column;
-gap: 5px;
+  border-width: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .fieldset legend {
-padding: 0 10px;
-color: var(--dark-moss-green);
+  padding: 0 10px;
+  color: var(--dark-moss-green);
 }
 .fieldset .input-wrapper:last-child {
-margin-top: 10px;
+  margin-top: 10px;
 }
 
 .fieldset .input, .fieldset .select {
-width: 100%;
+  width: 100%;
 }
 
 .sameAddress {
-justify-content: flex-start;
-gap: 20px;
+  justify-content: flex-start;
+  gap: 20px;
 }
 
 .sameAddress label {
-margin-left: 0;
+  margin-left: 0;
 }
 
 .disabled-input {
-pointer-events: none;
-opacity: 50%;
+  pointer-events: none;
+  opacity: 50%;
+}
+
+.login-link {
+  margin-left: 10px;
+  text-decoration: none;
+  color: var( --error-message-color);
+}
+
+.registration_h1 {
+  margin-bottom: 0;
 }

@@ -55,6 +55,8 @@ export class CustomerRepository {
           .post({ body: customerData })
           .execute();
 
+      CustomerRepository.setLoggedApiRoot(customerData);
+
       return customer;
     } catch (error) {
       if (error instanceof Error) {

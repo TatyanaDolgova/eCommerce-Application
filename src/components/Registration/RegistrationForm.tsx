@@ -111,7 +111,6 @@ function RegistrationForm() {
           setServerMessageError(serverErrorMessages.loginError.userMessage);
         }
       } else {
-        CustomerRepository.setLoggedApiRoot();
         redirectToMain();
       }
     }

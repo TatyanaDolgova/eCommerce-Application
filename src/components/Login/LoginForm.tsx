@@ -18,7 +18,7 @@ import Label from '../Label/Label';
 function LoginForm(props: LoginFormProps) {
   const [passwordInputType, setPasswordInputType] = useState('password');
   const [serverMessageError, setServerMessageError] = useState('');
-  const { user, updateState } = useContext(UserContext);
+  const { updateState } = useContext(UserContext);
 
   const showPassord = () => {
     if (passwordInputType === 'password') {

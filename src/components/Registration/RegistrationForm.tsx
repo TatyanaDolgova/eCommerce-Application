@@ -3,7 +3,7 @@ import './RegistrationForm.css';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
@@ -124,7 +124,13 @@ function RegistrationForm() {
       className="login_form registration-form"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h1>Get Started</h1>
+      <h1 className="registration_h1">Get Started</h1>
+      <p>
+        Already have an account?
+        <Link className="login-link" to="/login">
+          Sign In
+        </Link>
+      </p>
       <div className="inputs-container">
         <Label classes="label" for="emailInput" text="Email" />
         <div className="input-wrapper">

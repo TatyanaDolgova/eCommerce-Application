@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom/client';
 
 import './index.css';
 import App from './App';
+import { UserContextProvider } from './app-context/UserContextProvider';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
-root.render(<App></App>);
+root.render(
+  <UserContextProvider>
+    <App></App>
+  </UserContextProvider>,
+);

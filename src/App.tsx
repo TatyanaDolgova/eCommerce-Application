@@ -6,6 +6,7 @@ import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import RegistrationPage from './pages/RegistrationPage';
 import { CustomerRepository } from './services/CustomerRepository';
+import { RouteGuard } from './utils/RouteGuard';
 
 function App() {
   const apiRoot = CustomerRepository.createAnonimusCustomer();
@@ -15,7 +16,14 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/home" element={<MainPage />} />
-        <Route path="/login" element={<LoginPage apiRoot={apiRoot} />} />
+        <Route
+          path="/login"
+          element={
+            <RouteGuard>
+              <LoginPage apiRoot={apiRoot} />
+            </RouteGuard>
+          }
+        />
         <Route path="/registration" element={<RegistrationPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -6,7 +6,7 @@ import {
 } from '@commercetools/platform-sdk';
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { UserContext, UserData } from '../../app-context/UserContext';
 import { CustomerRepository } from '../../services/CustomerRepository';
@@ -73,6 +73,12 @@ function LoginForm(props: LoginFormProps) {
       noValidate
     >
       <h1 className="page_title">Login</h1>
+      <p>
+        Don`t have an account?
+        <Link className="register_link" to="/registration">
+          Sign Up
+        </Link>
+      </p>
       <Label classes="label" text="Email" for="email_input"></Label>
       <input
         {...register('email', emailProps)}

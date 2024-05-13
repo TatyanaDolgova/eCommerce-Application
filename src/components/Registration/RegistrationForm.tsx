@@ -1,10 +1,11 @@
 import './RegistrationForm.css';
 
 import { CustomerDraft } from '@commercetools/platform-sdk';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { UserContext, UserData } from '../../app-context/UserContext';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
 import showToast from '../../utils/notifications';
@@ -61,6 +62,7 @@ function RegistrationForm() {
   const [billingPostCode, setBillingPostCode] = useState('');
   const [billingStreet, setBillingStreet] = useState('');
   const [disabledClass, setDisabledClass] = useState('');
+  const { updateState } = useContext(UserContext);
 
   function setSameAddress() {
     setBillingCity(getValues('city'));
@@ -130,6 +132,11 @@ function RegistrationForm() {
           showToast(serverErrorMessages.loginError.userMessage, true);
         }
       } else {
+        const userState: UserData = {
+          loginStatus: true,
+        };
+
+        updateState({ user: userState });
         redirectToMain();
       }
     }

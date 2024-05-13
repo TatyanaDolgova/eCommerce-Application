@@ -5,7 +5,7 @@ import Header from '../../components/Header/Header';
 import LoginForm from '../../components/Login/LoginForm';
 
 interface LoginPageProps {
-  apiRoot: ByProjectKeyRequestBuilder;
+  apiRoot?: ByProjectKeyRequestBuilder;
 }
 
 export const LoginPage = (props: LoginPageProps) => {

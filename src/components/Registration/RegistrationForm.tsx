@@ -130,7 +130,6 @@ function RegistrationForm() {
           showToast(serverErrorMessages.loginError.userMessage, true);
         }
       } else {
-        CustomerRepository.setLoggedApiRoot();
         redirectToMain();
       }
     }

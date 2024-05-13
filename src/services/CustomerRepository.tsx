@@ -55,17 +55,21 @@ export class CustomerRepository {
           .post({ body: customerData })
           .execute();
 
+      CustomerRepository.setLoggedApiRoot(customerData);
+
       return customer;
     } catch (error) {
-      return error;
+      if (error instanceof Error) {
+        return error;
+      }
     }
   }
 
-  public static setLoggedApiRoot() {
+  static setLoggedApiRoot(customerData: CustomerSignin) {
     const ctpClient = new CtpClient();
-    const anonimousClient = ctpClient.createLoggedInClient();
+    const loggedInClient = ctpClient.createLoggedInClient(customerData);
     const apiRoot = createApiBuilderFromCtpClient(
-      anonimousClient,
+      loggedInClient,
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
 
     CustomerRepository.apiRoot = apiRoot;

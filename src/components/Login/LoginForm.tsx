@@ -4,10 +4,11 @@ import {
   ByProjectKeyRequestBuilder,
   CustomerSignin,
 } from '@commercetools/platform-sdk';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { UserContext, UserData } from '../../app-context/UserContext';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
 import { emailProps, passwordProps } from '../../utils/validation';
@@ -17,6 +18,7 @@ import Label from '../Label/Label';
 function LoginForm(props: LoginFormProps) {
   const [passwordInputType, setPasswordInputType] = useState('password');
   const [serverMessageError, setServerMessageError] = useState('');
+  const { updateState } = useContext(UserContext);
 
   const showPassord = () => {
     if (passwordInputType === 'password') {
@@ -55,7 +57,11 @@ function LoginForm(props: LoginFormProps) {
         setServerMessageError(serverErrorMessages.loginError.userMessage);
       }
     } else {
-      CustomerRepository.setLoggedApiRoot();
+      const userState: UserData = {
+        loginStatus: true,
+      };
+
+      updateState({ user: userState });
       redirectToMain();
     }
   }
@@ -103,7 +109,7 @@ function LoginForm(props: LoginFormProps) {
 }
 
 interface LoginFormProps {
-  apiRoot: ByProjectKeyRequestBuilder;
+  apiRoot?: ByProjectKeyRequestBuilder;
 
   classes?: string;
 }

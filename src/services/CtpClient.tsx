@@ -1,5 +1,6 @@
 import {
   ApiRoot,
+  CustomerSignin,
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 import {
@@ -75,7 +76,7 @@ export default class CtpClient {
       .build();
   }
 
-  createLoggedInClient() {
+  createLoggedInClient(data: CustomerSignin) {
     const options: PasswordAuthMiddlewareOptions = {
       host: this.oauthUri,
       projectKey: this.projectKey,
@@ -83,8 +84,8 @@ export default class CtpClient {
         clientId: this.clientId,
         clientSecret: 'Ttj-BiXTcQ095yXCXvZxiR8Xij5tCX7n',
         user: {
-          username: 'sdk2@example.com',
-          password: 'Test1234!',
+          username: data.email,
+          password: data.password,
         },
       },
       scopes: this.scopes,

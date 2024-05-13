@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
+import showToast from '../../utils/notifications';
 import {
   emailProps,
   minBirthDate,
@@ -43,8 +44,18 @@ function RegistrationForm() {
     formState: { errors },
     getValues,
     watch,
-  } = useForm<FormFields>();
-  const [serverMessageError, setServerMessageError] = useState('');
+  } = useForm<FormFields>({
+    defaultValues: {
+      city2: '',
+      country: 'US',
+      country2: 'US',
+      email: '',
+      password: '',
+      postalCode2: '',
+      street2: '',
+    },
+    mode: 'all',
+  });
   const [billingCountry, setBillingCountry] = useState('US');
   const [billingCity, setBillingCity] = useState('');
   const [billingPostCode, setBillingPostCode] = useState('');
@@ -94,12 +105,20 @@ function RegistrationForm() {
       if (
         response.message === serverErrorMessages.registrationError.errorMessage
       ) {
-        setServerMessageError(
-          serverErrorMessages.registrationError.userMessage,
-        );
+        showToast(serverErrorMessages.registrationError.userMessage, true);
+      } else if (
+        response.message === serverErrorMessages.inputError.errorMessage
+      ) {
+        showToast(serverErrorMessages.inputError.userMessage, true);
+      } else if (
+        response.message === serverErrorMessages.serverError.errorMessage
+      ) {
+        showToast(serverErrorMessages.serverError.userMessage, true);
+      } else {
+        showToast(response.message, true);
       }
     } else {
-      setServerMessageError('User is successfully registered');
+      showToast('User is successfully registered', false);
       const loginData = {
         email: data.email,
         password: data.password,
@@ -108,7 +127,7 @@ function RegistrationForm() {
 
       if (login instanceof Error) {
         if (login.message === serverErrorMessages.loginError.errorMessage) {
-          setServerMessageError(serverErrorMessages.loginError.userMessage);
+          showToast(serverErrorMessages.loginError.userMessage, true);
         }
       } else {
         CustomerRepository.setLoggedApiRoot();
@@ -400,7 +419,6 @@ function RegistrationForm() {
           text="Use the same address for both shipping and billing"
         ></Label>
       </div>
-      <p className="error_message">{serverMessageError}</p>
       <BaseButton classes="button" text="Sign up" type="submit" />
     </form>
   );

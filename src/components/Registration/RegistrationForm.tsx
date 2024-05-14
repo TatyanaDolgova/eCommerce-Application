@@ -44,6 +44,7 @@ function RegistrationForm() {
     handleSubmit,
     formState: { errors },
     getValues,
+    setValue,
     watch,
   } = useForm<FormFields>({
     defaultValues: {
@@ -69,6 +70,10 @@ function RegistrationForm() {
     setBillingPostCode(getValues('postalCode'));
     setBillingStreet(getValues('street'));
     setBillingCountry(getValues('country'));
+    setValue('city2', getValues('city'), { shouldValidate: true });
+    setValue('street2', getValues('street'), { shouldValidate: true });
+    setValue('country2', getValues('country'));
+    setValue('postalCode2', getValues('postalCode'), { shouldValidate: true });
   }
 
   const navigate = useNavigate();
@@ -239,6 +244,7 @@ function RegistrationForm() {
               onChange={(e) => {
                 if (getValues('useSameAddress')) {
                   setBillingStreet(e.target.value);
+                  setValue('street2', e.target.value, { shouldValidate: true });
                 }
               }}
             />
@@ -255,6 +261,7 @@ function RegistrationForm() {
               onChange={(e) => {
                 if (getValues('useSameAddress')) {
                   setBillingCity(e.target.value);
+                  setValue('city2', e.target.value, { shouldValidate: true });
                 }
               }}
             />
@@ -271,6 +278,9 @@ function RegistrationForm() {
               onChange={(e) => {
                 if (getValues('useSameAddress')) {
                   setBillingPostCode(e.target.value);
+                  setValue('postalCode2', e.target.value, {
+                    shouldValidate: true,
+                  });
                 }
               }}
             />
@@ -287,6 +297,9 @@ function RegistrationForm() {
               onChange={(e) => {
                 if (getValues('useSameAddress')) {
                   setBillingCountry(e.target.value);
+                  setValue('country2', e.target.value, {
+                    shouldValidate: true,
+                  });
                 }
               }}
             >

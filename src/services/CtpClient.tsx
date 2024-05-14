@@ -12,11 +12,15 @@ import {
 } from '@commercetools/sdk-client-v2';
 
 export default class CtpClient {
+  anonCustomerScopes: string[];
+
   baseUri: string;
 
   clientId: string;
 
   clientSecret: string;
+
+  customerScopes: string[];
 
   oauthUri: string;
 
@@ -49,6 +53,19 @@ export default class CtpClient {
       'manage_standalone_prices:ecommerce2024rss',
       'view_messages:ecommerce2024rss',
     ];
+
+    this.anonCustomerScopes = [
+      'create_anonymous_token:ecommerce2024rss',
+      'manage_my_profile:ecommerce2024rss',
+      'manage_my_orders:ecommerce2024rss',
+    ];
+
+    this.customerScopes = [
+      // 'create_anonymous_token:ecommerce2024rss',
+      'manage_my_profile:ecommerce2024rss',
+      'manage_my_orders:ecommerce2024rss',
+      // 'manage_customers:ecommerce2024rss',
+    ];
   }
 
   createAnonimusClient() {
@@ -59,7 +76,7 @@ export default class CtpClient {
         clientId: this.clientId,
         clientSecret: 'Ttj-BiXTcQ095yXCXvZxiR8Xij5tCX7n',
       },
-      scopes: this.scopes,
+      scopes: this.anonCustomerScopes,
       fetch,
     };
 
@@ -88,7 +105,7 @@ export default class CtpClient {
           password: data.password,
         },
       },
-      scopes: this.scopes,
+      scopes: this.customerScopes,
       fetch,
     };
 
@@ -100,6 +117,31 @@ export default class CtpClient {
     return new ClientBuilder()
       .withProjectKey(this.projectKey)
       .withPasswordFlow(options)
+      .withHttpMiddleware(httpMiddlewareOptions)
+      .withLoggerMiddleware()
+      .build();
+  }
+
+  createNewClient() {
+    const options: AnonymousAuthMiddlewareOptions = {
+      host: this.oauthUri,
+      projectKey: this.projectKey,
+      credentials: {
+        clientId: this.clientId,
+        clientSecret: 'Ttj-BiXTcQ095yXCXvZxiR8Xij5tCX7n',
+      },
+      scopes: this.customerScopes,
+      fetch,
+    };
+
+    const httpMiddlewareOptions: HttpMiddlewareOptions = {
+      host: this.baseUri,
+      fetch,
+    };
+
+    return new ClientBuilder()
+      .withProjectKey(this.projectKey)
+      .withAnonymousSessionFlow(options)
       .withHttpMiddleware(httpMiddlewareOptions)
       .withLoggerMiddleware()
       .build();

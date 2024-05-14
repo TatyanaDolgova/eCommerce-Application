@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 
 import './Header.css';
+import { CustomerRepository } from '../../services/CustomerRepository';
+import BaseButton from '../Button/Button';
 
 const Header = () => {
   return (
@@ -26,6 +28,14 @@ const Header = () => {
             </li>
           </ul>
         </nav>
+        <BaseButton
+          classes="log_out_button header-link"
+          callback={async () => {
+            await CustomerRepository.logOutCusromer();
+          }}
+          text="Log out"
+          type="button"
+        ></BaseButton>
       </div>
     </header>
   );

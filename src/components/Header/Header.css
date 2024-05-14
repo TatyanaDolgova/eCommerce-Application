@@ -19,7 +19,8 @@
   list-style-type: none;
 }
 
-.header-link {
+.header-link,
+.log_out_button {
   text-decoration: none;
   color: #fff;
   font-size: 20px;
@@ -29,7 +30,8 @@
 }
 
 .sign-in-link,
-.sign-up-link {
+.sign-up-link,
+.log_out_button {
   background-color: transparent;
   border: 2px solid #fff;
   color: #fff;
@@ -40,7 +42,8 @@
 }
 
 .sign-in-link:hover,
-.sign-up-link:hover {
+.sign-up-link:hover,
+.log_out_button:hover {
   background-color: #fff;
   color: var(--fern-green);
   ;

@@ -166,52 +166,60 @@ function RegistrationForm() {
         <div className="input-wrapper">
           <input
             {...register('email', emailProps)}
-            className="input"
+            className="input registration_input"
             id="emailInput"
             type="text"
             placeholder="Enter your email"
           />
           {errors.email && (
-            <div className="error_message">{errors.email.message}</div>
+            <div className="error_message registration_error">
+              {errors.email.message}
+            </div>
           )}
         </div>
         <Label classes="label" for="passwordInput" text="Password" />
         <div className="input-wrapper">
           <input
             {...register('password', passwordProps)}
-            className="input"
+            className="input registration_input"
             id="passwordInput"
             type="password"
             placeholder="Enter your password"
           />
           {errors.password && (
-            <div className="error_message">{errors.password.message}</div>
+            <div className="error_message registration_error">
+              {errors.password.message}
+            </div>
           )}
         </div>
         <Label classes="label" for="fnameInput" text="First Name" />
         <div className="input-wrapper">
           <input
             {...register('firstName', nameProps('First name'))}
-            className="input"
+            className="input registration_input"
             id="fnameInput"
             type="text"
             placeholder="Enter your first name"
           />
           {errors.firstName && (
-            <div className="error_message">{errors.firstName.message}</div>
+            <div className="error_message registration_error">
+              {errors.firstName.message}
+            </div>
           )}
         </div>
         <Label classes="label" for="lnameInput" text="Last Name" />
         <div className="input-wrapper">
           <input
             {...register('lastName', nameProps('Last name'))}
-            className="input"
+            className="input registration_input"
             id="lnameInput"
             type="text"
             placeholder="Enter your last name"
           />
           {errors.lastName && (
-            <div className="error_message">{errors.lastName.message}</div>
+            <div className="error_message registration_error">
+              {errors.lastName.message}
+            </div>
           )}
         </div>
         <Label classes="label" for="birthDateInput" text="Date of Birth" />
@@ -220,14 +228,16 @@ function RegistrationForm() {
             {...register('birthDate', {
               required: 'Date of birth is required',
             })}
-            className="input"
+            className="input registration_input"
             id="birthDateInput"
             type="date"
             min="1900-01-01"
             max={minBirthDate()}
           />
           {errors.birthDate && (
-            <div className="error_message">{errors.birthDate.message}</div>
+            <div className="error_message registration_error">
+              {errors.birthDate.message}
+            </div>
           )}
         </div>
         <fieldset className="fieldset">

@@ -87,7 +87,7 @@ export class CustomerRepository {
       loggedInClient,
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
 
-    await apiRoot.get().execute();
+    await apiRoot.me().get().execute();
 
     CustomerRepository.apiRoot = apiRoot;
   }

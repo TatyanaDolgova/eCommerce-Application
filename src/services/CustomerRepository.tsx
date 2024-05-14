@@ -29,10 +29,16 @@ export class CustomerRepository {
   public static async createCustomer(customerData: CustomerDraft) {
     try {
       const client = new CtpClient();
-      const anonimousClient = client.createAnonimusClient();
+      const anonimousClient = client.createNewClient();
       const apiRoot = createApiBuilderFromCtpClient(
         anonimousClient,
       ).withProjectKey({ projectKey: 'ecommerce2024rss' });
+
+      // const customer = await apiRoot;
+      // .me()
+      // .signup()
+      // .post({ body: customerData })
+      // .execute();
 
       const customer = await apiRoot
         .customers()
@@ -51,6 +57,7 @@ export class CustomerRepository {
     try {
       const customer: ClientResponse<CustomerSignInResult> =
         await CustomerRepository.apiRoot
+          .me()
           .login()
           .post({ body: customerData })
           .execute();
@@ -63,6 +70,14 @@ export class CustomerRepository {
         return error;
       }
     }
+  }
+
+  public static async logOutCusromer() {
+    const apiRoot = CustomerRepository.createAnonimusCustomer();
+
+    CustomerRepository.apiRoot = apiRoot;
+
+    await apiRoot.get().execute();
   }
 
   static setLoggedApiRoot(customerData: CustomerSignin) {

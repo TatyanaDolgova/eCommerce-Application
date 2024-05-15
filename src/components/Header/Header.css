@@ -58,6 +58,22 @@
   text-decoration: none;
 }
 
+.header-nav {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.header-hidden {
+  display: none;
+}
+
+@media screen and (max-width: 758px) {
+  .header-hidden {
+    display: block;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .header-link {
     font-size: 15px;

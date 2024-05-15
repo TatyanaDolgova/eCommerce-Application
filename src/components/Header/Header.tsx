@@ -1,12 +1,9 @@
-import { useContext } from 'react';
+import { Squash as Hamburger } from 'hamburger-react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import './Header.css';
 import { UserContext, UserData } from '../../app-context/UserContext';
-import { Squash as Hamburger } from 'hamburger-react';
-import { useState } from 'react';
-
-import './Header.css';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import BaseButton from '../Button/Button';
 
@@ -41,7 +38,7 @@ const Header = () => {
     }
 
     return null;
-   }
+  };
 
   const toggleMenu = () => {
     if (!isOpen) {
@@ -81,6 +78,13 @@ const Header = () => {
           </ul>
           <LogOutButton />
         </nav>
+        <div
+          className={`header-overlay ${isOpen ? 'open' : ''}`}
+          onClick={toggleMenu}
+        ></div>
+        <div className="header-burger" onClick={toggleMenu}>
+          <Hamburger toggled={isOpen} size={35} toggle={setOpen} color="#fff" />
+        </div>
       </div>
     </header>
   );

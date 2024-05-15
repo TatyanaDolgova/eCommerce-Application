@@ -9,14 +9,28 @@ import BaseButton from '../Button/Button';
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
 
+  const toggleMenu = () => {
+    if (!isOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+    setOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    document.body.classList.remove('no-scroll');
+    setOpen(false);
+  };
+
   return (
     <header className="header">
       <div className="header-wrapper">
         <Link className="header-logo" to="/">
           Plantify
         </Link>
-        <nav className="header-nav">
-          <Link to="/home" className="header-link">
+        <nav className={`header-nav ${isOpen ? 'open' : ''}`}>
+          <Link to="/home" className="header-link" onClick={closeMenu}>
             Home
           </Link>
           <ul className="header-links">
@@ -40,7 +54,11 @@ const Header = () => {
             type="button"
           ></BaseButton>
         </nav>
-        <div className="header-hidden">
+        <div
+          className={`header-overlay ${isOpen ? 'open' : ''}`}
+          onClick={toggleMenu}
+        ></div>
+        <div className="header-burger" onClick={toggleMenu}>
           <Hamburger toggled={isOpen} size={35} toggle={setOpen} color="#fff" />
         </div>
       </div>

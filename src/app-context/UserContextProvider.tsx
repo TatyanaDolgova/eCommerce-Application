@@ -1,15 +1,23 @@
+import { State } from '@commercetools/platform-sdk';
 import React, { useState } from 'react';
 
 import { UserContext, UserState } from './UserContext';
 
-interface Props {
-  children: React.ReactNode;
+export interface UserContextProps {
+  children?: React.ReactNode;
+  state?: UserState;
 }
 
-export const UserContextProvider: React.FunctionComponent<Props> = (
-  props: Props,
+export const UserContextProvider: React.FunctionComponent<UserContextProps> = (
+  props: UserContextProps,
 ): JSX.Element => {
-  const [state, setState] = useState({});
+  let defaultState = {};
+
+  if (props.state) {
+    defaultState = props.state;
+  }
+
+  const [state, setState] = useState(defaultState);
 
   const updateState = (newState: Partial<UserState>) => {
     setState({ ...state, ...newState });

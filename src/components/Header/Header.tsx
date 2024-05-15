@@ -66,12 +66,20 @@ const Header = () => {
           </Link>
           <ul className="header-links">
             <li>
-              <Link className="header-link sign-in-link" to="/login">
+              <Link
+                className="header-link sign-in-link"
+                to="/login"
+                onClick={closeMenu}
+              >
                 Sign In
               </Link>
             </li>
             <li>
-              <Link className="header-link sign-up-link" to="/registration">
+              <Link
+                className="header-link sign-up-link"
+                to="/registration"
+                onClick={closeMenu}
+              >
                 Sign Up
               </Link>
             </li>

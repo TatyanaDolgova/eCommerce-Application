@@ -1,13 +1,47 @@
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+import './Header.css';
+import { UserContext, UserData } from '../../app-context/UserContext';
 import { Squash as Hamburger } from 'hamburger-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import './Header.css';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import BaseButton from '../Button/Button';
 
 const Header = () => {
+  const userState = useContext(UserContext);
+  const { updateState } = useContext(UserContext);
+  const isLoggined = userState.user?.loginStatus;
+
+  const navigate = useNavigate();
+  const redirectToMain = () => navigate('/home');
   const [isOpen, setOpen] = useState(false);
+
+  const LogOutButton = () => {
+    if (isLoggined) {
+      return (
+        <BaseButton
+          classes="log_out_button header-link"
+          callback={async () => {
+            await CustomerRepository.logOutCusromer();
+
+            const userData: UserData = {
+              loginStatus: false,
+            };
+
+            updateState({ user: userData });
+            redirectToMain();
+          }}
+          text="Log out"
+          type="button"
+        ></BaseButton>
+      );
+    }
+
+    return null;
+   }
 
   const toggleMenu = () => {
     if (!isOpen) {
@@ -45,22 +79,8 @@ const Header = () => {
               </Link>
             </li>
           </ul>
-          <BaseButton
-            classes="log_out_button header-link"
-            callback={async () => {
-              await CustomerRepository.logOutCusromer();
-            }}
-            text="Log out"
-            type="button"
-          ></BaseButton>
+          <LogOutButton />
         </nav>
-        <div
-          className={`header-overlay ${isOpen ? 'open' : ''}`}
-          onClick={toggleMenu}
-        ></div>
-        <div className="header-burger" onClick={toggleMenu}>
-          <Hamburger toggled={isOpen} size={35} toggle={setOpen} color="#fff" />
-        </div>
       </div>
     </header>
   );

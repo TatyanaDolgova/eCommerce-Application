@@ -29,10 +29,16 @@ export class CustomerRepository {
   public static async createCustomer(customerData: MyCustomerDraft) {
     try {
       const client = new CtpClient();
-      const anonymousClient = client.createNewClient();
+      const anonimousClient = client.createNewClient();
       const apiRoot = createApiBuilderFromCtpClient(
         anonymousClient,
       ).withProjectKey({ projectKey: 'ecommerce2024rss' });
+
+      // const customer = await apiRoot;
+      // .me()
+      // .signup()
+      // .post({ body: customerData })
+      // .execute();
 
       const customer = await apiRoot
         .me()
@@ -55,7 +61,7 @@ export class CustomerRepository {
           .post({ body: customerData })
           .execute();
 
-      CustomerRepository.setLoggedApiRoot(customerData);
+      await CustomerRepository.setLoggedApiRoot(customerData);
 
       return customer;
     } catch (error) {
@@ -73,12 +79,14 @@ export class CustomerRepository {
     await apiRoot.get().execute();
   }
 
-  static setLoggedApiRoot(customerData: CustomerSignin) {
+  static async setLoggedApiRoot(customerData: CustomerSignin) {
     const ctpClient = new CtpClient();
     const loggedInClient = ctpClient.createLoggedInClient(customerData);
     const apiRoot = createApiBuilderFromCtpClient(
       loggedInClient,
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
+
+    await apiRoot.me().get().execute();
 
     CustomerRepository.apiRoot = apiRoot;
   }

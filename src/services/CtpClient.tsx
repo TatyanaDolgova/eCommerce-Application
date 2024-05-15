@@ -32,21 +32,24 @@ export default class CtpClient {
     this.projectKey = 'ecommerce2024rss';
     this.oauthUri = 'https://auth.us-east-2.aws.commercetools.com';
     this.baseUri = 'https://api.us-east-2.aws.commercetools.com';
-    this.clientId = 'vX67v610XQ7USWd_QeyZYf5j';
-    this.clientSecret = 'Ttj-BiXTcQ095yXCXvZxiR8Xij5tCX7n';
+    this.clientId = 'H6a8G0V7vTEhcXdlrn56U4PS';
+    this.clientSecret = 'JjhUofmYN-WS6xnABw6ZtWaoJNt07hOY';
     this.scopes = [
       'manage_extensions:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
+      // 'manage_project_settings:ecommerce2024rss',
       'manage_stores:ecommerce2024rss',
       'manage_products:ecommerce2024rss',
       'create_anonymous_token:ecommerce2024rss',
       'manage_attribute_groups:ecommerce2024rss',
       'manage_states:ecommerce2024rss',
+      'introspect_oauth_tokens:ecommerce2024rss',
       'manage_categories:ecommerce2024rss',
       'manage_customers:ecommerce2024rss',
       'manage_cart_discounts:ecommerce2024rss',
       'manage_order_edits:ecommerce2024rss',
       'manage_types:ecommerce2024rss',
+      'view_project_settings:ecommerce2024rss',
       'manage_discount_codes:ecommerce2024rss',
       'manage_orders:ecommerce2024rss',
       'manage_my_profile:ecommerce2024rss',
@@ -58,12 +61,15 @@ export default class CtpClient {
       'create_anonymous_token:ecommerce2024rss',
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
+      'view_project_settings:ecommerce2024rss',
+      // 'view_products:ecommerce2024rss',
     ];
 
     this.customerScopes = [
-      // 'create_anonymous_token:ecommerce2024rss',
+      'create_anonymous_token:ecommerce2024rss',
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
+      'view_project_settings:ecommerce2024rss',
       // 'manage_customers:ecommerce2024rss',
     ];
   }
@@ -74,7 +80,7 @@ export default class CtpClient {
       projectKey: this.projectKey,
       credentials: {
         clientId: this.clientId,
-        clientSecret: 'Ttj-BiXTcQ095yXCXvZxiR8Xij5tCX7n',
+        clientSecret: this.clientSecret,
       },
       scopes: this.anonCustomerScopes,
       fetch,
@@ -99,7 +105,7 @@ export default class CtpClient {
       projectKey: this.projectKey,
       credentials: {
         clientId: this.clientId,
-        clientSecret: 'Ttj-BiXTcQ095yXCXvZxiR8Xij5tCX7n',
+        clientSecret: this.clientSecret,
         user: {
           username: data.email,
           password: data.password,
@@ -128,7 +134,7 @@ export default class CtpClient {
       projectKey: this.projectKey,
       credentials: {
         clientId: this.clientId,
-        clientSecret: 'Ttj-BiXTcQ095yXCXvZxiR8Xij5tCX7n',
+        clientSecret: this.clientSecret,
       },
       scopes: this.customerScopes,
       fetch,

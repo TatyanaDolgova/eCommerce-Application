@@ -49,6 +49,23 @@
   ;
 }
 
+.log_out_button {
+  background-color: #fff;
+  border: 2px solid var(--fern-green);
+  color: var(--fern-green);
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.log_out_button:hover {
+  background-color: var(--fern-green);
+  border: 2px solid #fff;
+  color: #fff;
+}
+
 .header-logo {
   color: #fff;
   font-size: 40px;

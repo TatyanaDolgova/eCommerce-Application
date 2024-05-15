@@ -89,7 +89,9 @@ function LoginForm(props: LoginFormProps) {
         placeholder="Type your email"
         onInput={clearServerMessageError}
       ></input>
-      <p className="error_message">{errors.email?.message}</p>
+      <p className="error_message" data-testid="email_error_message">
+        {errors.email?.message}
+      </p>
       <Label classes="label" text="Password" for="password_input"></Label>
       <div className="input_wrapper">
         <input
@@ -104,10 +106,13 @@ function LoginForm(props: LoginFormProps) {
         <Input
           classes="input show_password_input"
           type="checkbox"
+          dataTestId="password_checkbox"
           callback={showPassord}
         ></Input>
       </div>
-      <p className="error_message">{errors.password?.message}</p>
+      <p className="error_message" data-testid="password_error_message">
+        {errors.password?.message}
+      </p>
       <p className="error_message">{serverMessageError}</p>
       <Input classes="input submit_input" type="submit" value="Login"></Input>
     </form>

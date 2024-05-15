@@ -130,9 +130,3 @@
     display: block;
   }
 }
-
-@media screen and (max-width: 600px) {
-  .header-link {
-    font-size: 15px;
-  }
-}

@@ -31,7 +31,7 @@ export class CustomerRepository {
       const client = new CtpClient();
       const anonimousClient = client.createNewClient();
       const apiRoot = createApiBuilderFromCtpClient(
-        anonymousClient,
+        anonimousClient,
       ).withProjectKey({ projectKey: 'ecommerce2024rss' });
 
       // const customer = await apiRoot;

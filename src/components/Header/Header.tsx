@@ -64,26 +64,30 @@ const Header = () => {
           <Link to="/home" className="header-link" onClick={closeMenu}>
             Home
           </Link>
-          <ul className="header-links">
-            <li>
-              <Link
-                className="header-link sign-in-link"
-                to="/login"
-                onClick={closeMenu}
-              >
-                Sign In
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="header-link sign-up-link"
-                to="/registration"
-                onClick={closeMenu}
-              >
-                Sign Up
-              </Link>
-            </li>
-          </ul>
+          {isLoggined ? (
+            <LogOutButton />
+          ) : (
+            <ul className="header-links">
+              <li>
+                <Link
+                  className="header-link sign-in-link"
+                  to="/login"
+                  onClick={closeMenu}
+                >
+                  Sign In
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="header-link sign-up-link"
+                  to="/registration"
+                  onClick={closeMenu}
+                >
+                  Sign Up
+                </Link>
+              </li>
+            </ul>
+          )}
           <LogOutButton />
         </nav>
         <div

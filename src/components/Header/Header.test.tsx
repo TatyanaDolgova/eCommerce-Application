@@ -3,11 +3,6 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import {
-  UserContext,
-  UserData,
-  UserState,
-} from '../../app-context/UserContext';
-import {
   UserContextProps,
   UserContextProvider,
 } from '../../app-context/UserContextProvider';
@@ -51,4 +46,31 @@ test('Should not show LogOut button when uses is loggined', () => {
 
   customHeaderRender(<Header />, providerProps);
   expect(screen.queryByText(/Log out/i)).not.toBeInTheDocument();
+});
+
+test('Should not scroll when burger is opened', () => {
+  render(
+    <BrowserRouter>
+      <Header />
+    </BrowserRouter>,
+  );
+
+  const burgerMenu = screen.getByTestId('header_burger');
+
+  fireEvent.click(burgerMenu);
+  expect(document.body).toHaveClass('no-scroll');
+});
+
+test('Should close burger after click on link', () => {
+  render(
+    <BrowserRouter>
+      <Header />
+    </BrowserRouter>,
+  );
+
+  const burgerMenu = screen.getByTestId('header_burger');
+
+  fireEvent.click(burgerMenu);
+  fireEvent.click(screen.getByText(/Home/i));
+  expect(document.body).not.toHaveClass('no-scroll');
 });

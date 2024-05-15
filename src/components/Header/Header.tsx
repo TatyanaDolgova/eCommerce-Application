@@ -90,7 +90,11 @@ const Header = () => {
           className={`header-overlay ${isOpen ? 'open' : ''}`}
           onClick={toggleMenu}
         ></div>
-        <div className="header-burger" onClick={toggleMenu}>
+        <div
+          className="header-burger"
+          data-testid="header_burger"
+          onClick={toggleMenu}
+        >
           <Hamburger toggled={isOpen} size={35} toggle={setOpen} color="#fff" />
         </div>
       </div>

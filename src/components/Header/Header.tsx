@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import './Header.css';
 import { UserContext, UserData } from '../../app-context/UserContext';
@@ -10,6 +10,9 @@ const Header = () => {
   const userState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
   const isLoggined = userState.user?.loginStatus;
+
+  const navigate = useNavigate();
+  const redirectToMain = () => navigate('/home');
 
   const LogOutButton = () => {
     if (isLoggined) {
@@ -24,6 +27,7 @@ const Header = () => {
             };
 
             updateState({ user: userData });
+            redirectToMain();
           }}
           text="Log out"
           type="button"

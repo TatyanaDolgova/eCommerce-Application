@@ -88,6 +88,7 @@ const Header = () => {
               </li>
             </ul>
           )}
+          <LogOutButton />
         </nav>
         <div
           className={`header-overlay ${isOpen ? 'open' : ''}`}

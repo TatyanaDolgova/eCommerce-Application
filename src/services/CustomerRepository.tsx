@@ -1,9 +1,9 @@
 import {
   ByProjectKeyRequestBuilder,
   ClientResponse,
-  CustomerDraft,
   CustomerSignInResult,
   CustomerSignin,
+  MyCustomerDraft,
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 
@@ -26,25 +26,18 @@ export class CustomerRepository {
     return CustomerRepository.apiRoot;
   }
 
-  public static async createCustomer(customerData: CustomerDraft) {
+  public static async createCustomer(customerData: MyCustomerDraft) {
     try {
       const client = new CtpClient();
-      const anonimousClient = client.createNewClient();
+      const anonymousClient = client.createNewClient();
       const apiRoot = createApiBuilderFromCtpClient(
-        anonimousClient,
+        anonymousClient,
       ).withProjectKey({ projectKey: 'ecommerce2024rss' });
 
-      // const customer = await apiRoot;
-      // .me()
-      // .signup()
-      // .post({ body: customerData })
-      // .execute();
-
       const customer = await apiRoot
-        .customers()
-        .post({
-          body: customerData,
-        })
+        .me()
+        .signup()
+        .post({ body: customerData })
         .execute();
 
       return customer;

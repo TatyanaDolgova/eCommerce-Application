@@ -1,6 +1,6 @@
 import './RegistrationForm.css';
 
-import { CustomerDraft } from '@commercetools/platform-sdk';
+import { MyCustomerDraft } from '@commercetools/platform-sdk';
 import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -80,7 +80,7 @@ function RegistrationForm() {
   const redirectToMain = () => navigate('/home');
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    const customerDraft: CustomerDraft = {
+    const customerDraft: MyCustomerDraft = {
       email: data.email,
       password: data.password,
       firstName: data.firstName,
@@ -102,8 +102,6 @@ function RegistrationForm() {
       ],
       defaultShippingAddress: data.defaultShipping ? 0 : undefined,
       defaultBillingAddress: data.defaultBilling ? 1 : undefined,
-      shippingAddresses: [0],
-      billingAddresses: [1],
     };
 
     const response = await CustomerRepository.createCustomer(customerDraft);

@@ -4,7 +4,7 @@ import './App.css';
 import { LoginPage } from './pages/login/LoginPage';
 import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
-import RegistrationPage from './pages/RegistrationPage';
+import RegistrationPage from './pages/registration/RegistrationPage';
 import { CustomerRepository } from './services/CustomerRepository';
 import { RouteGuard } from './utils/RouteGuard';
 

@@ -155,7 +155,7 @@ function RegistrationForm() {
       <h1 className="registration_h1">Get Started</h1>
       <p>
         Already have an account?
-        <Link className="login-link" to="/login">
+        <Link className="login-link" data-testid="login-link" to="/login">
           Sign In
         </Link>
       </p>
@@ -342,6 +342,7 @@ function RegistrationForm() {
               })}
               className={`input ${disabledClass}`}
               id="street2"
+              data-testid="street2"
               type="text"
               placeholder="Street"
               value={billingStreet}
@@ -359,6 +360,7 @@ function RegistrationForm() {
             <input
               {...register('city2', nameProps('City'))}
               className={`input ${disabledClass}`}
+              data-testid="city2"
               type="text"
               placeholder="City"
               value={billingCity}
@@ -376,6 +378,7 @@ function RegistrationForm() {
             <input
               {...register('postalCode2', postCodeProps(`${billingCountry}`))}
               className={`input ${disabledClass}`}
+              data-testid="postcode2"
               type="text"
               placeholder="Postal Code"
               value={billingPostCode}
@@ -393,6 +396,7 @@ function RegistrationForm() {
             <select
               {...register('country2')}
               id="country2"
+              data-testid="country2"
               name="country2"
               className={`select ${disabledClass}`}
               value={billingCountry}
@@ -420,7 +424,7 @@ function RegistrationForm() {
             <Label
               classes="label"
               for="defaultBilling"
-              text="Use this as default the billing address"
+              text="Use this as the default billing address"
             ></Label>
           </div>
         </fieldset>

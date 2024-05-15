@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import './Header.css';
 import { UserContext, UserData } from '../../app-context/UserContext';
+import { Squash as Hamburger } from 'hamburger-react';
+import { useState } from 'react';
+
+import './Header.css';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import BaseButton from '../Button/Button';
 
@@ -13,6 +17,7 @@ const Header = () => {
 
   const navigate = useNavigate();
   const redirectToMain = () => navigate('/home');
+  const [isOpen, setOpen] = useState(false);
 
   const LogOutButton = () => {
     if (isLoggined) {
@@ -36,6 +41,20 @@ const Header = () => {
     }
 
     return null;
+   }
+
+  const toggleMenu = () => {
+    if (!isOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+    setOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    document.body.classList.remove('no-scroll');
+    setOpen(false);
   };
 
   return (
@@ -44,10 +63,10 @@ const Header = () => {
         <Link className="header-logo" to="/">
           Plantify
         </Link>
-        <Link to="/home" className="header-link">
-          Home
-        </Link>
-        <nav>
+        <nav className={`header-nav ${isOpen ? 'open' : ''}`}>
+          <Link to="/home" className="header-link" onClick={closeMenu}>
+            Home
+          </Link>
           <ul className="header-links">
             <li>
               <Link className="header-link sign-in-link" to="/login">
@@ -60,8 +79,8 @@ const Header = () => {
               </Link>
             </li>
           </ul>
+          <LogOutButton />
         </nav>
-        <LogOutButton />
       </div>
     </header>
   );

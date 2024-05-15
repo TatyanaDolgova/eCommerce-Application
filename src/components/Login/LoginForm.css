@@ -22,3 +22,9 @@
   text-decoration: none;
   color: var( --error-message-color);
 }
+
+@media (max-width: 420px) {
+  .login_form {
+    min-width: 340px;
+  }
+}

@@ -1,10 +1,11 @@
 import './RegistrationForm.css';
 
-import { CustomerDraft } from '@commercetools/platform-sdk';
-import { useState } from 'react';
+import { MyCustomerDraft } from '@commercetools/platform-sdk';
+import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { UserContext, UserData } from '../../app-context/UserContext';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
 import showToast from '../../utils/notifications';
@@ -43,6 +44,7 @@ function RegistrationForm() {
     handleSubmit,
     formState: { errors },
     getValues,
+    setValue,
     watch,
   } = useForm<FormFields>({
     defaultValues: {
@@ -61,19 +63,24 @@ function RegistrationForm() {
   const [billingPostCode, setBillingPostCode] = useState('');
   const [billingStreet, setBillingStreet] = useState('');
   const [disabledClass, setDisabledClass] = useState('');
+  const { updateState } = useContext(UserContext);
 
   function setSameAddress() {
     setBillingCity(getValues('city'));
     setBillingPostCode(getValues('postalCode'));
     setBillingStreet(getValues('street'));
     setBillingCountry(getValues('country'));
+    setValue('city2', getValues('city'), { shouldValidate: true });
+    setValue('street2', getValues('street'), { shouldValidate: true });
+    setValue('country2', getValues('country'));
+    setValue('postalCode2', getValues('postalCode'), { shouldValidate: true });
   }
 
   const navigate = useNavigate();
   const redirectToMain = () => navigate('/home');
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    const customerDraft: CustomerDraft = {
+    const customerDraft: MyCustomerDraft = {
       email: data.email,
       password: data.password,
       firstName: data.firstName,
@@ -95,8 +102,6 @@ function RegistrationForm() {
       ],
       defaultShippingAddress: data.defaultShipping ? 0 : undefined,
       defaultBillingAddress: data.defaultBilling ? 1 : undefined,
-      shippingAddresses: [0],
-      billingAddresses: [1],
     };
 
     const response = await CustomerRepository.createCustomer(customerDraft);
@@ -130,6 +135,11 @@ function RegistrationForm() {
           showToast(serverErrorMessages.loginError.userMessage, true);
         }
       } else {
+        const userState: UserData = {
+          loginStatus: true,
+        };
+
+        updateState({ user: userState });
         redirectToMain();
       }
     }
@@ -154,52 +164,60 @@ function RegistrationForm() {
         <div className="input-wrapper">
           <input
             {...register('email', emailProps)}
-            className="input"
+            className="input registration_input"
             id="emailInput"
             type="text"
             placeholder="Enter your email"
           />
           {errors.email && (
-            <div className="error_message">{errors.email.message}</div>
+            <div className="error_message registration_error">
+              {errors.email.message}
+            </div>
           )}
         </div>
         <Label classes="label" for="passwordInput" text="Password" />
         <div className="input-wrapper">
           <input
             {...register('password', passwordProps)}
-            className="input"
+            className="input registration_input"
             id="passwordInput"
             type="password"
             placeholder="Enter your password"
           />
           {errors.password && (
-            <div className="error_message">{errors.password.message}</div>
+            <div className="error_message registration_error">
+              {errors.password.message}
+            </div>
           )}
         </div>
         <Label classes="label" for="fnameInput" text="First Name" />
         <div className="input-wrapper">
           <input
             {...register('firstName', nameProps('First name'))}
-            className="input"
+            className="input registration_input"
             id="fnameInput"
             type="text"
             placeholder="Enter your first name"
           />
           {errors.firstName && (
-            <div className="error_message">{errors.firstName.message}</div>
+            <div className="error_message registration_error">
+              {errors.firstName.message}
+            </div>
           )}
         </div>
         <Label classes="label" for="lnameInput" text="Last Name" />
         <div className="input-wrapper">
           <input
             {...register('lastName', nameProps('Last name'))}
-            className="input"
+            className="input registration_input"
             id="lnameInput"
             type="text"
             placeholder="Enter your last name"
           />
           {errors.lastName && (
-            <div className="error_message">{errors.lastName.message}</div>
+            <div className="error_message registration_error">
+              {errors.lastName.message}
+            </div>
           )}
         </div>
         <Label classes="label" for="birthDateInput" text="Date of Birth" />
@@ -208,14 +226,16 @@ function RegistrationForm() {
             {...register('birthDate', {
               required: 'Date of birth is required',
             })}
-            className="input"
+            className="input registration_input"
             id="birthDateInput"
             type="date"
             min="1900-01-01"
             max={minBirthDate()}
           />
           {errors.birthDate && (
-            <div className="error_message">{errors.birthDate.message}</div>
+            <div className="error_message registration_error">
+              {errors.birthDate.message}
+            </div>
           )}
         </div>
         <fieldset className="fieldset">
@@ -232,6 +252,7 @@ function RegistrationForm() {
               onChange={(e) => {
                 if (getValues('useSameAddress')) {
                   setBillingStreet(e.target.value);
+                  setValue('street2', e.target.value, { shouldValidate: true });
                 }
               }}
             />
@@ -248,6 +269,7 @@ function RegistrationForm() {
               onChange={(e) => {
                 if (getValues('useSameAddress')) {
                   setBillingCity(e.target.value);
+                  setValue('city2', e.target.value, { shouldValidate: true });
                 }
               }}
             />
@@ -264,6 +286,9 @@ function RegistrationForm() {
               onChange={(e) => {
                 if (getValues('useSameAddress')) {
                   setBillingPostCode(e.target.value);
+                  setValue('postalCode2', e.target.value, {
+                    shouldValidate: true,
+                  });
                 }
               }}
             />
@@ -280,6 +305,9 @@ function RegistrationForm() {
               onChange={(e) => {
                 if (getValues('useSameAddress')) {
                   setBillingCountry(e.target.value);
+                  setValue('country2', e.target.value, {
+                    shouldValidate: true,
+                  });
                 }
               }}
             >

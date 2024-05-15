@@ -1,7 +1,19 @@
+.registration-form {
+  width: 90%;
+}
+
 .inputs-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5px;
+  gap: 10px;
+}
+
+.registration_input {
+  margin-left: 10%;
+}
+
+.registration_error {
+  margin-left: 10%;
 }
 
 input[type='date'] {
@@ -61,5 +73,26 @@ input[type='date'] {
 }
 
 .registration_h1 {
-  margin-bottom: 0;
+  margin: 0 auto;
+}
+
+@media (max-width: 650px) {
+  .inputs-container {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .fieldset {
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+
+  .registration_input {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .registration_error {
+    margin-left: 0;
+    max-width: 100%;
+  }
 }

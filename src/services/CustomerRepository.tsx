@@ -34,12 +34,6 @@ export class CustomerRepository {
         anonymousClient,
       ).withProjectKey({ projectKey: 'ecommerce2024rss' });
 
-      // const customer = await apiRoot;
-      // .me()
-      // .signup()
-      // .post({ body: customerData })
-      // .execute();
-
       const customer = await apiRoot
         .me()
         .signup()

@@ -29,7 +29,7 @@ export class CustomerRepository {
   public static async createCustomer(customerData: MyCustomerDraft) {
     try {
       const client = new CtpClient();
-      const anonimousClient = client.createNewClient();
+      const anonymousClient = client.createNewClient();
       const apiRoot = createApiBuilderFromCtpClient(
         anonymousClient,
       ).withProjectKey({ projectKey: 'ecommerce2024rss' });

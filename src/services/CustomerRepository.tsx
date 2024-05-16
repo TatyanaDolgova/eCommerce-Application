@@ -65,12 +65,10 @@ export class CustomerRepository {
     }
   }
 
-  public static async logOutCusromer() {
+  public static logOutCusromer() {
     const apiRoot = CustomerRepository.createAnonimusCustomer();
 
     CustomerRepository.apiRoot = apiRoot;
-
-    await apiRoot.get().execute();
   }
 
   static async setLoggedApiRoot(customerData: CustomerSignin) {

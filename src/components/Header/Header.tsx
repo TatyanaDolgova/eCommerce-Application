@@ -21,8 +21,8 @@ const Header = () => {
       return (
         <BaseButton
           classes="log_out_button header-link"
-          callback={async () => {
-            await CustomerRepository.logOutCusromer();
+          callback={() => {
+            CustomerRepository.logOutCusromer();
 
             const userData: UserData = {
               loginStatus: false,

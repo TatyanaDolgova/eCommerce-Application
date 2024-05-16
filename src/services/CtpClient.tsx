@@ -61,7 +61,6 @@ export default class CtpClient {
       'create_anonymous_token:ecommerce2024rss',
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
-      'view_project_settings:ecommerce2024rss',
       // 'view_products:ecommerce2024rss',
     ];
 
@@ -69,8 +68,7 @@ export default class CtpClient {
       'create_anonymous_token:ecommerce2024rss',
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
-      'view_project_settings:ecommerce2024rss',
-      // 'manage_customers:ecommerce2024rss',
+      // 'view_products:ecommerce2024rss',
     ];
   }
 

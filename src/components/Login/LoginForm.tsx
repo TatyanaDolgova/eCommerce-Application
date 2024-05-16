@@ -20,7 +20,7 @@ function LoginForm(props: LoginFormProps) {
   const [serverMessageError, setServerMessageError] = useState('');
   const { updateState } = useContext(UserContext);
 
-  const showPassord = () => {
+  const showPassword = () => {
     if (passwordInputType === 'password') {
       setPasswordInputType('text');
     } else {
@@ -107,7 +107,7 @@ function LoginForm(props: LoginFormProps) {
           classes="input show_password_input"
           type="checkbox"
           dataTestId="password_checkbox"
-          callback={showPassord}
+          callback={showPassword}
         ></Input>
       </div>
       <p className="error_message" data-testid="password_error_message">

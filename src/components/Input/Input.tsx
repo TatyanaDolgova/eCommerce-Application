@@ -10,6 +10,7 @@ function Input(props: InputProps) {
       name={props.name}
       required={props.required}
       value={props.value}
+      data-testid={props.dataTestId}
     ></input>
   );
 }
@@ -17,6 +18,7 @@ function Input(props: InputProps) {
 interface InputProps {
   callback?: VoidFunction; //this might have to change to some other type of function
   classes: string;
+  dataTestId?: string;
   id?: string;
   max?: string;
   name?: string;

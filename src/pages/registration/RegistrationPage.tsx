@@ -1,5 +1,5 @@
-import Header from '../components/Header/Header';
-import RegistrationForm from '../components/Registration/RegistrationForm';
+import Header from '../../components/Header/Header';
+import RegistrationForm from '../../components/Registration/RegistrationForm';
 
 const RegistrationPage = () => {
   return (

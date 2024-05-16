@@ -31,7 +31,11 @@ test('Should show LogOut button when uses is loggined', () => {
   };
 
   customHeaderRender(<Header />, providerProps);
-  expect(screen.getByText(/Log out/i)).toBeInTheDocument();
+  const buttons = screen.getAllByText('Log out');
+
+  buttons.forEach((button) => {
+    expect(button).toBeInTheDocument();
+  });
 });
 
 test('Should not show LogOut button when uses is loggined', () => {
@@ -45,7 +49,11 @@ test('Should not show LogOut button when uses is loggined', () => {
   };
 
   customHeaderRender(<Header />, providerProps);
-  expect(screen.queryByText(/Log out/i)).not.toBeInTheDocument();
+  const buttons = screen.queryAllByText('Log out');
+
+  buttons.forEach((button) => {
+    expect(button).not.toBeInTheDocument();
+  });
 });
 
 test('Should not scroll when burger is opened', () => {

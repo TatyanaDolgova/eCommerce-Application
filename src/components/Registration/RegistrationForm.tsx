@@ -17,6 +17,7 @@ import {
   postCodeProps,
 } from '../../utils/validation';
 import BaseButton from '../Button/Button';
+import Input from '../Input/Input';
 import Label from '../Label/Label';
 
 type FormFields = {
@@ -63,6 +64,7 @@ function RegistrationForm() {
   const [billingPostCode, setBillingPostCode] = useState('');
   const [billingStreet, setBillingStreet] = useState('');
   const [disabledClass, setDisabledClass] = useState('');
+  const [passwordInputType, setPasswordInputType] = useState('password');
   const { updateState } = useContext(UserContext);
 
   function setSameAddress() {
@@ -75,6 +77,14 @@ function RegistrationForm() {
     setValue('country2', getValues('country'));
     setValue('postalCode2', getValues('postalCode'), { shouldValidate: true });
   }
+
+  const showPassword = () => {
+    if (passwordInputType === 'password') {
+      setPasswordInputType('text');
+    } else {
+      setPasswordInputType('password');
+    }
+  };
 
   const navigate = useNavigate();
   const redirectToMain = () => navigate('/home');
@@ -177,13 +187,21 @@ function RegistrationForm() {
         </div>
         <Label classes="label" for="passwordInput" text="Password" />
         <div className="input-wrapper">
-          <input
-            {...register('password', passwordProps)}
-            className="input registration_input"
-            id="passwordInput"
-            type="password"
-            placeholder="Enter your password"
-          />
+          <div className="password-wrapper">
+            <input
+              {...register('password', passwordProps)}
+              className="input registration_input"
+              id="passwordInput"
+              type={passwordInputType}
+              placeholder="Enter your password"
+            />
+            <Input
+              classes="input show_password_input"
+              type="checkbox"
+              dataTestId="password_checkbox"
+              callback={showPassword}
+            ></Input>
+          </div>
           {errors.password && (
             <div className="error_message registration_error">
               {errors.password.message}

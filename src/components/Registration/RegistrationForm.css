@@ -20,6 +20,17 @@ input[type='date'] {
   color: #000;
 }
 
+.password-wrapper {
+display: flex;
+gap: 10px;
+align-items: center;
+}
+
+#passwordInput {
+width: calc(80% - 50px);
+min-width: 170px;
+}
+
 .select {
   padding: 10px 7px;
   border: none;

@@ -23,6 +23,7 @@ class MyTokenCache implements TokenCache {
 
   clear(): void {
     this.tokenStore = this.defaultTokenStore;
+    userTokenStorage.clearTokens();
   }
 
   get(): TokenStore {

@@ -63,16 +63,9 @@ export class CustomerRepository {
           .post({ body: customerData })
           .execute();
 
-      console.log('Анонимный');
-
-      console.log(anonTokenCache.get());
-
       if (!CustomerRepository.isAuthApiRoot) {
         await CustomerRepository.setLoggedApiRoot(customerData);
       }
-      console.log('Кастомера');
-
-      console.log(authTokenCache.get());
 
       return customer;
     } catch (error) {
@@ -99,10 +92,6 @@ export class CustomerRepository {
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
 
     CustomerRepository.apiRoot = apiRoot;
-
-    console.log('Зарефрешила');
-
-    console.log(refrechToken);
   }
 
   public static async sendTestRequest() {

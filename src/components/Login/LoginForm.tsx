@@ -11,13 +11,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserContext, UserData } from '../../app-context/UserContext';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
+import showToast from '../../utils/notifications';
 import { emailProps, passwordProps } from '../../utils/validation';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
 
 function LoginForm(props: LoginFormProps) {
   const [passwordInputType, setPasswordInputType] = useState('password');
-  const [serverMessageError, setServerMessageError] = useState('');
   const { updateState } = useContext(UserContext);
 
   const showPassword = () => {
@@ -25,12 +25,6 @@ function LoginForm(props: LoginFormProps) {
       setPasswordInputType('text');
     } else {
       setPasswordInputType('password');
-    }
-  };
-
-  const clearServerMessageError = () => {
-    if (serverMessageError) {
-      setServerMessageError('');
     }
   };
 
@@ -54,13 +48,14 @@ function LoginForm(props: LoginFormProps) {
 
     if (response instanceof Error) {
       if (response.message === serverErrorMessages.loginError.errorMessage) {
-        setServerMessageError(serverErrorMessages.loginError.userMessage);
+        showToast(serverErrorMessages.loginError.userMessage, true);
       }
     } else {
       const userState: UserData = {
         loginStatus: true,
       };
 
+      showToast('You are successfully logged in', false);
       updateState({ user: userState });
       redirectToMain();
     }
@@ -87,7 +82,6 @@ function LoginForm(props: LoginFormProps) {
         id="email_input"
         required={true}
         placeholder="Type your email"
-        onInput={clearServerMessageError}
       ></input>
       <p className="error_message" data-testid="email_error_message">
         {errors.email?.message}
@@ -101,7 +95,6 @@ function LoginForm(props: LoginFormProps) {
           id="password_input"
           required={true}
           placeholder="Type your password"
-          onInput={clearServerMessageError}
         ></input>
         <Input
           classes="input show_password_input"
@@ -113,7 +106,6 @@ function LoginForm(props: LoginFormProps) {
       <p className="error_message" data-testid="password_error_message">
         {errors.password?.message}
       </p>
-      <p className="error_message">{serverMessageError}</p>
       <Input classes="input submit_input" type="submit" value="Login"></Input>
     </form>
   );

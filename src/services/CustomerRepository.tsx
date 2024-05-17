@@ -28,17 +28,18 @@ export class CustomerRepository {
 
   public static async createCustomer(customerData: MyCustomerDraft) {
     try {
-      const client = new CtpClient();
-      const anonymousClient = client.createNewClient();
-      const apiRoot = createApiBuilderFromCtpClient(
-        anonymousClient,
-      ).withProjectKey({ projectKey: 'ecommerce2024rss' });
-
-      const customer = await apiRoot
+      const customer = await CustomerRepository.apiRoot
         .me()
         .signup()
         .post({ body: customerData })
         .execute();
+
+      const passwordFlowData: CustomerSignin = {
+        email: customerData.email,
+        password: customerData.password,
+      };
+
+      CustomerRepository.setLoggedApiRoot(passwordFlowData);
 
       return customer;
     } catch (error) {

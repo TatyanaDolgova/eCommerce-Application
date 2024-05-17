@@ -55,7 +55,7 @@ export class CustomerRepository {
           .post({ body: customerData })
           .execute();
 
-      await CustomerRepository.setLoggedApiRoot(customerData);
+      CustomerRepository.setLoggedApiRoot(customerData);
 
       return customer;
     } catch (error) {
@@ -71,14 +71,12 @@ export class CustomerRepository {
     CustomerRepository.apiRoot = apiRoot;
   }
 
-  static async setLoggedApiRoot(customerData: CustomerSignin) {
+  static setLoggedApiRoot(customerData: CustomerSignin) {
     const ctpClient = new CtpClient();
     const loggedInClient = ctpClient.createLoggedInClient(customerData);
     const apiRoot = createApiBuilderFromCtpClient(
       loggedInClient,
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
-
-    await apiRoot.me().get().execute();
 
     CustomerRepository.apiRoot = apiRoot;
   }

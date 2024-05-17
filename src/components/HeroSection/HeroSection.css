@@ -26,6 +26,7 @@
   font-size: 70px;
   line-height: 110px;
   font-weight: 800;
+  margin-bottom: 50px;
 }
 
 .hero-title--high {
@@ -35,6 +36,18 @@
   letter-spacing: 0%;
 }
 
+.hero-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  list-style-type: none;
+}
+
+.hero-link {
+  text-decoration: none;
+  background-color: var(--dark-moss-green);
+  border: none;
+}
 
 @media screen and (max-width: 1000px) {
   .hero-title--high {

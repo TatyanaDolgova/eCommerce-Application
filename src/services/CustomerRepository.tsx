@@ -28,17 +28,18 @@ export class CustomerRepository {
 
   public static async createCustomer(customerData: MyCustomerDraft) {
     try {
-      const client = new CtpClient();
-      const anonymousClient = client.createNewClient();
-      const apiRoot = createApiBuilderFromCtpClient(
-        anonymousClient,
-      ).withProjectKey({ projectKey: 'ecommerce2024rss' });
-
-      const customer = await apiRoot
+      const customer = await CustomerRepository.apiRoot
         .me()
         .signup()
         .post({ body: customerData })
         .execute();
+
+      const passwordFlowData: CustomerSignin = {
+        email: customerData.email,
+        password: customerData.password,
+      };
+
+      CustomerRepository.setLoggedApiRoot(passwordFlowData);
 
       return customer;
     } catch (error) {
@@ -55,7 +56,7 @@ export class CustomerRepository {
           .post({ body: customerData })
           .execute();
 
-      await CustomerRepository.setLoggedApiRoot(customerData);
+      CustomerRepository.setLoggedApiRoot(customerData);
 
       return customer;
     } catch (error) {
@@ -65,22 +66,18 @@ export class CustomerRepository {
     }
   }
 
-  public static async logOutCusromer() {
+  public static logOutCusromer() {
     const apiRoot = CustomerRepository.createAnonimusCustomer();
 
     CustomerRepository.apiRoot = apiRoot;
-
-    await apiRoot.get().execute();
   }
 
-  static async setLoggedApiRoot(customerData: CustomerSignin) {
+  static setLoggedApiRoot(customerData: CustomerSignin) {
     const ctpClient = new CtpClient();
     const loggedInClient = ctpClient.createLoggedInClient(customerData);
     const apiRoot = createApiBuilderFromCtpClient(
       loggedInClient,
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
-
-    await apiRoot.me().get().execute();
 
     CustomerRepository.apiRoot = apiRoot;
   }

@@ -7,6 +7,8 @@ import {
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 
+import MyTokenCache from '../utils/MyTokenCache';
+
 import CtpClient from './CtpClient';
 
 export class CustomerRepository {
@@ -55,6 +57,8 @@ export class CustomerRepository {
           .login()
           .post({ body: customerData })
           .execute();
+
+      console.log(MyTokenCache.get());
 
       CustomerRepository.setLoggedApiRoot(customerData);
 

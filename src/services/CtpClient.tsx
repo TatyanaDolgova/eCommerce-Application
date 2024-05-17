@@ -11,6 +11,8 @@ import {
   PasswordAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 
+import MyTokenCache from '../utils/MyTokenCache';
+
 export default class CtpClient {
   anonCustomerScopes: string[];
 
@@ -81,6 +83,7 @@ export default class CtpClient {
         clientSecret: this.clientSecret,
       },
       scopes: this.anonCustomerScopes,
+      tokenCache: MyTokenCache,
       fetch,
     };
 
@@ -110,6 +113,7 @@ export default class CtpClient {
         },
       },
       scopes: this.customerScopes,
+      tokenCache: MyTokenCache,
       fetch,
     };
 

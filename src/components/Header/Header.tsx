@@ -10,14 +10,14 @@ import BaseButton from '../Button/Button';
 const Header = () => {
   const userState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
-  const isLoggined = userState.user?.loginStatus;
+  const isLoggedIn = userState.user?.loginStatus;
 
   const navigate = useNavigate();
   const redirectToMain = () => navigate('/home');
   const [isOpen, setOpen] = useState(false);
 
   const LogOutButton = () => {
-    if (isLoggined) {
+    if (isLoggedIn) {
       return (
         <BaseButton
           classes="log_out_button header-link"
@@ -64,7 +64,7 @@ const Header = () => {
           <Link to="/home" className="header-link" onClick={closeMenu}>
             Home
           </Link>
-          {isLoggined ? (
+          {isLoggedIn ? (
             <LogOutButton />
           ) : (
             <ul className="header-links">

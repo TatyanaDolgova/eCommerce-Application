@@ -70,7 +70,7 @@ export default class CtpClient {
     ];
   }
 
-  createAnonimusClient() {
+  createAnonymousClient() {
     const options: AnonymousAuthMiddlewareOptions = {
       host: this.oauthUri,
       projectKey: this.projectKey,
@@ -127,7 +127,7 @@ export default class CtpClient {
       .build();
   }
 
-  refreshClient(refrechToken: string) {
+  refreshClient(refreshToken: string) {
     const options: RefreshAuthMiddlewareOptions = {
       host: this.oauthUri,
       projectKey: this.projectKey,
@@ -136,7 +136,7 @@ export default class CtpClient {
         clientSecret: this.clientSecret,
       },
       tokenCache: new MyTokenCache(),
-      refreshToken: refrechToken,
+      refreshToken: refreshToken,
       fetch,
     };
 

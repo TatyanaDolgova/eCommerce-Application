@@ -20,7 +20,7 @@ const customHeaderRender = (
   );
 };
 
-test('Should show LogOut button when uses is loggined', () => {
+test('Should show LogOut button when the user is logged in', () => {
   const providerProps: UserContextProps = {
     state: {
       updateState: () => {},
@@ -38,7 +38,7 @@ test('Should show LogOut button when uses is loggined', () => {
   });
 });
 
-test('Should not show LogOut button when uses is loggined', () => {
+test('Should not show LogOut button when the user is logged in', () => {
   const providerProps: UserContextProps = {
     state: {
       updateState: () => {},

@@ -1,14 +1,14 @@
 export const serverErrorMessages = {
   loginError: {
-    errorMessage: 'Account with the given credentials not found.',
+    errorMessage: 'Customer account with the given credentials not found.',
     userMessage:
-      'Customer is not found. Please, try another email or password.',
+      'The customer is not found. Please, try another email or password.',
   },
   registrationError: {
     errorMessage:
       'There is already an existing customer with the provided email.',
     userMessage:
-      'Customer with this email already exists. Please, login or try another email.',
+      'A customer with this email already exists. Please, log in or try another email.',
   },
   inputError: {
     errorMessage: 'Request body does not contain valid JSON.',

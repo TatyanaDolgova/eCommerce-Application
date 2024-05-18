@@ -32,7 +32,14 @@ function App() {
             </RouteGuard>
           }
         />
-        <Route path="/registration" element={<RegistrationPage />} />
+        <Route
+          path="/registration"
+          element={
+            <RouteGuard>
+              <RegistrationPage />
+            </RouteGuard>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

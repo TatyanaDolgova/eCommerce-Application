@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { UserContext, UserData } from '../../app-context/UserContext';
 import { CustomerRepository } from '../../services/CustomerRepository';
+import { userTokenStorage } from '../../services/LocalStorage';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
 import showToast from '../../utils/notifications';
 import {
@@ -117,6 +118,7 @@ function RegistrationForm() {
     const response = await CustomerRepository.createCustomer(customerDraft);
 
     if (response instanceof Error) {
+      userTokenStorage.clearTokens();
       if (
         response.message === serverErrorMessages.registrationError.errorMessage
       ) {

@@ -133,7 +133,7 @@ function RegistrationForm() {
         showToast(response.message, true);
       }
     } else {
-      showToast('User is successfully registered', false);
+      showToast('You are successfully registered', false);
       const loginData = {
         email: data.email,
         password: data.password,

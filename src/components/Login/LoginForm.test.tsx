@@ -10,7 +10,7 @@ test('should have password type by default', () => {
       <LoginForm />
     </BrowserRouter>,
   );
-  const passwordInput = screen.getByPlaceholderText(/Type your password/i);
+  const passwordInput = screen.getByPlaceholderText(/Enter your password/i);
 
   expect(passwordInput).toBeInTheDocument();
   expect(passwordInput.getAttribute('type')).toBe('password');
@@ -26,7 +26,7 @@ test('should have text type after checking show password input', () => {
 
   fireEvent.click(checkbox);
 
-  const input = screen.getByPlaceholderText('Type your password');
+  const input = screen.getByPlaceholderText('Enter your password');
 
   expect(input.getAttribute('type')).toBe('text');
 });
@@ -53,14 +53,14 @@ test('should show error if email is not valid', async () => {
       <LoginForm />
     </BrowserRouter>,
   );
-  const input = screen.getByPlaceholderText('Type your email');
+  const input = screen.getByPlaceholderText('Enter your email');
 
   fireEvent.change(input, { target: { value: 'test' } });
 
   const errorMessage = await screen.findByTestId('email_error_message');
 
   expect(errorMessage).toHaveTextContent(
-    'Email address must be properly formatted (e.g., user@example.com) and should not contain whitespace.',
+    'Email address must be properly formatted (e.g., user@example.com) and should not contain whitespaces.',
   );
 });
 
@@ -70,7 +70,7 @@ test('should show error if password is less than 8 characters', async () => {
       <LoginForm />
     </BrowserRouter>,
   );
-  const input = screen.getByPlaceholderText('Type your password');
+  const input = screen.getByPlaceholderText('Enter your password');
 
   fireEvent.change(input, { target: { value: '1234' } });
 
@@ -87,7 +87,7 @@ test('should show error if password is weak', async () => {
       <LoginForm />
     </BrowserRouter>,
   );
-  const input = screen.getByPlaceholderText('Type your password');
+  const input = screen.getByPlaceholderText('Enter your password');
 
   fireEvent.change(input, { target: { value: '12345678' } });
 

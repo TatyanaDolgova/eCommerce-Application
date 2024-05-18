@@ -17,11 +17,11 @@ export class CustomerRepository {
 
   static projectKey = 'ecommerce2024rss';
 
-  public static createAnonimusCustomer(): ByProjectKeyRequestBuilder {
+  public static createAnonymousCustomer(): ByProjectKeyRequestBuilder {
     const ctpClient = new CtpClient();
-    const anonimousClient = ctpClient.createAnonimusClient();
+    const anonymousClient = ctpClient.createAnonymousClient();
     const apiRoot = createApiBuilderFromCtpClient(
-      anonimousClient,
+      anonymousClient,
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
 
     CustomerRepository.apiRoot = apiRoot;
@@ -38,6 +38,8 @@ export class CustomerRepository {
         .signup()
         .post({ body: customerData })
         .execute();
+
+      CustomerRepository.setLoggedApiRoot(customerData);
 
       return customer;
     } catch (error) {
@@ -65,17 +67,17 @@ export class CustomerRepository {
   }
 
   public static logOutCusromer() {
-    const apiRoot = CustomerRepository.createAnonimusCustomer();
+    const apiRoot = CustomerRepository.createAnonymousCustomer();
 
     userTokenStorage.clearTokens();
 
     CustomerRepository.apiRoot = apiRoot;
   }
 
-  public static refreshCustomer(refrechToken: string) {
+  public static refreshCustomer(refreshToken: string) {
     const ctpClient = new CtpClient();
 
-    const loggedInClient = ctpClient.refreshClient(refrechToken);
+    const loggedInClient = ctpClient.refreshClient(refreshToken);
 
     const apiRoot = createApiBuilderFromCtpClient(
       loggedInClient,

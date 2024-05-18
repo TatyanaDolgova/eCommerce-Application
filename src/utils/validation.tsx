@@ -1,4 +1,4 @@
-const emailRegExp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{1,8}$/);
+const emailRegExp = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{1,8}$/);
 
 export const passwordRegExp = new RegExp(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,25}$/,
@@ -22,7 +22,7 @@ export const emailProps = {
   pattern: {
     value: emailRegExp,
     message:
-      'Email address must be properly formatted (e.g., user@example.com) and should not contain whitespace.',
+      'Email address must be properly formatted (e.g., user@example.com) and should not contain whitespaces.',
   },
 };
 

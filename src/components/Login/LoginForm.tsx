@@ -81,7 +81,7 @@ function LoginForm(props: LoginFormProps) {
         type="email"
         id="email_input"
         required={true}
-        placeholder="Type your email"
+        placeholder="Enter your email"
       ></input>
       <p className="error_message" data-testid="email_error_message">
         {errors.email?.message}
@@ -94,7 +94,7 @@ function LoginForm(props: LoginFormProps) {
           type={passwordInputType}
           id="password_input"
           required={true}
-          placeholder="Type your password"
+          placeholder="Enter your password"
         ></input>
         <Input
           classes="input show_password_input"

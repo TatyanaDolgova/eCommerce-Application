@@ -16,7 +16,7 @@ function App() {
   if (tokens?.refreshToken) {
     CustomerRepository.refreshCustomer(tokens.refreshToken);
   } else {
-    apiRoot = CustomerRepository.createAnonimusCustomer();
+    apiRoot = CustomerRepository.createAnonymousCustomer();
   }
 
   return (

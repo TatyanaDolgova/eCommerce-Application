@@ -47,6 +47,7 @@ function LoginForm(props: LoginFormProps) {
     const response = await CustomerRepository.createLoggedInCustomer(data);
 
     if (response instanceof Error) {
+      CustomerRepository.createAnonymousCustomer();
       if (response.message === serverErrorMessages.loginError.errorMessage) {
         showToast(serverErrorMessages.loginError.userMessage, true);
       }

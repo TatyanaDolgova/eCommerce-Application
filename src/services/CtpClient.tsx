@@ -82,8 +82,8 @@ export default class CtpClient {
         clientId: this.clientId,
         clientSecret: this.clientSecret,
       },
-      scopes: this.anonCustomerScopes,
-      tokenCache: MyTokenCache,
+      scopes: this.scopes,
+      tokenCache: new MyTokenCache(),
       fetch,
     };
 
@@ -112,8 +112,8 @@ export default class CtpClient {
           password: data.password,
         },
       },
-      scopes: this.customerScopes,
-      tokenCache: MyTokenCache,
+      scopes: this.scopes,
+      tokenCache: new MyTokenCache(),
       fetch,
     };
 
@@ -138,7 +138,8 @@ export default class CtpClient {
         clientId: this.clientId,
         clientSecret: this.clientSecret,
       },
-      scopes: this.customerScopes,
+      scopes: this.scopes,
+      tokenCache: new MyTokenCache(),
       fetch,
     };
 

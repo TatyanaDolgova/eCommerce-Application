@@ -1,8 +1,4 @@
-import {
-  TokenCache,
-  TokenCacheOptions,
-  TokenStore,
-} from '@commercetools/sdk-client-v2';
+import { TokenCache, TokenStore } from '@commercetools/sdk-client-v2';
 
 class MyTokenCache implements TokenCache {
   private tokenStore: TokenStore;
@@ -24,4 +20,4 @@ class MyTokenCache implements TokenCache {
   }
 }
 
-export default new MyTokenCache();
+export default MyTokenCache;

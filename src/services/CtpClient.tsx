@@ -40,7 +40,6 @@ export default class CtpClient {
     this.scopes = [
       'manage_extensions:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
-      // 'manage_project_settings:ecommerce2024rss',
       'manage_stores:ecommerce2024rss',
       'manage_products:ecommerce2024rss',
       'create_anonymous_token:ecommerce2024rss',
@@ -61,17 +60,13 @@ export default class CtpClient {
     ];
 
     this.anonCustomerScopes = [
-      // 'create_anonymous_token:ecommerce2024rss',
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
-      // 'view_products:ecommerce2024rss',
     ];
 
     this.customerScopes = [
-      // 'create_anonymous_token:ecommerce2024rss',
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
-      // 'view_products:ecommerce2024rss',
     ];
   }
 
@@ -83,7 +78,7 @@ export default class CtpClient {
         clientId: this.clientId,
         clientSecret: this.clientSecret,
       },
-      scopes: this.scopes,
+      scopes: this.anonCustomerScopes,
       tokenCache: new MyTokenCache(),
 
       fetch,
@@ -114,7 +109,7 @@ export default class CtpClient {
           password: data.password,
         },
       },
-      scopes: this.scopes,
+      scopes: this.customerScopes,
       tokenCache: new MyTokenCache(),
       fetch,
     };

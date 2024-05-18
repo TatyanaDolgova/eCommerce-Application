@@ -1,5 +1,7 @@
 import { TokenCache, TokenStore } from '@commercetools/sdk-client-v2';
 
+import { userTokenStorage } from '../services/LocalStorage';
+
 class MyTokenCache implements TokenCache {
   private tokenStore: TokenStore;
 
@@ -16,6 +18,14 @@ class MyTokenCache implements TokenCache {
   }
 
   set(cache: TokenStore): void {
+    if (!cache.refreshToken) {
+      const storage = userTokenStorage.getTokens();
+
+      if (storage) userTokenStorage.setTokens(storage);
+    } else {
+      userTokenStorage.setTokens(cache);
+    }
+
     this.tokenStore = cache;
   }
 }

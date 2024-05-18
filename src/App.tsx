@@ -6,10 +6,18 @@ import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import RegistrationPage from './pages/registration/RegistrationPage';
 import { CustomerRepository } from './services/CustomerRepository';
+import { userTokenStorage } from './services/LocalStorage';
 import { RouteGuard } from './utils/RouteGuard';
 
 function App() {
-  const apiRoot = CustomerRepository.createAnonimusCustomer();
+  const tokens = userTokenStorage.getTokens();
+  let apiRoot;
+
+  if (tokens?.refreshToken) {
+    CustomerRepository.refreshCustomer(tokens.refreshToken);
+  } else {
+    apiRoot = CustomerRepository.createAnonimusCustomer();
+  }
 
   return (
     <BrowserRouter>
@@ -24,7 +32,14 @@ function App() {
             </RouteGuard>
           }
         />
-        <Route path="/registration" element={<RegistrationPage />} />
+        <Route
+          path="/registration"
+          element={
+            <RouteGuard>
+              <RegistrationPage />
+            </RouteGuard>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

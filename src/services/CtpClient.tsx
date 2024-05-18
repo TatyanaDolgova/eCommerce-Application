@@ -9,6 +9,7 @@ import {
   ClientBuilder,
   HttpMiddlewareOptions,
   PasswordAuthMiddlewareOptions,
+  RefreshAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 
 import MyTokenCache from '../utils/MyTokenCache';
@@ -84,6 +85,7 @@ export default class CtpClient {
       },
       scopes: this.scopes,
       tokenCache: new MyTokenCache(),
+
       fetch,
     };
 
@@ -130,16 +132,16 @@ export default class CtpClient {
       .build();
   }
 
-  createNewClient() {
-    const options: AnonymousAuthMiddlewareOptions = {
+  refreshClient(refrechToken: string) {
+    const options: RefreshAuthMiddlewareOptions = {
       host: this.oauthUri,
       projectKey: this.projectKey,
       credentials: {
         clientId: this.clientId,
         clientSecret: this.clientSecret,
       },
-      scopes: this.scopes,
       tokenCache: new MyTokenCache(),
+      refreshToken: refrechToken,
       fetch,
     };
 
@@ -150,7 +152,7 @@ export default class CtpClient {
 
     return new ClientBuilder()
       .withProjectKey(this.projectKey)
-      .withAnonymousSessionFlow(options)
+      .withRefreshTokenFlow(options)
       .withHttpMiddleware(httpMiddlewareOptions)
       .withLoggerMiddleware()
       .build();

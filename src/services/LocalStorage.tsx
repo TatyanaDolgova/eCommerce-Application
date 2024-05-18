@@ -1,7 +1,9 @@
-class UserStatusStorage {
-  private key = 'LoginUserID_JSFE2023Q4';
+import { TokenStore } from '@commercetools/sdk-client-v2';
 
-  public checkLoginStatus(): boolean {
+class UserTokenStorage {
+  private key = 'User_JSFE2023Q4';
+
+  public checkTokens(): boolean {
     if (!localStorage.getItem(this.key)) {
       return false;
     }
@@ -9,23 +11,25 @@ class UserStatusStorage {
     return true;
   }
 
-  public clearLoginStatus(): void {
+  public clearTokens(): void {
     localStorage.removeItem(this.key);
   }
 
-  public getLoggedCustomerID(): string | undefined {
-    const name = localStorage.getItem(this.key);
+  public getTokens(): TokenStore | undefined {
+    const data = localStorage.getItem(this.key);
 
-    if (!name) {
+    if (!data) {
       return undefined;
-    }
+    } else {
+      const tokens = JSON.parse(data) as TokenStore;
 
-    return name;
+      return tokens;
+    }
   }
 
-  public setLoginStatus(customerID: string): void {
-    localStorage.setItem(this.key, customerID);
+  public setTokens(currentTokens: TokenStore): void {
+    localStorage.setItem(this.key, JSON.stringify(currentTokens));
   }
 }
 
-export const logInIDStorage = new UserStatusStorage();
+export const userTokenStorage = new UserTokenStorage();

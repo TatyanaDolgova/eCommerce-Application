@@ -12,7 +12,7 @@ import {
   RefreshAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 
-import { anonTokenCache, authTokenCache } from '../utils/MyTokenCache';
+import MyTokenCache from '../utils/MyTokenCache';
 
 export default class CtpClient {
   anonCustomerScopes: string[];
@@ -83,8 +83,9 @@ export default class CtpClient {
         clientId: this.clientId,
         clientSecret: this.clientSecret,
       },
-      scopes: this.anonCustomerScopes,
-      tokenCache: anonTokenCache,
+      scopes: this.scopes,
+      tokenCache: new MyTokenCache(),
+
       fetch,
     };
 
@@ -113,8 +114,8 @@ export default class CtpClient {
           password: data.password,
         },
       },
-      scopes: this.customerScopes,
-      tokenCache: authTokenCache,
+      scopes: this.scopes,
+      tokenCache: new MyTokenCache(),
       fetch,
     };
 
@@ -139,6 +140,7 @@ export default class CtpClient {
         clientId: this.clientId,
         clientSecret: this.clientSecret,
       },
+      tokenCache: new MyTokenCache(),
       refreshToken: refrechToken,
       fetch,
     };

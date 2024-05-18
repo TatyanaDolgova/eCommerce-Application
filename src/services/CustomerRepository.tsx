@@ -7,9 +7,8 @@ import {
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 
-import { anonTokenCache, authTokenCache } from '../utils/MyTokenCache';
-
 import CtpClient from './CtpClient';
+import { userTokenStorage } from './LocalStorage';
 
 export class CustomerRepository {
   static apiRoot: ByProjectKeyRequestBuilder;
@@ -40,14 +39,6 @@ export class CustomerRepository {
         .post({ body: customerData })
         .execute();
 
-      const passwordFlowData: CustomerSignin = {
-        email: customerData.email,
-        password: customerData.password,
-      };
-
-      await CustomerRepository.setLoggedApiRoot(passwordFlowData);
-      CustomerRepository.isAuthApiRoot = true;
-
       return customer;
     } catch (error) {
       return error;
@@ -56,16 +47,14 @@ export class CustomerRepository {
 
   public static async createLoggedInCustomer(customerData: CustomerSignin) {
     try {
+      CustomerRepository.setLoggedApiRoot(customerData);
+
       const customer: ClientResponse<CustomerSignInResult> =
         await CustomerRepository.apiRoot
           .me()
           .login()
           .post({ body: customerData })
           .execute();
-
-      if (!CustomerRepository.isAuthApiRoot) {
-        await CustomerRepository.setLoggedApiRoot(customerData);
-      }
 
       return customer;
     } catch (error) {
@@ -76,17 +65,18 @@ export class CustomerRepository {
   }
 
   public static logOutCusromer() {
-    anonTokenCache.clear();
-    authTokenCache.clear();
-
     const apiRoot = CustomerRepository.createAnonimusCustomer();
+
+    userTokenStorage.clearTokens();
 
     CustomerRepository.apiRoot = apiRoot;
   }
 
   public static refreshCustomer(refrechToken: string) {
     const ctpClient = new CtpClient();
+
     const loggedInClient = ctpClient.refreshClient(refrechToken);
+
     const apiRoot = createApiBuilderFromCtpClient(
       loggedInClient,
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
@@ -98,7 +88,7 @@ export class CustomerRepository {
     await CustomerRepository.apiRoot.me().get().execute();
   }
 
-  static async setLoggedApiRoot(customerData: CustomerSignin) {
+  static setLoggedApiRoot(customerData: CustomerSignin) {
     const ctpClient = new CtpClient();
     const loggedInClient = ctpClient.createLoggedInClient(customerData);
     const apiRoot = createApiBuilderFromCtpClient(
@@ -106,7 +96,5 @@ export class CustomerRepository {
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
 
     CustomerRepository.apiRoot = apiRoot;
-
-    await CustomerRepository.apiRoot.me().get().execute();
   }
 }

@@ -1,7 +1,8 @@
-import { State } from '@commercetools/platform-sdk';
 import React, { useState } from 'react';
 
-import { UserContext, UserState } from './UserContext';
+import { userTokenStorage } from '../services/LocalStorage';
+
+import { UserContext, UserData, UserState } from './UserContext';
 
 export interface UserContextProps {
   children?: React.ReactNode;
@@ -11,7 +12,11 @@ export interface UserContextProps {
 export const UserContextProvider: React.FunctionComponent<UserContextProps> = (
   props: UserContextProps,
 ): JSX.Element => {
-  let defaultState = {};
+  const initialUSer: UserData = userTokenStorage.checkTokens()
+    ? { loginStatus: true }
+    : { loginStatus: false };
+
+  let defaultState: Partial<UserState> = { user: initialUSer };
 
   if (props.state) {
     defaultState = props.state;

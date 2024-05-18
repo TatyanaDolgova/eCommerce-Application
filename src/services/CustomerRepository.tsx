@@ -7,12 +7,14 @@ import {
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 
-import MyTokenCache from '../utils/MyTokenCache';
+import { anonTokenCache, authTokenCache } from '../utils/MyTokenCache';
 
 import CtpClient from './CtpClient';
 
 export class CustomerRepository {
   static apiRoot: ByProjectKeyRequestBuilder;
+
+  static isAuthApiRoot: boolean;
 
   static projectKey = 'ecommerce2024rss';
 
@@ -24,6 +26,8 @@ export class CustomerRepository {
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
 
     CustomerRepository.apiRoot = apiRoot;
+
+    CustomerRepository.isAuthApiRoot = false;
 
     return CustomerRepository.apiRoot;
   }
@@ -41,7 +45,8 @@ export class CustomerRepository {
         password: customerData.password,
       };
 
-      CustomerRepository.setLoggedApiRoot(passwordFlowData);
+      await CustomerRepository.setLoggedApiRoot(passwordFlowData);
+      CustomerRepository.isAuthApiRoot = true;
 
       return customer;
     } catch (error) {
@@ -58,9 +63,9 @@ export class CustomerRepository {
           .post({ body: customerData })
           .execute();
 
-      console.log(MyTokenCache.get());
-
-      CustomerRepository.setLoggedApiRoot(customerData);
+      if (!CustomerRepository.isAuthApiRoot) {
+        await CustomerRepository.setLoggedApiRoot(customerData);
+      }
 
       return customer;
     } catch (error) {
@@ -71,12 +76,29 @@ export class CustomerRepository {
   }
 
   public static logOutCusromer() {
+    anonTokenCache.clear();
+    authTokenCache.clear();
+
     const apiRoot = CustomerRepository.createAnonimusCustomer();
 
     CustomerRepository.apiRoot = apiRoot;
   }
 
-  static setLoggedApiRoot(customerData: CustomerSignin) {
+  public static refreshCustomer(refrechToken: string) {
+    const ctpClient = new CtpClient();
+    const loggedInClient = ctpClient.refreshClient(refrechToken);
+    const apiRoot = createApiBuilderFromCtpClient(
+      loggedInClient,
+    ).withProjectKey({ projectKey: CustomerRepository.projectKey });
+
+    CustomerRepository.apiRoot = apiRoot;
+  }
+
+  public static async sendTestRequest() {
+    await CustomerRepository.apiRoot.me().get().execute();
+  }
+
+  static async setLoggedApiRoot(customerData: CustomerSignin) {
     const ctpClient = new CtpClient();
     const loggedInClient = ctpClient.createLoggedInClient(customerData);
     const apiRoot = createApiBuilderFromCtpClient(
@@ -84,5 +106,7 @@ export class CustomerRepository {
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
 
     CustomerRepository.apiRoot = apiRoot;
+
+    await CustomerRepository.apiRoot.me().get().execute();
   }
 }

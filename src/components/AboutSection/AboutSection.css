@@ -21,3 +21,10 @@
   letter-spacing: 0%;
   text-align: center;
 }
+
+.test_button {
+  width: min-content;
+  height: 40px;
+  background-color: red;
+  cursor: pointer;
+}

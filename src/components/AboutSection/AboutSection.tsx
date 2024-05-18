@@ -1,6 +1,11 @@
+import { CustomerRepository } from '../../services/CustomerRepository';
 import './AboutSection.css';
 
 const AboutSection = () => {
+  const testRequest = async () => {
+    await CustomerRepository.sendTestRequest();
+  };
+
   return (
     <section className="about">
       <div className="wrapper about-wrapper">
@@ -11,6 +16,9 @@ const AboutSection = () => {
           with environmentally conscious suppliers to provide you with the
           highest quality greenery for your home or office.
         </div>
+        <button onClick={testRequest} className="test_button">
+          TEST BUTTON
+        </button>
       </div>
     </section>
   );

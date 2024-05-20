@@ -42,7 +42,7 @@ test('should have password type after unchecking show password input', () => {
   fireEvent.click(checkbox);
   fireEvent.click(checkbox);
 
-  const input = screen.getByPlaceholderText('Type your password');
+  const input = screen.getByPlaceholderText('Enter your password');
 
   expect(input.getAttribute('type')).toBe('password');
 });

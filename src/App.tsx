@@ -1,26 +1,48 @@
-import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import logo from './logo.svg';
 import './App.css';
+import { LoginPage } from './pages/login/LoginPage';
+import MainPage from './pages/MainPage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import RegistrationPage from './pages/registration/RegistrationPage';
+import { CustomerRepository } from './services/CustomerRepository';
+import { userTokenStorage } from './services/LocalStorage';
+import { RouteGuard } from './utils/RouteGuard';
 
 function App() {
+  const tokens = userTokenStorage.getTokens();
+  let apiRoot;
+
+  if (tokens?.refreshToken) {
+    CustomerRepository.refreshCustomer(tokens.refreshToken);
+  } else {
+    apiRoot = CustomerRepository.createAnonymousCustomer();
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/home" element={<MainPage />} />
+        <Route
+          path="/login"
+          element={
+            <RouteGuard>
+              <LoginPage apiRoot={apiRoot} />
+            </RouteGuard>
+          }
+        />
+        <Route
+          path="/registration"
+          element={
+            <RouteGuard>
+              <RegistrationPage />
+            </RouteGuard>
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

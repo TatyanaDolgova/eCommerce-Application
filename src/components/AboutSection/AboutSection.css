@@ -1,0 +1,52 @@
+.about {
+  background-image: url('../../assets/images/backgrounds/green-texture.jpg');
+  background-size: cover;
+}
+
+.about-wrapper {
+  padding: 100px 50px;
+}
+
+.about-container {
+  padding: 10px;
+  border: 0.5px solid rgb(255, 255, 255);
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.7);
+
+  color: #000;
+  font-family: Montserrat;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 160%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+.test_button {
+  width: min-content;
+  height: 40px;
+  background-color: red;
+  cursor: pointer;
+}
+
+
+@media (max-width: 700px) {
+  .about-container {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 500px) {
+  .about-wrapper {
+    padding: 10% 5%;
+  }
+}
+
+@media (max-width: 400px) {
+  .about-container {
+    font-size: 16px;
+  }
+}
+
+
+

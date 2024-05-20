@@ -1,0 +1,109 @@
+.registration-form {
+  width: 90%;
+}
+
+.inputs-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.registration_input {
+  margin-left: 10%;
+}
+
+.registration_error {
+  margin-left: 10%;
+}
+
+input[type='date'] {
+  color: #000;
+}
+
+.password-wrapper {
+display: flex;
+gap: 10px;
+align-items: center;
+}
+
+#passwordInput {
+width: calc(80% - 50px);
+min-width: 170px;
+}
+
+.select {
+  padding: 10px 7px;
+  border: none;
+  min-width: 200px;
+  width: 80%;
+  border: none;
+  border-bottom: 1px solid #346c39;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.fieldset {
+  padding: 20px 10%;
+  border-color: var(--dark-moss-green);
+  border-width: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.fieldset legend {
+  padding: 0 10px;
+  color: var(--dark-moss-green);
+}
+.fieldset .input-wrapper:last-child {
+  margin-top: 10px;
+}
+
+.fieldset .input, .fieldset .select {
+  width: 100%;
+}
+
+.sameAddress {
+  justify-content: center;
+  gap: 20px;
+}
+
+.sameAddress label {
+  margin-left: 0;
+}
+
+.disabled-input {
+  pointer-events: none;
+  opacity: 50%;
+}
+
+.login-link {
+  margin-left: 10px;
+  text-decoration: none;
+  color: var( --error-message-color);
+}
+
+.registration_h1 {
+  margin: 0 auto;
+}
+
+@media (max-width: 650px) {
+  .inputs-container {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .fieldset {
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+
+  .registration_input {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .registration_error {
+    margin-left: 0;
+    max-width: 100%;
+  }
+}

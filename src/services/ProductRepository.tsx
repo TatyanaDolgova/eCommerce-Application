@@ -1,4 +1,7 @@
-import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk';
+import {
+  ByProjectKeyRequestBuilder,
+  Product,
+} from '@commercetools/platform-sdk';
 
 import { CustomerRepository } from './CustomerRepository';
 
@@ -9,13 +12,13 @@ class ProductRepository {
     this.apiRoot = CustomerRepository.apiRoot;
   }
 
-  async getProducts() {
+  async getProducts(): Promise<Product[]> {
     try {
-      const products = await this.apiRoot.products().get().execute();
+      const response = await this.apiRoot.products().get().execute();
 
-      return products;
+      return response.body.results;
     } catch (error) {
-      return error;
+      return [];
     }
   }
 }

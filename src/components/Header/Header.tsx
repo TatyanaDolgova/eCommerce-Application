@@ -64,6 +64,9 @@ const Header = () => {
           <Link to="/home" className="header-link" onClick={closeMenu}>
             Home
           </Link>
+          <Link to="/catalog" className="header-link" onClick={closeMenu}>
+            Catalog
+          </Link>
           {isLoggedIn ? (
             <LogOutButton />
           ) : (

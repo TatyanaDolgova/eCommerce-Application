@@ -5,6 +5,7 @@ import { LoginPage } from './pages/login/LoginPage';
 import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import RegistrationPage from './pages/registration/RegistrationPage';
+import UserProfilePage from './pages/UserProfilePage/UserProfilePage';
 import { CustomerRepository } from './services/CustomerRepository';
 import { userTokenStorage } from './services/LocalStorage';
 import { RouteGuard } from './utils/RouteGuard';
@@ -40,6 +41,7 @@ function App() {
             </RouteGuard>
           }
         />
+        <Route path="/userprofile" element={<UserProfilePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

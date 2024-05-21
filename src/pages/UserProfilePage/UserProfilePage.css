@@ -1,0 +1,37 @@
+.user-profile_page {
+  min-height: calc(100dvh - 80px);
+}
+
+.user-profile_container {
+  width: 90%;
+  min-height: 75dvh;
+  background-color: var(--background-color);
+  border: 1px solid var(--background-color);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.info-container {
+  display: flex;
+  gap: 20px;
+}
+
+.user-profile_fieldset {
+  padding: 20px;
+  width: 50%;
+}
+
+.field-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.address_fieldset {
+  width: 100%;
+}
+
+.address_button {
+  width: 100px;
+  margin: 10px auto 0;
+}

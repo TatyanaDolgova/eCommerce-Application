@@ -1,5 +1,9 @@
 .products-container {
-  padding: 40px;
-  background-color: var(--cambridge-blue);
   min-height: calc(100vh - 80px);
+  padding: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
 }

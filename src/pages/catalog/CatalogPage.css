@@ -1,0 +1,5 @@
+.catalog-page {
+  background-color: var(--cambridge-blue);
+  display: flex;
+  height: calc(100vh - 80px);
+}

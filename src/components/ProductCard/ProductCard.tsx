@@ -8,9 +8,13 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const productName = product.masterData.current.name['en-US'];
-  const productDescription = product.masterData.current.description?.['en-US'];
-  const productImage = product.masterData.current.masterVariant.images?.[0].url;
+  console.log(product);
+
+  const plantData = product.masterData.current;
+  const productName = plantData.name['en-US'];
+  const productDescription = plantData.metaDescription?.['en-US'];
+  const productImage = plantData.masterVariant.images?.[0].url;
+  const priceOld = plantData.masterVariant.prices?.[0].value.centAmount;
 
   return (
     <div className="card">
@@ -18,6 +22,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="card-info">
         <div className="card-title">{productName}</div>
         <div className="card-descr">{productDescription}</div>
+        <div className="price-container">
+          <div className="price-old">{priceOld}</div>
+        </div>
       </div>
     </div>
   );

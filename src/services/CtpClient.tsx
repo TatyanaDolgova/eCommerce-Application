@@ -62,12 +62,13 @@ export default class CtpClient {
     this.anonCustomerScopes = [
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
+      'manage_products:ecommerce2024rss',
     ];
 
     this.customerScopes = [
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
-      'view_products:ecommerce2024rss',
+      'manage_products:ecommerce2024rss',
     ];
   }
 
@@ -79,7 +80,7 @@ export default class CtpClient {
         clientId: this.clientId,
         clientSecret: this.clientSecret,
       },
-      scopes: this.scopes,
+      scopes: this.anonCustomerScopes,
       tokenCache: new MyTokenCache(),
 
       fetch,

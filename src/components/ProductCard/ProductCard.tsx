@@ -12,6 +12,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const productDescription = product.masterData.current.description?.['en-US'];
   const productImage = product.masterData.current.masterVariant.images?.[0].url;
   const productSlug: string = product.masterData.current.slug['en-US'];
+  const productID = product.id;
 
   return (
     <div className="card">
@@ -19,7 +20,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="card-info">
         <div className="card-title">{productName}</div>
         <div className="card-descr">{productDescription}</div>
-        <Link className="detailes_link" to={`/catalog/${productSlug}`}>
+        <Link
+          className="details_link"
+          to={`/Detailed/${productSlug}`}
+          state={productID}
+        >
           View Details
         </Link>
       </div>

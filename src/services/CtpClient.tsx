@@ -67,7 +67,6 @@ export default class CtpClient {
     this.customerScopes = [
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
-      'view_products:ecommerce2024rss',
     ];
   }
 

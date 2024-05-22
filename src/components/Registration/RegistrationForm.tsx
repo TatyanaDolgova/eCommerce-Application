@@ -136,6 +136,7 @@ function RegistrationForm() {
       }
     } else {
       showToast('You are successfully registered', false);
+
       const loginData = {
         email: data.email,
         password: data.password,
@@ -150,7 +151,17 @@ function RegistrationForm() {
         const userState: UserData = {
           loginStatus: true,
         };
+        const customerData = await CustomerRepository.getCustomerInformation();
 
+        const shipID = customerData.body.addresses[0].id ?? '';
+        const billID = customerData.body.addresses[1].id ?? '';
+
+        await CustomerRepository.updateCustomerAddressFlags(
+          customerData.body.id,
+          customerData.body.version,
+          shipID,
+          billID,
+        );
         updateState({ user: userState });
         redirectToMain();
       }

@@ -1,32 +1,34 @@
-function AddressField(address: Address) {
+import { Address } from '@commercetools/platform-sdk';
+
+const AddressField: React.FC<Address> = (customerAddress: Address) => {
   return (
     <div className="address-field">
       <div className="field-wrapper">
         <div className="label">Street</div>
-        <div className="info">{address.address.streetName}</div>
+        <div className="info">{customerAddress.streetName}</div>
       </div>
       <div className="field-wrapper">
         <div className="label">City</div>
-        <div className="info">{address.address.city}</div>
+        <div className="info">{customerAddress.city}</div>
       </div>
       <div className="field-wrapper">
         <div className="label">Postal Code</div>
-        <div className="info">{address.address.postalCode}</div>
+        <div className="info">{customerAddress.postalCode}</div>
       </div>
       <div className="field-wrapper">
         <div className="label">Country</div>
-        <div className="info">{address.address.country}</div>
+        <div className="info">{customerAddress.country}</div>
       </div>
     </div>
   );
-}
+};
 
-interface Address {
-  address: {
-    city: string;
-    country: string;
-    postalCode: string;
-    streetName: string;
-  };
-}
+// export interface Address {
+//   address: {
+//     city: string;
+//     country: string;
+//     postalCode: string;
+//     streetName: string;
+//   };
+// }
 export default AddressField;

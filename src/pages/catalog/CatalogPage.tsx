@@ -1,9 +1,12 @@
 import { Product } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
 
+import CategorySidebar from '../../components/CategorySidebar/CategorySidebar';
 import Header from '../../components/Header/Header';
 import ProductList from '../../components/ProductList/ProductList';
 import ProductRepository from '../../services/ProductRepository';
+
+import './CatalogPage.css';
 
 const CatalogPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -26,7 +29,12 @@ const CatalogPage = () => {
   return (
     <>
       <Header />
-      <ProductList products={products} />
+      <div className="catalog-page">
+        <CategorySidebar />
+        <div className="main-content">
+          <ProductList products={products} />
+        </div>
+      </div>
     </>
   );
 };

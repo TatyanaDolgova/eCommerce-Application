@@ -23,12 +23,4 @@ const AddressField: React.FC<Address> = (customerAddress: Address) => {
   );
 };
 
-// export interface Address {
-//   address: {
-//     city: string;
-//     country: string;
-//     postalCode: string;
-//     streetName: string;
-//   };
-// }
 export default AddressField;

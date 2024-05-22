@@ -2,34 +2,12 @@ import { Address } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
 
 import { CustomerRepository } from '../../services/CustomerRepository';
+
 import BaseButton from '../Button/Button';
 
 import AddressField from './AddressField';
 
 function Addresses() {
-  // const sampleCustomer = {
-  //   firstName: 'John',
-  //   lastName: 'Doe',
-  //   birthDate: '2000-02-02',
-  //   email: 'someemaail@gmail.com',
-  //   password: 'somepassword',
-  //   addresses: [
-  //     {
-  //       country: 'US',
-  //       city: 'Boston',
-  //       postalCode: '12333',
-  //       streetName: 'Some Street',
-  //     },
-  //     {
-  //       country: 'US',
-  //       city: 'Boston',
-  //       postalCode: '12333',
-  //       streetName: 'Some Street',
-  //     },
-  //   ],
-  //   defaultShippingAddress: 0,
-  //   defaultBillingAddress: 1,
-  // };
   const [addressArray, setAddressArray] = useState<Address[]>([]);
 
   useEffect(() => {

@@ -43,6 +43,7 @@ function PersonalInfo() {
       <div className="field-wrapper">
         <div className="label">Date of Birth</div>
         <div className="info">{birthDate}</div>
+
       </div>
       <BaseButton classes="button address_button" text="Edit" type="button" />
     </fieldset>

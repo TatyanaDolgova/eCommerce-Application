@@ -17,7 +17,12 @@ const CategorySidebar = () => {
       try {
         const productRepository = new ProductRepository();
         const categoriesResponse = await productRepository.getCategories();
-        // setCategories(categoriesResponse);
+
+        if (categoriesResponse) {
+          setCategories(categoriesResponse);
+        } else {
+          console.error('Categories response is undefined');
+        }
       } catch (error) {
         console.error('Error fetching categories:', error);
       } finally {
@@ -36,7 +41,14 @@ const CategorySidebar = () => {
       ) : (
         <ul>
           {categories.map((category) => (
-            <li key={category.id}>{category.name['en-US']}</li>
+            <li
+              key={category.id}
+              className={
+                category.orderHint === '1' ? 'main-category' : 'subcategory'
+              }
+            >
+              {category.name['en-US']}
+            </li>
           ))}
         </ul>
       )}

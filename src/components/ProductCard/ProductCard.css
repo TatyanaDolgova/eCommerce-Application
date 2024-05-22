@@ -1,5 +1,5 @@
 .card {
-  width: 250px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -29,4 +29,23 @@
   font-weight: 500;
   line-height: 27px;
   letter-spacing: 0%;
+  margin-bottom: 10px;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+}
+
+.price-old {
+  font-size: 24px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.price-new {
+  font-size: 24px;
+  color: #e74c3c;
+  font-weight: bold;
 }

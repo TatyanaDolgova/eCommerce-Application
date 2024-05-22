@@ -11,6 +11,7 @@ const Spinner = () => {
         display: 'block',
         background: 'transparent',
         margin: '0 auto',
+        marginTop: '50px',
       }}
       xmlnsXlink="http://www.w3.org/1999/xlink"
     >

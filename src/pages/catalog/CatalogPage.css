@@ -1,0 +1,9 @@
+.catalog-page {
+  background-color: var(--cambridge-blue);
+  display: flex;
+  min-height: calc(100vh - 80px);
+}
+
+.main-content {
+  width: 100%;
+}

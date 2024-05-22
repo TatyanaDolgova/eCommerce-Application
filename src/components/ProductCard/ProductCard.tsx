@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="card-info">
         <div className="card-title">{productName}</div>
         <div className="card-descr">{productDescription}</div>
-        <Link className="link" to={`/catalog/${productSlug}`}>
+        <Link className="detailes_link" to={`/catalog/${productSlug}`}>
           View Details
         </Link>
       </div>

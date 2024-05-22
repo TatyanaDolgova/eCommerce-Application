@@ -66,6 +66,12 @@ export class CustomerRepository {
     }
   }
 
+  public static async getCustomerInformation() {
+    const customer = await CustomerRepository.apiRoot.me().get().execute();
+
+    return customer;
+  }
+
   public static logOutCusromer() {
     const apiRoot = CustomerRepository.createAnonymousCustomer();
 

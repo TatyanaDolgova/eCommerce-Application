@@ -1,8 +1,10 @@
 import { Address } from '@commercetools/platform-sdk';
 
+import BaseButton from '../Button/Button';
+
 const AddressField: React.FC<Address> = (customerAddress: Address) => {
   return (
-    <div className="address-field">
+    <div data-AddressId={customerAddress.id} className="address-field">
       <div className="field-wrapper">
         <div className="label">Street</div>
         <div className="info">{customerAddress.streetName}</div>
@@ -18,6 +20,18 @@ const AddressField: React.FC<Address> = (customerAddress: Address) => {
       <div className="field-wrapper">
         <div className="label">Country</div>
         <div className="info">{customerAddress.country}</div>
+      </div>
+      <div className="button-wrapper">
+        <BaseButton
+          classes="button edit-address-button"
+          text="Edit"
+          type="button"
+        />
+        <BaseButton
+          classes="button edit-address-button"
+          text="Delete"
+          type="button"
+        />
       </div>
     </div>
   );

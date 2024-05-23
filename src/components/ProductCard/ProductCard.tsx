@@ -8,12 +8,8 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const productName = product.masterData.current.name['en-US'];
-  const productDescription = product.masterData.current.description?.['en-US'];
-  const productImage = product.masterData.current.masterVariant.images?.[0].url;
   const productSlug: string = product.masterData.current.slug['en-US'];
   const productID = product.id;
-
   const plantData = product.masterData.current;
   const productName = plantData.name['en-US'];
   const productDescription = plantData.metaDescription?.['en-US'];

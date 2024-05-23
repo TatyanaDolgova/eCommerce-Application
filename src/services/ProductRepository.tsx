@@ -1,6 +1,7 @@
 import {
   ByProjectKeyRequestBuilder,
   Product,
+  ProductProjection,
 } from '@commercetools/platform-sdk';
 import { key } from 'localforage';
 
@@ -40,12 +41,44 @@ class ProductRepository {
     }
   }
 
-  async getProducts(): Promise<Product[]> {
+  async getProducts(): Promise<ProductProjection[]> {
     try {
-      const response = await this.apiRoot.products().get().execute();
+      const response = await this.apiRoot
+        .productProjections()
+        .search()
+        .get()
+        .execute();
 
-      return response.body.results;
+      const products: ProductProjection[] = response.body.results;
+
+      return products;
     } catch (error) {
+      console.error('Error fetching products:', error);
+
+      return [];
+    }
+  }
+
+  async getProductsByCategory(
+    categoryId: string,
+  ): Promise<ProductProjection[]> {
+    try {
+      const response = await this.apiRoot
+        .productProjections()
+        .search()
+        .get({
+          queryArgs: {
+            filter: `categories.id:"${categoryId}"`,
+          },
+        })
+        .execute();
+
+      const products = response.body.results;
+
+      return products;
+    } catch (error) {
+      console.error('Error fetching products by category:', error);
+
       return [];
     }
   }

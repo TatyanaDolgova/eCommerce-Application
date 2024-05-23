@@ -14,6 +14,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const productSlug: string = product.masterData.current.slug['en-US'];
   const productID = product.id;
 
+  const plantData = product.masterData.current;
+  const productName = plantData.name['en-US'];
+  const productDescription = plantData.metaDescription?.['en-US'];
+  const productImage = plantData.masterVariant.images?.[0].url;
+  const priceOld = plantData.masterVariant.prices?.[0].value.centAmount;
+  const priceNew =
+    plantData.masterVariant.prices?.[0].discounted?.value.centAmount;
+
   return (
     <div className="card">
       <img className="card-image" src={productImage} alt="" />
@@ -27,6 +35,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         >
           View Details
         </Link>
+        <div className="price-container">
+          <div className="price-old">{priceOld}</div>
+          <div className="price-new">{priceNew}</div>
+        </div>
       </div>
     </div>
   );

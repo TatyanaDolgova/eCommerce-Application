@@ -26,6 +26,15 @@ class ProductRepository {
       if (error instanceof Error) {
         return error;
       }
+
+  async getCategories() {
+    try {
+      const response = await this.apiRoot.categories().get().execute();
+      const categories = response.body.results;
+
+      return categories;
+    } catch (error) {
+      console.error('Error fetching categories:', error);
     }
   }
 

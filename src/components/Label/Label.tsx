@@ -8,7 +8,7 @@ function Label(props: LabelProps) {
 
 interface LabelProps {
   classes: string;
-  for: string;
+  for?: string;
   text: string;
 }
 

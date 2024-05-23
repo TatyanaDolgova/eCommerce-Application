@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import './App.css';
 import CatalogPage from './pages/catalog/CatalogPage';
+import DetailedProductPage from './pages/detailedProductPage/DetailedProductPage';
 import { LoginPage } from './pages/login/LoginPage';
 import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
@@ -27,6 +28,10 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/home" element={<MainPage />} />
         <Route path="/catalog" element={<CatalogPage />} />
+        <Route
+          path="/detailed/:ProductSlug"
+          element={<DetailedProductPage />}
+        />
         <Route
           path="/login"
           element={

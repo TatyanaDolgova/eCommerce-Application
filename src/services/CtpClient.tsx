@@ -57,6 +57,7 @@ export default class CtpClient {
       'manage_my_profile:ecommerce2024rss',
       'manage_standalone_prices:ecommerce2024rss',
       'view_messages:ecommerce2024rss',
+      'manage_customers:ecommerce2024rss',
     ];
 
     this.anonCustomerScopes = [
@@ -68,6 +69,7 @@ export default class CtpClient {
     this.customerScopes = [
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
+      'manage_customers:ecommerce2024rss',
       'manage_products:ecommerce2024rss',
     ];
   }

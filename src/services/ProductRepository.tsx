@@ -1,6 +1,7 @@
 import {
   ByProjectKeyRequestBuilder,
-  Product,
+  Category,
+  ProductProjection,
 } from '@commercetools/platform-sdk';
 import { key } from 'localforage';
 
@@ -13,6 +14,25 @@ class ProductRepository {
     this.apiRoot = CustomerRepository.apiRoot;
   }
 
+  async getAllSubcategories(parentCategoryId: string): Promise<Category[]> {
+    try {
+      const response = await this.apiRoot
+        .categories()
+        .get({
+          queryArgs: {
+            where: `ancestors(id="${parentCategoryId}")`,
+          },
+        })
+        .execute();
+
+      const subcategories = response.body.results;
+
+      return subcategories;
+    } catch (error) {
+      throw new Error('Error fetching subcategories');
+    }
+  }
+
   async getCategories() {
     try {
       const response = await this.apiRoot.categories().get().execute();
@@ -20,7 +40,7 @@ class ProductRepository {
 
       return categories;
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      throw new Error('Error fetching categories');
     }
   }
 
@@ -40,12 +60,42 @@ class ProductRepository {
     }
   }
 
-  async getProducts(): Promise<Product[]> {
+  async getProducts(): Promise<ProductProjection[]> {
     try {
-      const response = await this.apiRoot.products().get().execute();
+      const response = await this.apiRoot
+        .productProjections()
+        .search()
+        .get()
+        .execute();
 
-      return response.body.results;
+      const products: ProductProjection[] = response.body.results;
+
+      return products;
     } catch (error) {
+      throw new Error('Error fetching products');
+    }
+  }
+
+  async getProductsByCategory(
+    categoryId: string,
+  ): Promise<ProductProjection[]> {
+    try {
+      const response = await this.apiRoot
+        .productProjections()
+        .search()
+        .get({
+          queryArgs: {
+            filter: `categories.id:"${categoryId}"`,
+          },
+        })
+        .execute();
+
+      const products = response.body.results;
+
+      return products;
+    } catch (error) {
+      throw new Error('Error fetching products by category');
+
       return [];
     }
   }

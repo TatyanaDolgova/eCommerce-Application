@@ -1,4 +1,4 @@
-import { Product } from '@commercetools/platform-sdk';
+import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
 
 import CategorySidebar from '../../components/CategorySidebar/CategorySidebar';
@@ -9,28 +9,65 @@ import ProductRepository from '../../services/ProductRepository';
 import './CatalogPage.css';
 
 const CatalogPage = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductProjection[]>([]);
+  const [sortedProducts, setSortedProducts] = useState<ProductProjection[]>([]);
+
+  async function fetchProducts() {
+    try {
+      const productRepository = new ProductRepository();
+      const productsResponse = await productRepository.getProducts();
+
+      setProducts(productsResponse);
+      setSortedProducts(productsResponse);
+    } catch (error) {
+      throw new Error('Error fetching products');
+    }
+  }
 
   useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const productRepository = new ProductRepository();
-        const productsResponse = await productRepository.getProducts();
-
-        setProducts(productsResponse);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    }
-
     void fetchProducts();
   }, []);
+
+  const handleCategorySelect = async (
+    categoryId: string,
+    isParent: boolean,
+  ) => {
+    try {
+      const productRepository = new ProductRepository();
+
+      if (!isParent) {
+        const productsResponse =
+          await productRepository.getProductsByCategory(categoryId);
+
+        setProducts(productsResponse);
+        setSortedProducts(productsResponse);
+      } else {
+        const categoryResponse =
+          await productRepository.getAllSubcategories(categoryId);
+
+        const productsPromises = categoryResponse.map((item) =>
+          productRepository.getProductsByCategory(item.id),
+        );
+
+        const allProducts = await Promise.all(productsPromises);
+        const combinedProducts = allProducts.flat();
+
+        setProducts(combinedProducts);
+        setSortedProducts(combinedProducts);
+      }
+    } catch (error) {
+      throw new Error('Error fetching products for category');
+    }
+  };
 
   return (
     <>
       <Header />
       <div className="catalog-page">
-        <CategorySidebar />
+        <CategorySidebar
+          onCategorySelect={handleCategorySelect}
+          onFetchCategories={fetchProducts}
+        />
         <div className="main-content">
           <ProductList products={products} />
         </div>

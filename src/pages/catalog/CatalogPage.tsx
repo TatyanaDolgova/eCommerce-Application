@@ -28,14 +28,33 @@ const CatalogPage = () => {
     void fetchProducts();
   }, []);
 
-  const handleCategorySelect = async (categoryId: string) => {
+  const handleCategorySelect = async (
+    categoryId: string,
+    isParent: boolean,
+  ) => {
     try {
       const productRepository = new ProductRepository();
-      const productsResponse =
-        await productRepository.getProductsByCategory(categoryId);
 
-      setProducts(productsResponse);
-      setSortedProducts(productsResponse);
+      if (!isParent) {
+        const productsResponse =
+          await productRepository.getProductsByCategory(categoryId);
+
+        setProducts(productsResponse);
+        setSortedProducts(productsResponse);
+      } else {
+        const categoryResponse =
+          await productRepository.getAllSubcategories(categoryId);
+
+        const productsPromises = categoryResponse.map((item) =>
+          productRepository.getProductsByCategory(item.id),
+        );
+
+        const allProducts = await Promise.all(productsPromises);
+        const combinedProducts = allProducts.flat();
+
+        setProducts(combinedProducts);
+        setSortedProducts(combinedProducts);
+      }
     } catch (error) {
       console.error('Error fetching products for category:', error);
     }

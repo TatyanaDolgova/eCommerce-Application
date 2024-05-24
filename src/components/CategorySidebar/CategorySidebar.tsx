@@ -5,7 +5,7 @@ import './CategorySidebar.css';
 import ProductRepository from '../../services/ProductRepository';
 
 interface CategorySidebarProps {
-  onCategorySelect: (categoryId: string) => void;
+  onCategorySelect: (categoryId: string, isParent: boolean) => void;
 }
 
 const CategorySidebar: React.FC<CategorySidebarProps> = ({
@@ -26,10 +26,10 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
         if (categoriesResponse) {
           setCategories(categoriesResponse);
         } else {
-          console.error('Categories response is undefined');
+          throw new Error('Categories response is undefined');
         }
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        throw new Error('Error fetching categories');
       } finally {
         setLoading(false);
       }
@@ -38,9 +38,9 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
     void fetchCategories();
   }, []);
 
-  const handleCategorySelect = (categoryId: string) => {
+  const handleCategorySelect = (categoryId: string, isParent: boolean) => {
     setSelectedCategoryId(categoryId);
-    onCategorySelect(categoryId);
+    onCategorySelect(categoryId, isParent);
   };
 
   const renderCategories = (
@@ -60,14 +60,22 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
                 className={`subcategory ${
                   selectedCategoryId === category.id ? 'selected' : ''
                 }`}
-                onClick={() => handleCategorySelect(category.id)}
+                onClick={() => handleCategorySelect(category.id, false)}
               >
                 {category.name['en-US']}
                 {renderCategories(categories, category.id)}
               </li>
             ) : (
-              <ul key={category.id} className={'main-category'}>
-                {category.name['en-US']}
+              <ul>
+                <li
+                  key={category.id}
+                  className={`main-category ${
+                    selectedCategoryId === category.id ? 'selected' : ''
+                  }`}
+                  onClick={() => handleCategorySelect(category.id, true)}
+                >
+                  {category.name['en-US']}
+                </li>{' '}
                 {renderCategories(categories, category.id)}
               </ul>
             ),

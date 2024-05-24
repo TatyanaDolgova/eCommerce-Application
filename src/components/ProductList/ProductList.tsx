@@ -2,7 +2,7 @@ import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import React, { useEffect, useState } from 'react';
 
 import ProductCard from '../ProductCard/ProductCard';
-import Spinner from '../Spinner/Spinner';
+import SpinnerCategory from '../Spinners/Spinner-category';
 
 import './ProductList.css';
 
@@ -24,7 +24,7 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
   return (
     <>
       {loading ? (
-        <Spinner />
+        <SpinnerCategory />
       ) : (
         <div className="products-container">
           {products.map((product) => (

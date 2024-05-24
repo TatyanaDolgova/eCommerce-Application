@@ -1,6 +1,6 @@
 import {
   ByProjectKeyRequestBuilder,
-  Product,
+  Category,
   ProductProjection,
 } from '@commercetools/platform-sdk';
 import { key } from 'localforage';
@@ -14,6 +14,25 @@ class ProductRepository {
     this.apiRoot = CustomerRepository.apiRoot;
   }
 
+  async getAllSubcategories(parentCategoryId: string): Promise<Category[]> {
+    try {
+      const response = await this.apiRoot
+        .categories()
+        .get({
+          queryArgs: {
+            where: `ancestors(id="${parentCategoryId}")`,
+          },
+        })
+        .execute();
+
+      const subcategories = response.body.results;
+
+      return subcategories;
+    } catch (error) {
+      throw new Error('Error fetching subcategories');
+    }
+  }
+
   async getCategories() {
     try {
       const response = await this.apiRoot.categories().get().execute();
@@ -21,7 +40,7 @@ class ProductRepository {
 
       return categories;
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      throw new Error('Error fetching categories');
     }
   }
 
@@ -53,9 +72,7 @@ class ProductRepository {
 
       return products;
     } catch (error) {
-      console.error('Error fetching products:', error);
-
-      return [];
+      throw new Error('Error fetching products');
     }
   }
 
@@ -77,7 +94,7 @@ class ProductRepository {
 
       return products;
     } catch (error) {
-      console.error('Error fetching products by category:', error);
+      throw new Error('Error fetching products by category');
 
       return [];
     }

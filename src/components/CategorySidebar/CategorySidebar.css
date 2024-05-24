@@ -36,7 +36,6 @@
   font-weight: 500;
   line-height: 24px;
   text-transform: capitalize;
-  cursor: default;
 }
 
 .subcategory {
@@ -46,16 +45,20 @@
   padding-left: 30px;
 }
 
-.subcategory {
+.subcategory,
+.main-category {
   cursor: pointer;
 }
 
-.subcategory:hover {
+.subcategory:hover,
+.main-category:hover {
   font-weight: bold;
   transform: scale(1.1);
 }
 
-.category-sidebar .category-item.selected {
+.subcategory.selected,
+.main-category.selected {
   font-weight: bold;
   transform: scale(1.1);
+  text-decoration: underline;
 }

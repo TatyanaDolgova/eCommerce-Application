@@ -1,22 +1,21 @@
-import { Product } from '@commercetools/platform-sdk';
+import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import React from 'react';
 import './ProductCard.css';
 import { Link } from 'react-router-dom';
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductProjection;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const productSlug: string = product.masterData.current.slug['en-US'];
+  const productSlug: string = product.slug['en-US'];
   const productID = product.id;
-  const plantData = product.masterData.current;
-  const productName = plantData.name['en-US'];
-  const productDescription = plantData.metaDescription?.['en-US'];
-  const productImage = plantData.masterVariant.images?.[0].url;
-  const priceOld = plantData.masterVariant.prices?.[0].value.centAmount;
+  const productName = product.name['en-US'];
+  const productDescription = product.metaDescription?.['en-US'];
+  const productImage = product.masterVariant.images?.[0].url;
+  const priceOld = product.masterVariant.prices?.[0]?.value?.centAmount ?? 0;
   const priceNew =
-    plantData.masterVariant.prices?.[0].discounted?.value.centAmount;
+    product.masterVariant.prices?.[0].discounted?.value.centAmount ?? 0;
 
   return (
     <div className="card">
@@ -35,6 +34,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         >
           View Details
         </Link>
+        <div className="price-container">
+          <div className="price-old">{Math.floor(priceOld / 100)} €</div>
+          <div className="price-new">{Math.floor(priceNew / 100)} €</div>
+        </div>
       </div>
     </div>
   );

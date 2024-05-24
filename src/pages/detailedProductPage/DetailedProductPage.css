@@ -1,0 +1,12 @@
+.DetailedProductPage {
+  min-width: 100%;
+  min-height: 90vh;
+  padding: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.detail_image_wrapper {
+
+}

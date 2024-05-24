@@ -24,7 +24,7 @@ class ProductRepository {
     }
   }
 
-  async getProduct(productID: string) {
+  async getProduct(productID: string): Promise<Product | undefined> {
     try {
       const resp = await this.apiRoot
         .products()
@@ -34,9 +34,9 @@ class ProductRepository {
 
       return resp.body;
     } catch (error) {
-      if (error instanceof Error) {
-        return error;
-      }
+      console.error('Error fetching product:', error);
+
+      return undefined;
     }
   }
 

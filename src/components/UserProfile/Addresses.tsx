@@ -69,7 +69,16 @@ function Addresses() {
               );
             }
 
-            return <AddressField {...currAddress} />;
+            return (
+              <div>
+                <AddressField {...currAddress} />
+                <BaseButton
+                  classes="button edit-address-button set-default-button"
+                  text="Set this as default"
+                  type="button"
+                />
+              </div>
+            );
           }
 
           return undefined;
@@ -90,7 +99,16 @@ function Addresses() {
               );
             }
 
-            return <AddressField {...currAddress} />;
+            return (
+              <div>
+                <AddressField {...currAddress} />
+                <BaseButton
+                  classes="button edit-address-button set-default-button"
+                  text="Set this as default"
+                  type="button"
+                />
+              </div>
+            );
           }
 
           return undefined;
@@ -102,7 +120,7 @@ function Addresses() {
         type="button"
         callback={openModal}
       />
-      {modalOpen && <ModalAddressAdd callback={closeModal} />}
+      {modalOpen && <ModalAddressAdd callback={closeModal} edit={false} />}
     </fieldset>
   );
 }

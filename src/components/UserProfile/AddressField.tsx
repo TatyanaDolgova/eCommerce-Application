@@ -1,8 +1,21 @@
 import { Address } from '@commercetools/platform-sdk';
+import { useState } from 'react';
 
 import BaseButton from '../Button/Button';
 
+import ModalAddressAdd from './ModalAddressAdd';
+
 const AddressField: React.FC<Address> = (customerAddress: Address) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  function openModal() {
+    setModalOpen(true);
+  }
+
+  function closeModal() {
+    setModalOpen(false);
+  }
+
   return (
     <div data-AddressId={customerAddress.id} className="address-field">
       <div className="field-wrapper">
@@ -26,6 +39,7 @@ const AddressField: React.FC<Address> = (customerAddress: Address) => {
           classes="button edit-address-button"
           text="Edit"
           type="button"
+          callback={openModal}
         />
         <BaseButton
           classes="button edit-address-button"
@@ -33,6 +47,13 @@ const AddressField: React.FC<Address> = (customerAddress: Address) => {
           type="button"
         />
       </div>
+      {modalOpen && (
+        <ModalAddressAdd
+          callback={closeModal}
+          edit={true}
+          address={customerAddress}
+        />
+      )}
     </div>
   );
 };

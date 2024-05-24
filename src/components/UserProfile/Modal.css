@@ -32,6 +32,11 @@
   align-items: center;
 }
 
+.modal-h2 {
+  color: white;
+  margin: 0 auto;
+}
+
 .modal-input-wrapper {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -56,5 +61,11 @@
 }
 
 .address-field .button-wrapper {
-margin: 10px 0;
+  margin: 10px 0;
+}
+
+.set-default-button {
+  width: 220px;
+  margin: 0 auto;
+  display: block;
 }

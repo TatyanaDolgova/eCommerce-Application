@@ -13,6 +13,7 @@ function ModalPersonalInfo(modalProps: ModalProps) {
           type="button"
           callback={modalProps.closeModal}
         />
+        <h2 className="modal-h2">Edit Personal Information</h2>
         <div className="modal-input-wrapper">
           <Label classes="label" text="First Name" />
           <input

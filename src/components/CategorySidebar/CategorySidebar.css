@@ -14,21 +14,28 @@
 
 .sidebar-title {
   margin-bottom: 10px;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 500;
   line-height: 24px;
   text-align: center;
   margin-bottom: 20px;
-  text-decoration: underline;
   cursor: default;
+  text-transform: uppercase;
+  color: var(--dark-moss-green);
 }
 
-.category-sidebar ul {
+.category-container {
   list-style-type: none;
-  padding: 0;
   display: flex;
-  flex-direction: column;
   gap: 20px;
+  flex-direction: column;
+  padding: 0;
+}
+
+.category-items {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
 }
 
 .main-category {
@@ -36,6 +43,7 @@
   font-weight: 500;
   line-height: 24px;
   text-transform: capitalize;
+  list-style-type: none;
 }
 
 .subcategory {
@@ -43,6 +51,7 @@
   text-transform: capitalize;
   line-height: 24px;
   padding-left: 30px;
+  list-style-type: none;
 }
 
 .subcategory,

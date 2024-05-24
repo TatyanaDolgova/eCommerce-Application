@@ -6,16 +6,19 @@ import ProductRepository from '../../services/ProductRepository';
 
 interface CategorySidebarProps {
   onCategorySelect: (categoryId: string, isParent: boolean) => void;
+  onFetchCategories: () => void;
 }
 
 const CategorySidebar: React.FC<CategorySidebarProps> = ({
   onCategorySelect,
+  onFetchCategories,
 }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null,
   );
+  const [allProductsSelected, setAllProductsSelected] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -40,7 +43,14 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
 
   const handleCategorySelect = (categoryId: string, isParent: boolean) => {
     setSelectedCategoryId(categoryId);
+    setAllProductsSelected(false);
     onCategorySelect(categoryId, isParent);
+  };
+
+  const handleAllProductsSelect = () => {
+    setSelectedCategoryId(null);
+    setAllProductsSelected(true);
+    onFetchCategories();
   };
 
   const renderCategories = (
@@ -66,7 +76,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
                 {renderCategories(categories, category.id)}
               </li>
             ) : (
-              <ul>
+              <li className="category-items">
                 <li
                   key={category.id}
                   className={`main-category ${
@@ -77,7 +87,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
                   {category.name['en-US']}
                 </li>{' '}
                 {renderCategories(categories, category.id)}
-              </ul>
+              </li>
             ),
           )}
       </>
@@ -87,7 +97,19 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
   return (
     <div className="category-sidebar">
       <h3 className="sidebar-title">Categories</h3>
-      {loading ? <p>Loading...</p> : <ul>{renderCategories(categories)}</ul>}
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul className="category-container">
+          <li
+            className={`main-category ${allProductsSelected ? 'selected' : ''}`}
+            onClick={handleAllProductsSelect}
+          >
+            All products
+          </li>
+          {renderCategories(categories)}
+        </ul>
+      )}
     </div>
   );
 };

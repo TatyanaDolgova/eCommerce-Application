@@ -12,19 +12,19 @@ const CatalogPage = () => {
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const [sortedProducts, setSortedProducts] = useState<ProductProjection[]>([]);
 
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const productRepository = new ProductRepository();
-        const productsResponse = await productRepository.getProducts();
+  async function fetchProducts() {
+    try {
+      const productRepository = new ProductRepository();
+      const productsResponse = await productRepository.getProducts();
 
-        setProducts(productsResponse);
-        setSortedProducts(productsResponse);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
+      setProducts(productsResponse);
+      setSortedProducts(productsResponse);
+    } catch (error) {
+      throw new Error('Error fetching products');
     }
+  }
 
+  useEffect(() => {
     void fetchProducts();
   }, []);
 
@@ -56,7 +56,7 @@ const CatalogPage = () => {
         setSortedProducts(combinedProducts);
       }
     } catch (error) {
-      console.error('Error fetching products for category:', error);
+      throw new Error('Error fetching products for category');
     }
   };
 
@@ -64,7 +64,10 @@ const CatalogPage = () => {
     <>
       <Header />
       <div className="catalog-page">
-        <CategorySidebar onCategorySelect={handleCategorySelect} />
+        <CategorySidebar
+          onCategorySelect={handleCategorySelect}
+          onFetchCategories={fetchProducts}
+        />
         <div className="main-content">
           <ProductList products={products} />
         </div>

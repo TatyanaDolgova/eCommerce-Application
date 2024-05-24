@@ -38,6 +38,15 @@
   flex-direction: column;
 }
 
+
+
+.subcategory,
+.main-category {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 12px;
+}
+
 .main-category {
   font-size: 24px;
   font-weight: 500;
@@ -55,11 +64,6 @@
   list-style-type: none;
 }
 
-.subcategory,
-.main-category {
-  cursor: pointer;
-}
-
 .subcategory:hover,
 .main-category:hover {
   font-weight: bold;
@@ -68,7 +72,5 @@
 
 .subcategory.selected,
 .main-category.selected {
-  font-weight: bold;
-  transform: scale(1.1);
-  text-decoration: underline;
+  background-color: var(--dark-moss-green);
 }

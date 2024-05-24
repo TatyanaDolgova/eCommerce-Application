@@ -3,10 +3,21 @@ import { useEffect, useState } from 'react';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import BaseButton from '../Button/Button';
 
+import ModalPersonalInfo from './ModalPersonalInfo';
+
 function PersonalInfo() {
   const [customerName, setCustomerName] = useState('');
   const [customerLastName, setCustomerLastName] = useState('');
   const [birthDate, setBirthDate] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+
+  function openModal() {
+    setModalOpen(true);
+  }
+
+  function closeModal() {
+    setModalOpen(false);
+  }
 
   useEffect(() => {
     async function getCustomer() {
@@ -44,7 +55,20 @@ function PersonalInfo() {
         <div className="label">Date of Birth</div>
         <div className="info">{birthDate}</div>
       </div>
-      <BaseButton classes="button address_button" text="Edit" type="button" />
+      <BaseButton
+        classes="button address_button"
+        text="Edit"
+        type="button"
+        callback={openModal}
+      />
+      {modalOpen && (
+        <ModalPersonalInfo
+          closeModal={closeModal}
+          customerName={customerName}
+          customerLastName={customerLastName}
+          customerBirthDate={birthDate}
+        />
+      )}
     </fieldset>
   );
 }

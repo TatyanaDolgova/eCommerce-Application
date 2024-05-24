@@ -6,6 +6,7 @@ import BaseButton from '../Button/Button';
 import Label from '../Label/Label';
 
 import AddressField from './AddressField';
+import ModalAddressAdd from './ModalAddressAdd';
 
 function Addresses() {
   const [addressArray, setAddressArray] = useState<Address[]>([]);
@@ -13,6 +14,15 @@ function Addresses() {
   const [defaultShipping, setDefaultShipping] = useState('');
   const [billingAddresses, setBillingAddresses] = useState<string[]>([]);
   const [defaultBilling, setDefaultBilling] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+
+  function openModal() {
+    setModalOpen(true);
+  }
+
+  function closeModal() {
+    setModalOpen(false);
+  }
 
   useEffect(() => {
     async function getCustomer() {
@@ -59,7 +69,16 @@ function Addresses() {
               );
             }
 
-            return <AddressField {...currAddress} />;
+            return (
+              <div>
+                <AddressField {...currAddress} />
+                <BaseButton
+                  classes="button edit-address-button set-default-button"
+                  text="Set this as default"
+                  type="button"
+                />
+              </div>
+            );
           }
 
           return undefined;
@@ -80,13 +99,28 @@ function Addresses() {
               );
             }
 
-            return <AddressField {...currAddress} />;
+            return (
+              <div>
+                <AddressField {...currAddress} />
+                <BaseButton
+                  classes="button edit-address-button set-default-button"
+                  text="Set this as default"
+                  type="button"
+                />
+              </div>
+            );
           }
 
           return undefined;
         })}
       </fieldset>
-      <BaseButton classes="button address_button" text="Edit" type="button" />
+      <BaseButton
+        classes="button address_button"
+        text="Add"
+        type="button"
+        callback={openModal}
+      />
+      {modalOpen && <ModalAddressAdd callback={closeModal} edit={false} />}
     </fieldset>
   );
 }

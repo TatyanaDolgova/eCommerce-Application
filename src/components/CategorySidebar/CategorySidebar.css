@@ -44,13 +44,14 @@
   line-height: 24px;
   text-transform: capitalize;
   list-style-type: none;
+  text-transform: uppercase;
 }
 
 .subcategory {
   font-size: 20px;
   text-transform: capitalize;
   line-height: 24px;
-  padding-left: 30px;
+  padding-left: 40px;
   list-style-type: none;
 }
 

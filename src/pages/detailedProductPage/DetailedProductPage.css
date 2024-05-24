@@ -1,12 +1,81 @@
-.DetailedProductPage {
+.detail_product_page {
   min-width: 100%;
   min-height: 90vh;
   padding: 2%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+}
+
+.detail_product_wrapper {
+  max-width: 90%;
+  padding: 2%;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  gap: 2%;
+  border-radius: 12px;
+}
+
+/* .detail_image_wrapper {
+  width: 40%;
+} */
+
+.detail_image {
+  min-width: 250px;
+  max-width: 45%;
+  border-radius: 12px;
+}
+
+.detail_product_info {
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
-.detail_image_wrapper {
+.detail_product_header {
+  color: var(--dark-moss-green);
+}
 
+.detail_product_description{
+  max-width: 400px;
+  text-align: justify;
+}
+
+.detail_price_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.full_price_wrapper,
+.disc_price_wrapper {
+  display: flex;
+}
+
+.full_price,
+.disc_price {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.full_price_wrapper {
+  color: var(--dark-moss-green);
+  text-decoration: line-through;
+}
+
+.disc_price_wrapper {
+  color: var(--error-message-color);
+}
+
+
+@media (max-width: 670px) {
+  .detail_product_wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
 }

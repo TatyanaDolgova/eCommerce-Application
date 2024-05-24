@@ -23,10 +23,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="card-info">
         <div className="card-title">{productName}</div>
         <div className="card-descr">{productDescription}</div>
-        <div className="price-container">
-          <div className="price-old">{priceOld}</div>
-          <div className="price-new">{priceNew}</div>
-        </div>
         <Link
           className="details_link"
           to={`/detailed/${productSlug}`}

@@ -1,6 +1,7 @@
 import {
   ByProjectKeyRequestBuilder,
   Category,
+  Product,
   ProductProjection,
 } from '@commercetools/platform-sdk';
 import { key } from 'localforage';

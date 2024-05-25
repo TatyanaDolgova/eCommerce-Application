@@ -1,6 +1,9 @@
 import './RegistrationForm.css';
 
-import { MyCustomerDraft } from '@commercetools/platform-sdk';
+import {
+  CustomerUpdateAction,
+  MyCustomerDraft,
+} from '@commercetools/platform-sdk';
 import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -156,11 +159,21 @@ function RegistrationForm() {
         const shipID = customerData.body.addresses[0].id ?? '';
         const billID = customerData.body.addresses[1].id ?? '';
 
-        await CustomerRepository.updateCustomerAddressFlags(
+        const actions: CustomerUpdateAction[] = [
+          {
+            action: 'addBillingAddressId',
+            addressId: billID,
+          },
+          {
+            action: 'addShippingAddressId',
+            addressId: shipID,
+          },
+        ];
+
+        await CustomerRepository.updateCustomer(
           customerData.body.id,
           customerData.body.version,
-          shipID,
-          billID,
+          actions,
         );
         updateState({ user: userState });
         redirectToMain();

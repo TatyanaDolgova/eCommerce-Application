@@ -69,3 +69,21 @@
   margin: 0 auto;
   display: block;
 }
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal_error {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  max-width: 100%;
+  font-size: smaller;
+  color: red;
+  min-height: 32px;
+}
+
+.modal_button-wrapper {
+  margin-top: 5px;
+}

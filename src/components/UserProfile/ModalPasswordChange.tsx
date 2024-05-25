@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { CustomerRepository } from '../../services/CustomerRepository';
+import showToast from '../../utils/notifications';
 import { passwordProps } from '../../utils/validation';
 import BaseButton from '../Button/Button';
 import Input from '../Input/Input';
@@ -20,8 +22,30 @@ function ModalPassword(props: ModalPasswordProps) {
   const [passwordInputType, setPasswordInputType] = useState('password');
   const [newPasswordInputType, setNewPasswordInputType] = useState('password');
 
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    const response: unknown = await CustomerRepository.changeCustomerPassword(
+      props.customerId,
+      props.customerVersion,
+      data.password,
+      data.newPassword,
+    );
+
+    if (response instanceof Error) {
+      showToast(response.message, true);
+    } else {
+      const loginData = {
+        email: props.email,
+        password: data.newPassword,
+      };
+      const login = await CustomerRepository.createLoggedInCustomer(loginData);
+
+      if (login instanceof Error) {
+        showToast(login.message, true);
+      } else {
+        showToast('Password is changed', false);
+        props.closeModal();
+      }
+    }
   };
 
   const showPassword = () => {
@@ -116,6 +140,7 @@ interface ModalPasswordProps {
   closeModal: () => void;
   customerId: string;
   customerVersion: number;
+  email: string;
 }
 
 export default ModalPassword;

@@ -93,7 +93,7 @@ function PersonalInfo() {
         />
       )}
       <BaseButton
-        classes="button"
+        classes="button change-password-button"
         text="Change password"
         type="button"
         callback={openModalPassword}
@@ -103,6 +103,7 @@ function PersonalInfo() {
           closeModal={closeModalPassword}
           customerId={customerId}
           customerVersion={customerVersion}
+          email={email}
         />
       )}
     </fieldset>

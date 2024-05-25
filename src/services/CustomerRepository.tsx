@@ -3,6 +3,7 @@ import {
   ClientResponse,
   CustomerSignInResult,
   CustomerSignin,
+  CustomerUpdateAction,
   MyCustomerDraft,
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
@@ -106,11 +107,10 @@ export class CustomerRepository {
     CustomerRepository.apiRoot = apiRoot;
   }
 
-  static async updateCustomerAddressFlags(
+  static async updateCustomer(
     customerID: string,
     version: number,
-    shipID: string,
-    billID: string,
+    actions: CustomerUpdateAction[],
   ) {
     await CustomerRepository.apiRoot
       .customers()
@@ -120,16 +120,7 @@ export class CustomerRepository {
         body: {
           // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
           version: version,
-          actions: [
-            {
-              action: 'addBillingAddressId',
-              addressId: billID,
-            },
-            {
-              action: 'addShippingAddressId',
-              addressId: shipID,
-            },
-          ],
+          actions: actions,
         },
       })
       .execute();

@@ -55,8 +55,11 @@ function ModalPersonalInfo(modalProps: ModalProps) {
 interface ModalProps {
   closeModal: () => void;
   customerBirthDate: string;
+  customerId: string;
   customerLastName: string;
   customerName: string;
+  customerVersion: number;
+  email: string;
 }
 
 export default ModalPersonalInfo;

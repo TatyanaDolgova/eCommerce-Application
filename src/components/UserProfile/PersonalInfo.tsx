@@ -9,7 +9,10 @@ function PersonalInfo() {
   const [customerName, setCustomerName] = useState('');
   const [customerLastName, setCustomerLastName] = useState('');
   const [birthDate, setBirthDate] = useState('');
+  const [email, setEmail] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
+  const [customerId, setCustomerId] = useState('');
+  const [customerVersion, setCustomerVersion] = useState(1);
 
   function openModal() {
     setModalOpen(true);
@@ -33,6 +36,9 @@ function PersonalInfo() {
         if (customer.body.dateOfBirth) {
           setBirthDate(customer.body.dateOfBirth);
         }
+        setEmail(customer.body.email);
+        setCustomerId(customer.body.id);
+        setCustomerVersion(customer.body.version);
       } catch (error) {
         throw new Error('error fetching customer');
       }
@@ -55,6 +61,10 @@ function PersonalInfo() {
         <div className="label">Date of Birth</div>
         <div className="info">{birthDate}</div>
       </div>
+      <div className="field-wrapper">
+        <div className="label">Email</div>
+        <div className="info">{email}</div>
+      </div>
       <BaseButton
         classes="button address_button"
         text="Edit"
@@ -67,6 +77,9 @@ function PersonalInfo() {
           customerName={customerName}
           customerLastName={customerLastName}
           customerBirthDate={birthDate}
+          email={email}
+          customerId={customerId}
+          customerVersion={customerVersion}
         />
       )}
     </fieldset>

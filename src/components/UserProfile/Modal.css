@@ -54,6 +54,11 @@
   justify-content: center;
 }
 
+.fieldset .show_password_input {
+width: 30px;
+margin: 0 30px 0 10px;
+}
+
 .edit-address-button {
   font-size: smaller;
   width: 100px;
@@ -68,4 +73,36 @@
   width: 220px;
   margin: 0 auto;
   display: block;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal_error {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  max-width: 100%;
+  font-size: smaller;
+  color: red;
+  min-height: 32px;
+}
+
+.modal_button-wrapper {
+  margin-top: 5px;
+}
+
+.password-modal_form {
+  gap: 10px;
+}
+
+.modal_password-wrapper {
+display: flex;
+flex-direction: column;
+gap: 5px;
+}
+
+.change-password-button {
+  margin: 20px auto;
 }

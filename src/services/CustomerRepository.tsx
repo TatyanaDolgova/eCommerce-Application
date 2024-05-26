@@ -3,6 +3,7 @@ import {
   ClientResponse,
   CustomerSignInResult,
   CustomerSignin,
+  CustomerUpdateAction,
   MyCustomerDraft,
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
@@ -16,6 +17,30 @@ export class CustomerRepository {
   static isAuthApiRoot: boolean;
 
   static projectKey = 'ecommerce2024rss';
+
+  static async changeCustomerPassword(
+    customerId: string,
+    version: number,
+    currentPassword: string,
+    newPassword: string,
+  ) {
+    try {
+      await CustomerRepository.apiRoot
+        .customers()
+        .password()
+        .post({
+          body: {
+            id: customerId,
+            version: version,
+            currentPassword: currentPassword,
+            newPassword: newPassword,
+          },
+        })
+        .execute();
+    } catch (err) {
+      return err;
+    }
+  }
 
   public static createAnonymousCustomer(): ByProjectKeyRequestBuilder {
     const ctpClient = new CtpClient();
@@ -106,11 +131,10 @@ export class CustomerRepository {
     CustomerRepository.apiRoot = apiRoot;
   }
 
-  static async updateCustomerAddressFlags(
+  static async updateCustomer(
     customerID: string,
     version: number,
-    shipID: string,
-    billID: string,
+    actions: CustomerUpdateAction[],
   ) {
     await CustomerRepository.apiRoot
       .customers()
@@ -120,16 +144,7 @@ export class CustomerRepository {
         body: {
           // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
           version: version,
-          actions: [
-            {
-              action: 'addBillingAddressId',
-              addressId: billID,
-            },
-            {
-              action: 'addShippingAddressId',
-              addressId: shipID,
-            },
-          ],
+          actions: actions,
         },
       })
       .execute();

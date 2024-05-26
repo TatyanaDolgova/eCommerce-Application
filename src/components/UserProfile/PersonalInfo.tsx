@@ -3,13 +3,18 @@ import { useEffect, useState } from 'react';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import BaseButton from '../Button/Button';
 
+import ModalPassword from './ModalPasswordChange';
 import ModalPersonalInfo from './ModalPersonalInfo';
 
 function PersonalInfo() {
   const [customerName, setCustomerName] = useState('');
   const [customerLastName, setCustomerLastName] = useState('');
   const [birthDate, setBirthDate] = useState('');
+  const [email, setEmail] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
+  const [customerId, setCustomerId] = useState('');
+  const [customerVersion, setCustomerVersion] = useState(1);
+  const [modalPasswordOpen, setModalPasswordOpen] = useState(false);
 
   function openModal() {
     setModalOpen(true);
@@ -17,6 +22,14 @@ function PersonalInfo() {
 
   function closeModal() {
     setModalOpen(false);
+  }
+
+  function openModalPassword() {
+    setModalPasswordOpen(true);
+  }
+
+  function closeModalPassword() {
+    setModalPasswordOpen(false);
   }
 
   useEffect(() => {
@@ -33,6 +46,9 @@ function PersonalInfo() {
         if (customer.body.dateOfBirth) {
           setBirthDate(customer.body.dateOfBirth);
         }
+        setEmail(customer.body.email);
+        setCustomerId(customer.body.id);
+        setCustomerVersion(customer.body.version);
       } catch (error) {
         throw new Error('error fetching customer');
       }
@@ -55,6 +71,10 @@ function PersonalInfo() {
         <div className="label">Date of Birth</div>
         <div className="info">{birthDate}</div>
       </div>
+      <div className="field-wrapper">
+        <div className="label">Email</div>
+        <div className="info">{email}</div>
+      </div>
       <BaseButton
         classes="button address_button"
         text="Edit"
@@ -67,6 +87,23 @@ function PersonalInfo() {
           customerName={customerName}
           customerLastName={customerLastName}
           customerBirthDate={birthDate}
+          email={email}
+          customerId={customerId}
+          customerVersion={customerVersion}
+        />
+      )}
+      <BaseButton
+        classes="button change-password-button"
+        text="Change password"
+        type="button"
+        callback={openModalPassword}
+      />
+      {modalPasswordOpen && (
+        <ModalPassword
+          closeModal={closeModalPassword}
+          customerId={customerId}
+          customerVersion={customerVersion}
+          email={email}
         />
       )}
     </fieldset>

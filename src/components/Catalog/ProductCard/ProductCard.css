@@ -7,6 +7,13 @@
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
 }
 
 .card-info {
@@ -35,7 +42,7 @@
 
 .card-descr {
   color: rgba(30, 30, 30, 0.5);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 27px;
   letter-spacing: 0%;

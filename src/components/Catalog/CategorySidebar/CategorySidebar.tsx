@@ -2,7 +2,7 @@ import { Category } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
 
 import './CategorySidebar.css';
-import ProductRepository from '../../services/ProductRepository';
+import ProductRepository from '../../../services/ProductRepository';
 
 interface CategorySidebarProps {
   onCategorySelect: (categoryId: string, isParent: boolean) => void;
@@ -57,40 +57,30 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
     categoriesForRender: Category[],
     parentId: string | null = null,
   ) => {
+    const filteredCategories = categoriesForRender.filter((category) =>
+      parentId ? category.parent?.id === parentId : !category.parent,
+    );
+
+    if (filteredCategories.length === 0) return null;
+
     return (
-      <>
-        {categoriesForRender
-          .filter((category) =>
-            parentId ? category.parent?.id === parentId : !category.parent,
-          )
-          .map((category) =>
-            category.parent ? (
-              <li
-                key={category.id}
-                className={`subcategory ${
-                  selectedCategoryId === category.id ? 'selected' : ''
-                }`}
-                onClick={() => handleCategorySelect(category.id, false)}
-              >
-                {category.name['en-US']}
-                {renderCategories(categories, category.id)}
-              </li>
-            ) : (
-              <li className="category-items">
-                <li
-                  key={category.id}
-                  className={`main-category ${
-                    selectedCategoryId === category.id ? 'selected' : ''
-                  }`}
-                  onClick={() => handleCategorySelect(category.id, true)}
-                >
-                  {category.name['en-US']}
-                </li>{' '}
-                {renderCategories(categories, category.id)}
-              </li>
-            ),
-          )}
-      </>
+      <ul className="category-container">
+        {filteredCategories.map((category) => (
+          <li key={category.id}>
+            <div
+              className={`category-item ${
+                !category.parent ? 'main-category' : 'subcategory'
+              } ${selectedCategoryId === category.id ? 'selected' : ''}`}
+              onClick={() =>
+                handleCategorySelect(category.id, !category.parent)
+              }
+            >
+              {category.name['en-US']}
+            </div>
+            {renderCategories(categoriesForRender, category.id)}
+          </li>
+        ))}
+      </ul>
     );
   };
 
@@ -100,9 +90,9 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul className="category-container">
+        <ul className="categories-container">
           <li
-            className={`main-category ${allProductsSelected ? 'selected' : ''}`}
+            className={`category-item main-category ${allProductsSelected ? 'selected' : ''}`}
             onClick={handleAllProductsSelect}
           >
             All products

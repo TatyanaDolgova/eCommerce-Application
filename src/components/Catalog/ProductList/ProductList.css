@@ -1,6 +1,6 @@
 .products-container {
   min-height: calc(100vh - 80px);
-  padding: 30px;
+  padding-top: 20px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

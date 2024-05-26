@@ -12,7 +12,7 @@ export interface UserContextProps {
 export const UserContextProvider: React.FunctionComponent<UserContextProps> = (
   props: UserContextProps,
 ): JSX.Element => {
-  const initialUSer: UserData = userTokenStorage.checkTokens()
+  const initialUSer: UserData = userTokenStorage.checkLoginState()
     ? { loginStatus: true }
     : { loginStatus: false };
 

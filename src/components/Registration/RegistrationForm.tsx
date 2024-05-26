@@ -176,6 +176,7 @@ function RegistrationForm() {
           actions,
         );
         updateState({ user: userState });
+        userTokenStorage.setLoginState('true');
         redirectToMain();
       }
     }

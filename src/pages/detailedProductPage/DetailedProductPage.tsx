@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 import './DetailedProductPage.css';
 
-import BaseButton from '../../components/Button/Button';
 import Header from '../../components/Header/Header';
 import ProductRepository from '../../services/ProductRepository';
 
@@ -19,9 +18,6 @@ const DetailedProductPage = () => {
       const productRepository = new ProductRepository();
       const resp: Product | undefined =
         await productRepository.getProduct(productID);
-
-      console.log('респонс продукта');
-      console.log(resp);
 
       if (resp && resp.masterData.current) {
         setProduct(resp.masterData.current);

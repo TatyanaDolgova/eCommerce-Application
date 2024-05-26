@@ -18,6 +18,30 @@ export class CustomerRepository {
 
   static projectKey = 'ecommerce2024rss';
 
+  static async changeCustomerPassword(
+    customerId: string,
+    version: number,
+    currentPassword: string,
+    newPassword: string,
+  ) {
+    try {
+      await CustomerRepository.apiRoot
+        .customers()
+        .password()
+        .post({
+          body: {
+            id: customerId,
+            version: version,
+            currentPassword: currentPassword,
+            newPassword: newPassword,
+          },
+        })
+        .execute();
+    } catch (err) {
+      return err;
+    }
+  }
+
   public static createAnonymousCustomer(): ByProjectKeyRequestBuilder {
     const ctpClient = new CtpClient();
     const anonymousClient = ctpClient.createAnonymousClient();

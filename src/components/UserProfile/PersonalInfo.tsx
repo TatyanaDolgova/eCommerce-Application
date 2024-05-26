@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import BaseButton from '../Button/Button';
 
+import ModalPassword from './ModalPasswordChange';
 import ModalPersonalInfo from './ModalPersonalInfo';
 
 function PersonalInfo() {
@@ -13,6 +14,7 @@ function PersonalInfo() {
   const [modalOpen, setModalOpen] = useState(false);
   const [customerId, setCustomerId] = useState('');
   const [customerVersion, setCustomerVersion] = useState(1);
+  const [modalPasswordOpen, setModalPasswordOpen] = useState(false);
 
   function openModal() {
     setModalOpen(true);
@@ -20,6 +22,14 @@ function PersonalInfo() {
 
   function closeModal() {
     setModalOpen(false);
+  }
+
+  function openModalPassword() {
+    setModalPasswordOpen(true);
+  }
+
+  function closeModalPassword() {
+    setModalPasswordOpen(false);
   }
 
   useEffect(() => {
@@ -80,6 +90,20 @@ function PersonalInfo() {
           email={email}
           customerId={customerId}
           customerVersion={customerVersion}
+        />
+      )}
+      <BaseButton
+        classes="button change-password-button"
+        text="Change password"
+        type="button"
+        callback={openModalPassword}
+      />
+      {modalPasswordOpen && (
+        <ModalPassword
+          closeModal={closeModalPassword}
+          customerId={customerId}
+          customerVersion={customerVersion}
+          email={email}
         />
       )}
     </fieldset>

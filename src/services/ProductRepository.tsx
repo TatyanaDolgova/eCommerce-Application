@@ -45,6 +45,20 @@ class ProductRepository {
     }
   }
 
+  async getCategoryById(categoryId: string): Promise<Category> {
+    try {
+      const response = await this.apiRoot
+        .categories()
+        .withId({ ID: categoryId })
+        .get()
+        .execute();
+
+      return response.body;
+    } catch (error) {
+      throw new Error('Error fetching category with ID');
+    }
+  }
+
   async getProduct(productID: string): Promise<Product | undefined> {
     try {
       const resp = await this.apiRoot
@@ -66,7 +80,11 @@ class ProductRepository {
       const response = await this.apiRoot
         .productProjections()
         .search()
-        .get()
+        .get({
+          queryArgs: {
+            limit: 50,
+          },
+        })
         .execute();
 
       const products: ProductProjection[] = response.body.results;
@@ -96,8 +114,6 @@ class ProductRepository {
       return products;
     } catch (error) {
       throw new Error('Error fetching products by category');
-
-      return [];
     }
   }
 }

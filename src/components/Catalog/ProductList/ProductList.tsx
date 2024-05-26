@@ -1,8 +1,8 @@
-import { Product, ProductProjection } from '@commercetools/platform-sdk';
+import { ProductProjection } from '@commercetools/platform-sdk';
 import React, { useEffect, useState } from 'react';
 
+import SpinnerCategory from '../../Spinners/Spinner-category';
 import ProductCard from '../ProductCard/ProductCard';
-import SpinnerCategory from '../Spinners/Spinner-category';
 
 import './ProductList.css';
 

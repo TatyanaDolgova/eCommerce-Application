@@ -1,12 +1,13 @@
-import { Address } from '@commercetools/platform-sdk';
+import { Address, CustomerUpdateAction } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
 
 import { CustomerRepository } from '../../services/CustomerRepository';
+import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
 import Label from '../Label/Label';
 
 import AddressField from './AddressField';
-import ModalAddressAdd from './ModalAddressAdd';
+import ModalAddress from './ModalAddress';
 
 function Addresses() {
   const [addressArray, setAddressArray] = useState<Address[]>([]);
@@ -15,6 +16,8 @@ function Addresses() {
   const [billingAddresses, setBillingAddresses] = useState<string[]>([]);
   const [defaultBilling, setDefaultBilling] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
+  const [customerID, setCustomerId] = useState('');
+  const [customerVersion, setCustomerVersion] = useState(1);
 
   function openModal() {
     setModalOpen(true);
@@ -22,6 +25,30 @@ function Addresses() {
 
   function closeModal() {
     setModalOpen(false);
+  }
+
+  async function setDefault(address: Address, type: 'billing' | 'shipping') {
+    const action: CustomerUpdateAction[] = [
+      {
+        action:
+          type === 'billing'
+            ? 'setDefaultBillingAddress'
+            : 'setDefaultShippingAddress',
+        addressId: address.id,
+      },
+    ];
+
+    const response = await CustomerRepository.updateCustomer(
+      customerID,
+      customerVersion,
+      action,
+    );
+
+    if (response instanceof Error) {
+      showToast(response.message, true);
+    } else {
+      showToast('Address is set as default', false);
+    }
   }
 
   useEffect(() => {
@@ -44,6 +71,8 @@ function Addresses() {
         if (customer.body.defaultBillingAddressId) {
           setDefaultBilling(customer.body.defaultBillingAddressId);
         }
+        setCustomerId(customer.body.id);
+        setCustomerVersion(customer.body.version);
       } catch (error) {
         throw new Error('error fetching customer');
       }
@@ -64,18 +93,29 @@ function Addresses() {
               return (
                 <div className="default-address">
                   <Label classes="default-address-label" text="Default" />
-                  <AddressField {...currAddress} />
+                  <AddressField
+                    address={currAddress}
+                    customerID={customerID}
+                    customerVersion={customerVersion}
+                  />
                 </div>
               );
             }
 
             return (
               <div>
-                <AddressField {...currAddress} />
+                <AddressField
+                  address={currAddress}
+                  customerID={customerID}
+                  customerVersion={customerVersion}
+                />
                 <BaseButton
                   classes="button edit-address-button set-default-button"
                   text="Set this as default"
                   type="button"
+                  callback={async () => {
+                    await setDefault(currAddress, 'shipping');
+                  }}
                 />
               </div>
             );
@@ -94,18 +134,29 @@ function Addresses() {
               return (
                 <div className="default-address">
                   <Label classes="default-address-label" text="Default" />
-                  <AddressField {...currAddress} />
+                  <AddressField
+                    address={currAddress}
+                    customerID={customerID}
+                    customerVersion={customerVersion}
+                  />
                 </div>
               );
             }
 
             return (
               <div>
-                <AddressField {...currAddress} />
+                <AddressField
+                  address={currAddress}
+                  customerID={customerID}
+                  customerVersion={customerVersion}
+                />
                 <BaseButton
                   classes="button edit-address-button set-default-button"
                   text="Set this as default"
                   type="button"
+                  callback={async () => {
+                    await setDefault(currAddress, 'billing');
+                  }}
                 />
               </div>
             );
@@ -120,7 +171,14 @@ function Addresses() {
         type="button"
         callback={openModal}
       />
-      {modalOpen && <ModalAddressAdd callback={closeModal} edit={false} />}
+      {modalOpen && (
+        <ModalAddress
+          callback={closeModal}
+          edit={false}
+          customerID={customerID}
+          version={customerVersion}
+        />
+      )}
     </fieldset>
   );
 }

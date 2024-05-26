@@ -136,7 +136,7 @@ export class CustomerRepository {
     version: number,
     actions: CustomerUpdateAction[],
   ) {
-    await CustomerRepository.apiRoot
+    const customer = await CustomerRepository.apiRoot
       .customers()
       .withId({ ID: customerID })
       .post({
@@ -148,5 +148,7 @@ export class CustomerRepository {
         },
       })
       .execute();
+
+    return customer;
   }
 }

@@ -29,10 +29,6 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
           Home
         </Link>
         {' / '}
-        <Link className="breadcrumb-item" to="/catalog">
-          Catalog
-        </Link>
-        {' / '}
         <li
           key={1}
           className="breadcrumb-item"

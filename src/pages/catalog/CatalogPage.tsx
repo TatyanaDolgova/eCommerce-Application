@@ -68,33 +68,15 @@ const CatalogPage = () => {
     try {
       const productRepository = new ProductRepository();
 
-      if (!isParent) {
-        const productsResponse =
-          await productRepository.getProductsByCategory(categoryId);
+      const productsResponse =
+        await productRepository.getAllSubcategories(categoryId);
 
-        setProducts(productsResponse);
-        setSortedProducts(productsResponse);
+      setProducts(productsResponse);
+      setSortedProducts(productsResponse);
 
-        const category = await productRepository.getCategoryById(categoryId);
+      const category = await productRepository.getCategoryById(categoryId);
 
-        await updateBreadcrumbs(category);
-      } else {
-        const categoryResponse =
-          await productRepository.getAllSubcategories(categoryId);
-        const productsPromises = categoryResponse.map((item) =>
-          productRepository.getProductsByCategory(item.id),
-        );
-
-        const allProducts = await Promise.all(productsPromises);
-        const combinedProducts = allProducts.flat();
-
-        setProducts(combinedProducts);
-        setSortedProducts(combinedProducts);
-
-        const category = await productRepository.getCategoryById(categoryId);
-
-        await updateBreadcrumbs(category);
-      }
+      await updateBreadcrumbs(category);
     } catch (error) {
       throw new Error('Error fetching products for category');
     }
@@ -103,17 +85,17 @@ const CatalogPage = () => {
   return (
     <>
       <Header />
+      <Breadcrumbs
+        breadcrumbs={breadcrumbs}
+        onCategorySelect={handleCategorySelect}
+        onFetchCategories={fetchProducts}
+      />
       <div className="catalog-page">
         <CategorySidebar
           onCategorySelect={handleCategorySelect}
           onFetchCategories={fetchProducts}
         />
         <div className="main-content">
-          <Breadcrumbs
-            breadcrumbs={breadcrumbs}
-            onCategorySelect={handleCategorySelect}
-            onFetchCategories={fetchProducts}
-          />
           <ProductList products={products} />
         </div>
       </div>

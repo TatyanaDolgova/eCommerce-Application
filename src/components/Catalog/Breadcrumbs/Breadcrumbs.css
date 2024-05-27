@@ -1,6 +1,8 @@
 .breadcrumb {
   list-style-type: none;
-  padding: 0;
+  padding: 30px 0 0 30px;
+  margin: 0;
+  background-color: var(--cambridge-blue);
 }
 
 .breadcrumb-item {

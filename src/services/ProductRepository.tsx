@@ -15,22 +15,21 @@ class ProductRepository {
     this.apiRoot = CustomerRepository.apiRoot;
   }
 
-  async getAllSubcategories(parentCategoryId: string): Promise<Category[]> {
+  async getAllSubcategories(parentCategoryId: string) {
     try {
       const response = await this.apiRoot
-        .categories()
+        .productProjections()
+        .search()
         .get({
           queryArgs: {
-            where: `ancestors(id="${parentCategoryId}")`,
+            filter: [`categories.id:subtree("${parentCategoryId}")`],
           },
         })
         .execute();
 
-      const subcategories = response.body.results;
-
-      return subcategories;
+      return response.body.results;
     } catch (error) {
-      throw new Error('Error fetching subcategories');
+      throw new Error('Error fetching products by category');
     }
   }
 

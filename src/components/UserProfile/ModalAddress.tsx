@@ -135,9 +135,9 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
               name="street"
               // defaultValue={modalAddressesProps.address?.streetName ?? ''}
             ></input>
-            {errors.street && (
-              <div className="error_message">{errors.street.message}</div>
-            )}
+            <div className="error_message modal_error">
+              {errors.street?.message}
+            </div>
           </div>
           <div className="modal-input-wrapper">
             <Label classes="label" text="City" for="city"></Label>
@@ -149,9 +149,9 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
               name="city"
               // defaultValue={modalAddressesProps.address?.city ?? ''}
             ></input>
-            {errors.city && (
-              <div className="error_message">{errors.city.message}</div>
-            )}
+            <div className="error_message modal_error">
+              {errors.city?.message}
+            </div>
           </div>
           <div className="modal-input-wrapper">
             <Label classes="label" text="Postal Code" for="postcode"></Label>
@@ -163,9 +163,9 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
               name="postcode"
               // defaultValue={modalAddressesProps.address?.postalCode ?? ''}
             ></input>
-            {errors.postcode && (
-              <div className="error_message">{errors.postcode.message}</div>
-            )}
+            <div className="error_message modal_error">
+              {errors.postcode?.message}
+            </div>
           </div>
           <div className="modal-input-wrapper">
             <Label classes="label" text="Country" for="country"></Label>
@@ -188,10 +188,10 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
               <option value="RU">Russia</option>
               <option value="HR">Croatia</option>
             </select>
+            <div className="error_message modal_error">
+              {errors.country?.message}
+            </div>
           </div>
-          {errors.country && (
-            <div className="error_message">{errors.country.message}</div>
-          )}
           {!modalAddressesProps.edit && (
             <div className="modal-input-wrapper">
               <Label
@@ -208,11 +208,9 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
                 <option value="shipping">Shipping</option>
                 <option value="billing">Billing</option>
               </select>
-              {errors.addressType && (
-                <div className="error_message">
-                  {errors.addressType.message}
-                </div>
-              )}
+              <div className="error_message modal_error">
+                {errors.addressType?.message}
+              </div>
             </div>
           )}
           <div className="button-wrapper">
@@ -222,7 +220,11 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
               type="button"
               callback={modalAddressesProps.callback}
             />
-            <BaseButton classes="button" text="Add" type="submit" />
+            <BaseButton
+              classes="button"
+              text={modalAddressesProps.edit ? 'Save' : 'Add'}
+              type="submit"
+            />
           </div>
         </form>
       </div>

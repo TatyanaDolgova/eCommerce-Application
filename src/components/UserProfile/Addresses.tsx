@@ -23,8 +23,35 @@ function Addresses() {
     setModalOpen(true);
   }
 
-  function closeModal() {
+  async function getCustomer() {
+    try {
+      const customer = await CustomerRepository.getCustomerInformation();
+
+      if (customer.body.addresses) {
+        setAddressArray(customer.body.addresses);
+      }
+      if (customer.body.shippingAddressIds) {
+        setShippingAddresses(customer.body.shippingAddressIds);
+      }
+      if (customer.body.defaultShippingAddressId) {
+        setDefaultShipping(customer.body.defaultShippingAddressId);
+      }
+      if (customer.body.billingAddressIds) {
+        setBillingAddresses(customer.body.billingAddressIds);
+      }
+      if (customer.body.defaultBillingAddressId) {
+        setDefaultBilling(customer.body.defaultBillingAddressId);
+      }
+      setCustomerId(customer.body.id);
+      setCustomerVersion(customer.body.version);
+    } catch (error) {
+      throw new Error('error fetching customer');
+    }
+  }
+
+  async function closeModal() {
     setModalOpen(false);
+    await getCustomer();
   }
 
   async function setDefault(address: Address, type: 'billing' | 'shipping') {
@@ -48,35 +75,11 @@ function Addresses() {
       showToast(response.message, true);
     } else {
       showToast('Address is set as default', false);
+      await getCustomer();
     }
   }
 
   useEffect(() => {
-    async function getCustomer() {
-      try {
-        const customer = await CustomerRepository.getCustomerInformation();
-
-        if (customer.body.addresses) {
-          setAddressArray(customer.body.addresses);
-        }
-        if (customer.body.shippingAddressIds) {
-          setShippingAddresses(customer.body.shippingAddressIds);
-        }
-        if (customer.body.defaultShippingAddressId) {
-          setDefaultShipping(customer.body.defaultShippingAddressId);
-        }
-        if (customer.body.billingAddressIds) {
-          setBillingAddresses(customer.body.billingAddressIds);
-        }
-        if (customer.body.defaultBillingAddressId) {
-          setDefaultBilling(customer.body.defaultBillingAddressId);
-        }
-        setCustomerId(customer.body.id);
-        setCustomerVersion(customer.body.version);
-      } catch (error) {
-        throw new Error('error fetching customer');
-      }
-    }
     void getCustomer();
   }, []);
 
@@ -91,23 +94,25 @@ function Addresses() {
           if (currAddress) {
             if (currAddress.id === defaultShipping) {
               return (
-                <div className="default-address">
+                <div key={currAddress.id} className="default-address">
                   <Label classes="default-address-label" text="Default" />
                   <AddressField
                     address={currAddress}
                     customerID={customerID}
                     customerVersion={customerVersion}
+                    updateFunction={getCustomer}
                   />
                 </div>
               );
             }
 
             return (
-              <div>
+              <div key={currAddress.id}>
                 <AddressField
                   address={currAddress}
                   customerID={customerID}
                   customerVersion={customerVersion}
+                  updateFunction={getCustomer}
                 />
                 <BaseButton
                   classes="button edit-address-button set-default-button"
@@ -132,23 +137,25 @@ function Addresses() {
           if (currAddress) {
             if (currAddress.id === defaultBilling) {
               return (
-                <div className="default-address">
+                <div key={currAddress.id} className="default-address">
                   <Label classes="default-address-label" text="Default" />
                   <AddressField
                     address={currAddress}
                     customerID={customerID}
                     customerVersion={customerVersion}
+                    updateFunction={getCustomer}
                   />
                 </div>
               );
             }
 
             return (
-              <div>
+              <div key={currAddress.id}>
                 <AddressField
                   address={currAddress}
                   customerID={customerID}
                   customerVersion={customerVersion}
+                  updateFunction={getCustomer}
                 />
                 <BaseButton
                   classes="button edit-address-button set-default-button"

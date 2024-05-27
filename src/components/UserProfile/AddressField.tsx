@@ -18,6 +18,7 @@ const AddressField: React.FC<AddressFieldProps> = (
 
   function closeModal() {
     setModalOpen(false);
+    props.updateFunction();
   }
 
   const deleteAddress = async () => {
@@ -38,6 +39,7 @@ const AddressField: React.FC<AddressFieldProps> = (
       showToast(response.message, true);
     } else {
       showToast('Address is successfully deleted', false);
+      props.updateFunction();
     }
   };
 
@@ -90,5 +92,6 @@ interface AddressFieldProps {
   address: Address;
   customerID: string;
   customerVersion: number;
+  updateFunction: () => void;
 }
 export default AddressField;

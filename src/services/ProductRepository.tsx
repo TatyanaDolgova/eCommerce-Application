@@ -82,7 +82,7 @@ class ProductRepository {
         .search()
         .get({
           queryArgs: {
-            limit: 50,
+            limit: 60,
           },
         })
         .execute();

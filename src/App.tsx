@@ -10,7 +10,7 @@ import RegistrationPage from './pages/registration/RegistrationPage';
 import UserProfilePage from './pages/UserProfilePage/UserProfilePage';
 import { CustomerRepository } from './services/CustomerRepository';
 import { userTokenStorage } from './services/LocalStorage';
-import { RouteGuard } from './utils/RouteGuard';
+import { RouteGuard, RouteGuardLoggedIn } from './utils/RouteGuard';
 
 function App() {
   const tokens = userTokenStorage.getTokens();
@@ -48,7 +48,14 @@ function App() {
             </RouteGuard>
           }
         />
-        <Route path="/userprofile" element={<UserProfilePage />} />
+        <Route
+          path="/userprofile"
+          element={
+            <RouteGuardLoggedIn>
+              <UserProfilePage />
+            </RouteGuardLoggedIn>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

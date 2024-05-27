@@ -14,13 +14,16 @@ export const MySlider = ({ slides }: SliderProps) => {
       modules={[Navigation, Pagination, Scrollbar, A11y, Zoom]}
       spaceBetween={50}
       slidesPerView={1}
+      zoom={true}
       navigation
-      pagination={{ clickable: true }}
+      pagination={{ clickable: true, type: 'fraction' }}
       scrollbar={{ draggable: true }}
     >
       {slides.map((slide) => (
         <SwiperSlide key={slide.url}>
-          <img src={slide.url} alt="product_picture" />
+          <div className="swiper-zoom-container">
+            <img src={slide.url} alt="product_picture" />
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>

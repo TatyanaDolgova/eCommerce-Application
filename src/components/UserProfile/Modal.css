@@ -40,7 +40,7 @@
 .modal-input-wrapper {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 20px;
+  gap: 5px;
 }
 
 .modal-input-wrapper .label {
@@ -55,8 +55,8 @@
 }
 
 .fieldset .show_password_input {
-width: 30px;
-margin: 0 30px 0 10px;
+  width: 30px;
+  margin: 0 30px 0 10px;
 }
 
 .edit-address-button {
@@ -98,9 +98,9 @@ margin: 0 30px 0 10px;
 }
 
 .modal_password-wrapper {
-display: flex;
-flex-direction: column;
-gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .change-password-button {

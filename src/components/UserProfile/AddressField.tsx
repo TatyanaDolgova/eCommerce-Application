@@ -1,11 +1,15 @@
-import { Address } from '@commercetools/platform-sdk';
+import { Address, CustomerUpdateAction } from '@commercetools/platform-sdk';
 import { useState } from 'react';
 
+import { CustomerRepository } from '../../services/CustomerRepository';
+import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
 
-import ModalAddressAdd from './ModalAddressAdd';
+import ModalAddress from './ModalAddress';
 
-const AddressField: React.FC<Address> = (customerAddress: Address) => {
+const AddressField: React.FC<AddressFieldProps> = (
+  props: AddressFieldProps,
+) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   function openModal() {
@@ -14,25 +18,48 @@ const AddressField: React.FC<Address> = (customerAddress: Address) => {
 
   function closeModal() {
     setModalOpen(false);
+    props.updateFunction();
   }
 
+  const deleteAddress = async () => {
+    const action: CustomerUpdateAction[] = [
+      {
+        action: 'removeAddress',
+        addressId: props.address.id,
+      },
+    ];
+
+    const response = await CustomerRepository.updateCustomer(
+      props.customerID,
+      props.customerVersion,
+      action,
+    );
+
+    if (response instanceof Error) {
+      showToast(response.message, true);
+    } else {
+      showToast('Address is successfully deleted', false);
+      props.updateFunction();
+    }
+  };
+
   return (
-    <div data-AddressId={customerAddress.id} className="address-field">
+    <div data-addressid={props.address.id} className="address-field">
       <div className="field-wrapper">
         <div className="label">Street</div>
-        <div className="info">{customerAddress.streetName}</div>
+        <div className="info">{props.address.streetName}</div>
       </div>
       <div className="field-wrapper">
         <div className="label">City</div>
-        <div className="info">{customerAddress.city}</div>
+        <div className="info">{props.address.city}</div>
       </div>
       <div className="field-wrapper">
         <div className="label">Postal Code</div>
-        <div className="info">{customerAddress.postalCode}</div>
+        <div className="info">{props.address.postalCode}</div>
       </div>
       <div className="field-wrapper">
         <div className="label">Country</div>
-        <div className="info">{customerAddress.country}</div>
+        <div className="info">{props.address.country}</div>
       </div>
       <div className="button-wrapper">
         <BaseButton
@@ -45,17 +72,26 @@ const AddressField: React.FC<Address> = (customerAddress: Address) => {
           classes="button edit-address-button"
           text="Delete"
           type="button"
+          callback={deleteAddress}
         />
       </div>
       {modalOpen && (
-        <ModalAddressAdd
+        <ModalAddress
           callback={closeModal}
           edit={true}
-          address={customerAddress}
+          address={props.address}
+          customerID={props.customerID}
+          version={props.customerVersion}
         />
       )}
     </div>
   );
 };
 
+interface AddressFieldProps {
+  address: Address;
+  customerID: string;
+  customerVersion: number;
+  updateFunction: () => void;
+}
 export default AddressField;

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Breadcrumbs from '../../components/Catalog/Breadcrumbs/Breadcrumbs';
 import CategorySidebar from '../../components/Catalog/CategorySidebar/CategorySidebar';
 import ProductList from '../../components/Catalog/ProductList/ProductList';
+import Search from '../../components/Catalog/Search/Search';
 import Header from '../../components/Header/Header';
 import ProductRepository from '../../services/ProductRepository';
 
@@ -16,6 +17,7 @@ const CatalogPage = () => {
     { id: string; name: string }[]
   >([]);
   const [currentCategory, setCurrentCategory] = useState<string>('');
+  const [searchError, setSearchError] = useState<string | null>(null);
 
   async function fetchProducts() {
     try {
@@ -26,6 +28,7 @@ const CatalogPage = () => {
       setSortedProducts(productsResponse);
       setBreadcrumbs([]);
       setCurrentCategory('');
+      setSearchError(null);
     } catch (error) {
       throw new Error('Error fetching products');
     }
@@ -61,10 +64,7 @@ const CatalogPage = () => {
     void fetchProducts();
   }, []);
 
-  const handleCategorySelect = async (
-    categoryId: string,
-    isParent: boolean,
-  ) => {
+  const handleCategorySelect = async (categoryId: string) => {
     try {
       const productRepository = new ProductRepository();
 
@@ -73,12 +73,35 @@ const CatalogPage = () => {
 
       setProducts(productsResponse);
       setSortedProducts(productsResponse);
+      setCurrentCategory(categoryId);
+      setSearchError(null);
 
       const category = await productRepository.getCategoryById(categoryId);
 
       await updateBreadcrumbs(category);
     } catch (error) {
       throw new Error('Error fetching products for category');
+    }
+  };
+
+  const handleSearch = async (query: string) => {
+    try {
+      const productRepository = new ProductRepository();
+      const searchResults = await productRepository.searchProducts(
+        query,
+        currentCategory,
+      );
+
+      setProducts(searchResults);
+      setSortedProducts(searchResults);
+
+      if (searchResults.length === 0) {
+        setSearchError('Nothing found');
+      } else {
+        setSearchError(null);
+      }
+    } catch (error) {
+      throw new Error('Error searching products');
     }
   };
 
@@ -96,7 +119,12 @@ const CatalogPage = () => {
           onFetchCategories={fetchProducts}
         />
         <div className="main-content">
-          <ProductList products={products} />
+          <Search onSearch={handleSearch} currentCategory={currentCategory} />
+          {searchError ? (
+            <div className="search-error">{searchError}</div>
+          ) : (
+            <ProductList products={products} />
+          )}
         </div>
       </div>
     </>

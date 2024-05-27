@@ -115,6 +115,32 @@ class ProductRepository {
       throw new Error('Error fetching products by category');
     }
   }
+
+  async searchProducts(
+    query: string,
+    categoryId?: string | null,
+  ): Promise<ProductProjection[]> {
+    try {
+      const queryArgs: Record<string, string | string[] | boolean> = {
+        ['text.en-US']: query,
+        fuzzy: true,
+      };
+
+      if (categoryId) {
+        queryArgs.filter = [`categories.id:subtree("${categoryId}")`];
+      }
+
+      const response = await this.apiRoot
+        .productProjections()
+        .search()
+        .get({ queryArgs })
+        .execute();
+
+      return response.body.results;
+    } catch (error) {
+      throw new Error('Error searching products');
+    }
+  }
 }
 
 export default ProductRepository;

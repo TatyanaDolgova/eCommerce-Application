@@ -1,7 +1,6 @@
 import { Image } from '@commercetools/platform-sdk';
-import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
+import { A11y, Navigation, Pagination, Scrollbar, Zoom } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-// import 'swiper/swiper-bundle.min.css';
 
 import 'swiper/css/bundle';
 
@@ -12,14 +11,12 @@ interface SliderProps {
 export const MySlider = ({ slides }: SliderProps) => {
   return (
     <Swiper
-      modules={[Navigation, Pagination, Scrollbar, A11y]}
+      modules={[Navigation, Pagination, Scrollbar, A11y, Zoom]}
       spaceBetween={50}
       slidesPerView={1}
       navigation
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
-      onSlideChange={() => console.log('slide change')}
-      // onSwiper={(swiper) => console.log(swiper)}
     >
       {slides.map((slide) => (
         <SwiperSlide key={slide.url}>

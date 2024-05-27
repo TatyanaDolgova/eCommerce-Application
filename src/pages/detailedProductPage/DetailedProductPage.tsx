@@ -20,9 +20,8 @@ const DetailedProductPage = () => {
   const fetchProducts = async () => {
     try {
       const productRepository = new ProductRepository();
-      const resp: Product | undefined = await productRepository.getProduct(
-        '2c9d4fb5-223b-449e-81a4-2466cf4c5324',
-      );
+      const resp: Product | undefined =
+        await productRepository.getProduct(productID);
 
       if (resp && resp.masterData.current) {
         const tempProductData = resp.masterData.current;

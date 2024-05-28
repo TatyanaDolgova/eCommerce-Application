@@ -5,7 +5,7 @@ import './CategorySidebar.css';
 import ProductRepository from '../../../services/ProductRepository';
 
 interface CategorySidebarProps {
-  onCategorySelect: (categoryId: string, isParent: boolean) => void;
+  onCategorySelect: (categoryId: string) => void;
   onFetchCategories: () => void;
 }
 
@@ -41,16 +41,17 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
     void fetchCategories();
   }, []);
 
-  const handleCategorySelect = (categoryId: string, isParent: boolean) => {
+  const handleCategorySelect = (categoryId: string) => {
     setSelectedCategoryId(categoryId);
     setAllProductsSelected(false);
-    onCategorySelect(categoryId, isParent);
+    onCategorySelect(categoryId);
   };
 
   const handleAllProductsSelect = () => {
     setSelectedCategoryId(null);
     setAllProductsSelected(true);
-    onFetchCategories();
+    onCategorySelect('');
+    // onFetchCategories();
   };
 
   const renderCategories = (
@@ -71,9 +72,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
               className={`category-item ${
                 !category.parent ? 'main-category' : 'subcategory'
               } ${selectedCategoryId === category.id ? 'selected' : ''}`}
-              onClick={() =>
-                handleCategorySelect(category.id, !category.parent)
-              }
+              onClick={() => handleCategorySelect(category.id)}
             >
               {category.name['en-US']}
             </div>

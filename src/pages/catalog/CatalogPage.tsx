@@ -5,6 +5,7 @@ import Breadcrumbs from '../../components/Catalog/Breadcrumbs/Breadcrumbs';
 import CategorySidebar from '../../components/Catalog/CategorySidebar/CategorySidebar';
 import ProductList from '../../components/Catalog/ProductList/ProductList';
 import Search from '../../components/Catalog/Search/Search';
+import SortingSelect from '../../components/Catalog/SortingSelect/SortingSelect';
 import Header from '../../components/Header/Header';
 import ProductRepository from '../../services/ProductRepository';
 
@@ -18,21 +19,29 @@ const CatalogPage = () => {
   >([]);
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [sortMethod, setSortMethod] = useState<string>('price asc');
+  const [searhcQuery, setSearchQuery] = useState<string>('');
 
   async function fetchProducts() {
     try {
       const productRepository = new ProductRepository();
-      const productsResponse = await productRepository.getProducts();
+      const productsResponse = await productRepository.getProducts(
+        sortMethod,
+        searhcQuery,
+        currentCategory,
+      );
 
       setProducts(productsResponse);
       setSortedProducts(productsResponse);
-      setBreadcrumbs([]);
-      setCurrentCategory('');
       setSearchError(null);
     } catch (error) {
       throw new Error('Error fetching products');
     }
   }
+
+  useEffect(() => {
+    void fetchProducts();
+  }, [sortMethod, currentCategory, searhcQuery]);
 
   const updateBreadcrumbs = async (category: Category) => {
     const newBreadcrumb = { id: category.id, name: category.name['en-US'] };
@@ -60,20 +69,12 @@ const CatalogPage = () => {
     }
   };
 
-  useEffect(() => {
-    void fetchProducts();
-  }, []);
-
   const handleCategorySelect = async (categoryId: string) => {
     try {
       const productRepository = new ProductRepository();
 
-      const productsResponse =
-        await productRepository.getAllSubcategories(categoryId);
-
-      setProducts(productsResponse);
-      setSortedProducts(productsResponse);
       setCurrentCategory(categoryId);
+      setSearchQuery('');
       setSearchError(null);
 
       const category = await productRepository.getCategoryById(categoryId);
@@ -84,25 +85,12 @@ const CatalogPage = () => {
     }
   };
 
-  const handleSearch = async (query: string) => {
-    try {
-      const productRepository = new ProductRepository();
-      const searchResults = await productRepository.searchProducts(
-        query,
-        currentCategory,
-      );
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
 
-      setProducts(searchResults);
-      setSortedProducts(searchResults);
-
-      if (searchResults.length === 0) {
-        setSearchError('Nothing found');
-      } else {
-        setSearchError(null);
-      }
-    } catch (error) {
-      throw new Error('Error searching products');
-    }
+  const handleSortChange = (method: string) => {
+    setSortMethod(method);
   };
 
   return (
@@ -119,7 +107,13 @@ const CatalogPage = () => {
           onFetchCategories={fetchProducts}
         />
         <div className="main-content">
-          <Search onSearch={handleSearch} currentCategory={currentCategory} />
+          <div className="settings-container">
+            <SortingSelect
+              sortMethod={sortMethod}
+              onSortChange={handleSortChange}
+            />
+            <Search onSearch={handleSearch} currentCategory={currentCategory} />
+          </div>
           {searchError ? (
             <div className="search-error">{searchError}</div>
           ) : (

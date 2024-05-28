@@ -25,3 +25,17 @@ export const RouteGuard = (params: RouteGuardProps) => {
     return params.children;
   }
 };
+
+export const RouteGuardLoggedIn = (params: RouteGuardProps) => {
+  const currentLocation = useLocation();
+  const userContext = useContext(UserContext);
+  const isLoggedIn = userContext.user?.loginStatus;
+
+  if (isLoggedIn) {
+    return params.children;
+  } else {
+    showToast('You are not logged in. Please log in first.', true);
+
+    return <Navigate to="/login" state={{ from: currentLocation }} />;
+  }
+};

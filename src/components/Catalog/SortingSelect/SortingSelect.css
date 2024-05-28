@@ -18,7 +18,3 @@
   border-color: var(--cambridge-blue);
   outline: none;
 }
-
-.sorting-option:hover {
-  background-color: var(--cambridge-blue);
-}

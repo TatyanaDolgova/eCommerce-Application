@@ -5,20 +5,21 @@ import './CategorySidebar.css';
 import ProductRepository from '../../../services/ProductRepository';
 
 interface CategorySidebarProps {
+  currentCategory: string;
   onCategorySelect: (categoryId: string) => void;
-  onFetchCategories: () => void;
 }
 
 const CategorySidebar: React.FC<CategorySidebarProps> = ({
   onCategorySelect,
-  onFetchCategories,
+  currentCategory,
 }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null,
+    currentCategory || null,
   );
-  const [allProductsSelected, setAllProductsSelected] = useState<boolean>(true);
+  const [allProductsSelected, setAllProductsSelected] =
+    useState<boolean>(!currentCategory);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -41,7 +42,12 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
     void fetchCategories();
   }, []);
 
-  const handleCategorySelect = (categoryId: string) => {
+  useEffect(() => {
+    setSelectedCategoryId(currentCategory);
+    setAllProductsSelected(!currentCategory);
+  }, [currentCategory]);
+
+  const handleCategorySelect = (categoryId: string, isParent: boolean) => {
     setSelectedCategoryId(categoryId);
     setAllProductsSelected(false);
     onCategorySelect(categoryId);
@@ -51,7 +57,6 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
     setSelectedCategoryId(null);
     setAllProductsSelected(true);
     onCategorySelect('');
-    // onFetchCategories();
   };
 
   const renderCategories = (
@@ -72,7 +77,9 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
               className={`category-item ${
                 !category.parent ? 'main-category' : 'subcategory'
               } ${selectedCategoryId === category.id ? 'selected' : ''}`}
-              onClick={() => handleCategorySelect(category.id)}
+              onClick={() =>
+                handleCategorySelect(category.id, !category.parent)
+              }
             >
               {category.name['en-US']}
             </div>

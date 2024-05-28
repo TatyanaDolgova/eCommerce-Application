@@ -21,10 +21,10 @@ const SortingSelect: React.FC<SortingSelectProps> = ({
         onChange={handleSortChange}
       >
         <option className="sorting-option" value="price asc">
-          Sort by Price ↓(Ascending)
+          Sort by Price ↓
         </option>
         <option className="sorting-option" value="price desc">
-          Sort by Price ↑(Descending)
+          Sort by Price ↑
         </option>
         <option className="sorting-option" value="name.en-US asc">
           Sort by Name (A-Z)

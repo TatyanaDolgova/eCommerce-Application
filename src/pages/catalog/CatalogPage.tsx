@@ -7,6 +7,7 @@ import ProductList from '../../components/Catalog/ProductList/ProductList';
 import Search from '../../components/Catalog/Search/Search';
 import SortingSelect from '../../components/Catalog/SortingSelect/SortingSelect';
 import Header from '../../components/Header/Header';
+import Spinner from '../../components/Spinners/Spinner-category';
 import ProductRepository from '../../services/ProductRepository';
 
 import './CatalogPage.css';
@@ -21,9 +22,11 @@ const CatalogPage = () => {
   const [searchError, setSearchError] = useState<string | null>(null);
   const [sortMethod, setSortMethod] = useState<string>('price asc');
   const [searhcQuery, setSearchQuery] = useState<string>('');
+  const [loading, setLoading] = useState(true);
 
   async function fetchProducts() {
     try {
+      setLoading(true);
       const productRepository = new ProductRepository();
       const productsResponse = await productRepository.getProducts(
         sortMethod,
@@ -31,11 +34,16 @@ const CatalogPage = () => {
         currentCategory,
       );
 
+      setLoading(false);
       setProducts(productsResponse);
       setSortedProducts(productsResponse);
       setSearchError(null);
+
+      if (productsResponse.length === 0) {
+        setSearchError('Nothing found');
+      }
     } catch (error) {
-      throw new Error('Error fetching products');
+      setSearchError('Error fetching products');
     }
   }
 
@@ -43,29 +51,35 @@ const CatalogPage = () => {
     void fetchProducts();
   }, [sortMethod, currentCategory, searhcQuery]);
 
-  const updateBreadcrumbs = async (category: Category) => {
-    const newBreadcrumb = { id: category.id, name: category.name['en-US'] };
+  const updateBreadcrumbs = async (category: Category | null) => {
+    if (category) {
+      const newBreadcrumb = { id: category.id, name: category.name['en-US'] };
 
-    try {
-      if (category.parent) {
-        const productRepository = new ProductRepository();
-        const productsResponse = await productRepository.getCategoryById(
-          category.parent.id,
-        );
+      try {
+        if (category.parent) {
+          const productRepository = new ProductRepository();
+          const productsResponse = await productRepository.getCategoryById(
+            category.parent.id,
+          );
 
-        setBreadcrumbs(() => {
-          return [
-            { id: productsResponse.id, name: productsResponse.name['en-US'] },
-            newBreadcrumb,
-          ];
-        });
-      } else {
-        setBreadcrumbs(() => {
-          return [newBreadcrumb];
-        });
+          setBreadcrumbs(() => {
+            return [
+              { id: productsResponse.id, name: productsResponse.name['en-US'] },
+              newBreadcrumb,
+            ];
+          });
+        } else {
+          setBreadcrumbs(() => {
+            return [newBreadcrumb];
+          });
+        }
+      } catch (error) {
+        throw new Error('Error updating breadcrumbs');
       }
-    } catch (error) {
-      throw new Error('Error updating breadcrumbs');
+    } else {
+      setBreadcrumbs(() => {
+        return [];
+      });
     }
   };
 
@@ -77,9 +91,13 @@ const CatalogPage = () => {
       setSearchQuery('');
       setSearchError(null);
 
-      const category = await productRepository.getCategoryById(categoryId);
+      if (categoryId) {
+        const category = await productRepository.getCategoryById(categoryId);
 
-      await updateBreadcrumbs(category);
+        await updateBreadcrumbs(category);
+      } else {
+        await updateBreadcrumbs(null);
+      }
     } catch (error) {
       throw new Error('Error fetching products for category');
     }
@@ -104,7 +122,7 @@ const CatalogPage = () => {
       <div className="catalog-page">
         <CategorySidebar
           onCategorySelect={handleCategorySelect}
-          onFetchCategories={fetchProducts}
+          currentCategory={currentCategory}
         />
         <div className="main-content">
           <div className="settings-container">
@@ -114,7 +132,9 @@ const CatalogPage = () => {
             />
             <Search onSearch={handleSearch} currentCategory={currentCategory} />
           </div>
-          {searchError ? (
+          {loading ? (
+            <Spinner />
+          ) : searchError ? (
             <div className="search-error">{searchError}</div>
           ) : (
             <ProductList products={products} />

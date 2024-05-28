@@ -11,27 +11,13 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = ({ products }) => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (products.length > 0) {
-      setLoading(false);
-    } else {
-      setLoading(true);
-    }
-  }, [products]);
-
   return (
     <>
-      {loading ? (
-        <SpinnerCategory />
-      ) : (
-        <div className="products-container">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      )}
+      <div className="products-container">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </>
   );
 };

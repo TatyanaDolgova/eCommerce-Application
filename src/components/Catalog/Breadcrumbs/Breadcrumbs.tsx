@@ -5,7 +5,7 @@ import './Breadcrumbs.css';
 
 interface BreadcrumbsProps {
   breadcrumbs: { id: string; name: string }[];
-  onCategorySelect: (categoryId: string, isParent: boolean) => void;
+  onCategorySelect: (categoryId: string) => void;
   onFetchCategories: () => void;
 }
 
@@ -14,11 +14,12 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
   onCategorySelect,
   onFetchCategories,
 }) => {
-  const handleCategoryClick = (categoryId: string, isParent: boolean) => {
-    onCategorySelect(categoryId, isParent);
+  const handleCategoryClick = (categoryId: string) => {
+    onCategorySelect(categoryId);
   };
 
   const handleAllProductsSelect = () => {
+    onCategorySelect('');
     onFetchCategories();
   };
 
@@ -42,7 +43,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
             {' / '}
             <li
               className="breadcrumb-item"
-              onClick={() => handleCategoryClick(breadcrumb.id, index === 0)}
+              onClick={() => handleCategoryClick(breadcrumb.id)}
             >
               {breadcrumb.name}
             </li>

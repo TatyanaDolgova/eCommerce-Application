@@ -70,7 +70,14 @@ const Header = () => {
             Catalog
           </Link>
           {isLoggedIn ? (
-            <LogOutButton />
+            <div className="loggedin-container">
+              <Link
+                to="/userprofile"
+                className="user-profile-link"
+                onClick={closeMenu}
+              />
+              <LogOutButton />
+            </div>
           ) : (
             <ul className="header-links">
               <li>

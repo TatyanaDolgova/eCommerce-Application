@@ -1,17 +1,21 @@
-import { Product, ProductData } from '@commercetools/platform-sdk';
+import { Image, Product, ProductData } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import './DetailedProductPage.css';
 
+import { MySlider } from '../../components/DetailedProduct/Slider';
 import Header from '../../components/Header/Header';
 import ProductRepository from '../../services/ProductRepository';
 
 const DetailedProductPage = () => {
   const data = useLocation();
   const productID = data.state as string;
+  const defaultImages: Image[] = [];
 
   const [productData, setProduct] = useState<ProductData>();
+
+  const [images, setImages] = useState(defaultImages);
 
   const fetchProducts = async () => {
     try {
@@ -20,7 +24,13 @@ const DetailedProductPage = () => {
         await productRepository.getProduct(productID);
 
       if (resp && resp.masterData.current) {
-        setProduct(resp.masterData.current);
+        const tempProductData = resp.masterData.current;
+
+        setProduct(tempProductData);
+
+        if (tempProductData && tempProductData.masterVariant.images) {
+          setImages(tempProductData.masterVariant.images);
+        }
       }
     } catch (error) {
       console.error('Error fetching product:', error);
@@ -31,16 +41,26 @@ const DetailedProductPage = () => {
     void fetchProducts();
   }, []);
 
+  const ShowImage = () => {
+    if (images.length > 1) {
+      return <MySlider slides={images}></MySlider>;
+    } else {
+      return (
+        <img
+          className="detail_image"
+          src={productData?.masterVariant.images?.[0].url}
+          alt="prooduct"
+        />
+      );
+    }
+  };
+
   return (
     <>
       <Header />
       <main className="detail_product_page">
         <div className="detail_product_wrapper">
-          <img
-            className="detail_image"
-            src={productData?.masterVariant.images?.[0].url}
-            alt="prooduct"
-          />
+          <ShowImage />
           <div className="detail_product_info">
             <h1 className="detail_product_header">
               {productData?.name['en-US']}

@@ -5,7 +5,9 @@ import Breadcrumbs from '../../components/Catalog/Breadcrumbs/Breadcrumbs';
 import CategorySidebar from '../../components/Catalog/CategorySidebar/CategorySidebar';
 import ProductList from '../../components/Catalog/ProductList/ProductList';
 import Search from '../../components/Catalog/Search/Search';
+import SortingSelect from '../../components/Catalog/SortingSelect/SortingSelect';
 import Header from '../../components/Header/Header';
+import Spinner from '../../components/Spinners/Spinner-category';
 import ProductRepository from '../../services/ProductRepository';
 
 import './CatalogPage.css';
@@ -18,91 +20,95 @@ const CatalogPage = () => {
   >([]);
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [sortMethod, setSortMethod] = useState<string>('price asc');
+  const [searhcQuery, setSearchQuery] = useState<string>('');
+  const [loading, setLoading] = useState(true);
 
   async function fetchProducts() {
     try {
+      setLoading(true);
       const productRepository = new ProductRepository();
-      const productsResponse = await productRepository.getProducts();
+      const productsResponse = await productRepository.getProducts(
+        sortMethod,
+        searhcQuery,
+        currentCategory,
+      );
 
+      setLoading(false);
       setProducts(productsResponse);
       setSortedProducts(productsResponse);
-      setBreadcrumbs([]);
-      setCurrentCategory('');
       setSearchError(null);
+
+      if (productsResponse.length === 0) {
+        setSearchError('Nothing found');
+      }
     } catch (error) {
-      throw new Error('Error fetching products');
+      setSearchError('Error fetching products');
     }
   }
 
-  const updateBreadcrumbs = async (category: Category) => {
-    const newBreadcrumb = { id: category.id, name: category.name['en-US'] };
-
-    try {
-      if (category.parent) {
-        const productRepository = new ProductRepository();
-        const productsResponse = await productRepository.getCategoryById(
-          category.parent.id,
-        );
-
-        setBreadcrumbs(() => {
-          return [
-            { id: productsResponse.id, name: productsResponse.name['en-US'] },
-            newBreadcrumb,
-          ];
-        });
-      } else {
-        setBreadcrumbs(() => {
-          return [newBreadcrumb];
-        });
-      }
-    } catch (error) {
-      throw new Error('Error updating breadcrumbs');
-    }
-  };
-
   useEffect(() => {
     void fetchProducts();
-  }, []);
+  }, [sortMethod, currentCategory, searhcQuery]);
+
+  const updateBreadcrumbs = async (category: Category | null) => {
+    if (category) {
+      const newBreadcrumb = { id: category.id, name: category.name['en-US'] };
+
+      try {
+        if (category.parent) {
+          const productRepository = new ProductRepository();
+          const productsResponse = await productRepository.getCategoryById(
+            category.parent.id,
+          );
+
+          setBreadcrumbs(() => {
+            return [
+              { id: productsResponse.id, name: productsResponse.name['en-US'] },
+              newBreadcrumb,
+            ];
+          });
+        } else {
+          setBreadcrumbs(() => {
+            return [newBreadcrumb];
+          });
+        }
+      } catch (error) {
+        throw new Error('Error updating breadcrumbs');
+      }
+    } else {
+      setBreadcrumbs(() => {
+        return [];
+      });
+    }
+  };
 
   const handleCategorySelect = async (categoryId: string) => {
     try {
       const productRepository = new ProductRepository();
 
-      const productsResponse =
-        await productRepository.getAllSubcategories(categoryId);
-
-      setProducts(productsResponse);
-      setSortedProducts(productsResponse);
       setCurrentCategory(categoryId);
+      setSearchQuery('');
       setSearchError(null);
 
-      const category = await productRepository.getCategoryById(categoryId);
+      if (categoryId) {
+        const category = await productRepository.getCategoryById(categoryId);
 
-      await updateBreadcrumbs(category);
+        await updateBreadcrumbs(category);
+      } else {
+        await updateBreadcrumbs(null);
+      }
     } catch (error) {
       throw new Error('Error fetching products for category');
     }
   };
 
-  const handleSearch = async (query: string) => {
-    try {
-      const productRepository = new ProductRepository();
-      const searchResults = await productRepository.searchProducts(
-        query,
-        currentCategory,
-      );
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
 
-      setProducts(searchResults);
-      setSortedProducts(searchResults);
-
-      if (searchResults.length === 0) {
-        setSearchError('Nothing found');
-      } else {
-        setSearchError(null);
-      }
-    } catch (error) {
-      throw new Error('Error searching products');
-    }
+  const handleSortChange = (method: string) => {
+    setSortMethod(method);
   };
 
   return (
@@ -116,11 +122,19 @@ const CatalogPage = () => {
       <div className="catalog-page">
         <CategorySidebar
           onCategorySelect={handleCategorySelect}
-          onFetchCategories={fetchProducts}
+          currentCategory={currentCategory}
         />
         <div className="main-content">
-          <Search onSearch={handleSearch} currentCategory={currentCategory} />
-          {searchError ? (
+          <div className="settings-container">
+            <SortingSelect
+              sortMethod={sortMethod}
+              onSortChange={handleSortChange}
+            />
+            <Search onSearch={handleSearch} currentCategory={currentCategory} />
+          </div>
+          {loading ? (
+            <Spinner />
+          ) : searchError ? (
             <div className="search-error">{searchError}</div>
           ) : (
             <ProductList products={products} />

@@ -3,6 +3,7 @@ import {
   Category,
   Product,
   ProductProjection,
+  QueryParam,
 } from '@commercetools/platform-sdk';
 import { key } from 'localforage';
 
@@ -74,56 +75,17 @@ class ProductRepository {
     }
   }
 
-  async getProducts(): Promise<ProductProjection[]> {
-    try {
-      const response = await this.apiRoot
-        .productProjections()
-        .search()
-        .get({
-          queryArgs: {
-            limit: 60,
-          },
-        })
-        .execute();
-
-      const products: ProductProjection[] = response.body.results;
-
-      return products;
-    } catch (error) {
-      throw new Error('Error fetching products');
-    }
-  }
-
-  async getProductsByCategory(
-    categoryId: string,
-  ): Promise<ProductProjection[]> {
-    try {
-      const response = await this.apiRoot
-        .productProjections()
-        .search()
-        .get({
-          queryArgs: {
-            filter: `categories.id:"${categoryId}"`,
-          },
-        })
-        .execute();
-
-      const products = response.body.results;
-
-      return products;
-    } catch (error) {
-      throw new Error('Error fetching products by category');
-    }
-  }
-
-  async searchProducts(
+  async getProducts(
+    sortBy: string,
     query: string,
-    categoryId?: string | null,
+    categoryId?: string,
   ): Promise<ProductProjection[]> {
     try {
-      const queryArgs: Record<string, string | string[] | boolean> = {
-        ['text.en-US']: query,
+      const queryArgs: Record<string, string | string[] | boolean | number> = {
+        'text.en-US': query,
         fuzzy: true,
+        sort: sortBy,
+        limit: 60,
       };
 
       if (categoryId) {
@@ -136,9 +98,11 @@ class ProductRepository {
         .get({ queryArgs })
         .execute();
 
-      return response.body.results;
+      const products: ProductProjection[] = response.body.results;
+
+      return products;
     } catch (error) {
-      throw new Error('Error searching products');
+      throw new Error('Error fetching products');
     }
   }
 }

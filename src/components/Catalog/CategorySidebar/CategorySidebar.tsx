@@ -5,20 +5,21 @@ import './CategorySidebar.css';
 import ProductRepository from '../../../services/ProductRepository';
 
 interface CategorySidebarProps {
-  onCategorySelect: (categoryId: string, isParent: boolean) => void;
-  onFetchCategories: () => void;
+  currentCategory: string;
+  onCategorySelect: (categoryId: string) => void;
 }
 
 const CategorySidebar: React.FC<CategorySidebarProps> = ({
   onCategorySelect,
-  onFetchCategories,
+  currentCategory,
 }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null,
+    currentCategory || null,
   );
-  const [allProductsSelected, setAllProductsSelected] = useState<boolean>(true);
+  const [allProductsSelected, setAllProductsSelected] =
+    useState<boolean>(!currentCategory);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -41,16 +42,21 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
     void fetchCategories();
   }, []);
 
+  useEffect(() => {
+    setSelectedCategoryId(currentCategory);
+    setAllProductsSelected(!currentCategory);
+  }, [currentCategory]);
+
   const handleCategorySelect = (categoryId: string, isParent: boolean) => {
     setSelectedCategoryId(categoryId);
     setAllProductsSelected(false);
-    onCategorySelect(categoryId, isParent);
+    onCategorySelect(categoryId);
   };
 
   const handleAllProductsSelect = () => {
     setSelectedCategoryId(null);
     setAllProductsSelected(true);
-    onFetchCategories();
+    onCategorySelect('');
   };
 
   const renderCategories = (

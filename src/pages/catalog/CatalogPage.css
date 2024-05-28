@@ -8,3 +8,9 @@
   width: 100%;
   padding: 30px;
 }
+
+.settings-container {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}

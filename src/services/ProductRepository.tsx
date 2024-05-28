@@ -85,7 +85,7 @@ class ProductRepository {
         'text.en-US': query,
         fuzzy: true,
         sort: sortBy,
-        limit: 50,
+        limit: 60,
       };
 
       if (categoryId) {

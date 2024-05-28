@@ -68,6 +68,27 @@
   color: var(--error-message-color);
 }
 
+.swiper-slide img {
+  width: 100%;
+  border-radius: 12px;
+ }
+
+ .swiper-wrapper {
+  max-width: 400px;
+  min-width: 300px;
+  max-height: 500px;
+ }
+
+ .swiper-button-next::after,
+ .swiper-button-prev::after {
+  color: var(--dark-moss-green);
+ }
+
+ .swiper-pagination * {
+  color: var(--dark-moss-green);
+ }
+
+
 @media (max-width: 920px) {
   .detail_price_wrapper {
     flex-direction: column;

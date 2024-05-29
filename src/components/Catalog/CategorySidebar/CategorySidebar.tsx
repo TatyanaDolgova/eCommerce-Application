@@ -47,7 +47,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
     setAllProductsSelected(!currentCategory);
   }, [currentCategory]);
 
-  const handleCategorySelect = (categoryId: string, isParent: boolean) => {
+  const handleCategorySelect = (categoryId: string) => {
     setSelectedCategoryId(categoryId);
     setAllProductsSelected(false);
     onCategorySelect(categoryId);
@@ -77,9 +77,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
               className={`category-item ${
                 !category.parent ? 'main-category' : 'subcategory'
               } ${selectedCategoryId === category.id ? 'selected' : ''}`}
-              onClick={() =>
-                handleCategorySelect(category.id, !category.parent)
-              }
+              onClick={() => handleCategorySelect(category.id)}
             >
               {category.name['en-US']}
             </div>

@@ -38,7 +38,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
           All products
         </li>
 
-        {breadcrumbs.map((breadcrumb, index) => (
+        {breadcrumbs.map((breadcrumb) => (
           <React.Fragment key={breadcrumb.id}>
             {' / '}
             <li

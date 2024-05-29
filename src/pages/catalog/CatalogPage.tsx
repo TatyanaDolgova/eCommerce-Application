@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import Breadcrumbs from '../../components/Catalog/Breadcrumbs/Breadcrumbs';
 import CategorySidebar from '../../components/Catalog/CategorySidebar/CategorySidebar';
+import PriceFilter from '../../components/Catalog/PriceFilter/PriceFilter';
 import ProductList from '../../components/Catalog/ProductList/ProductList';
 import Search from '../../components/Catalog/Search/Search';
 import SortingSelect from '../../components/Catalog/SortingSelect/SortingSelect';
@@ -22,6 +23,8 @@ const CatalogPage = () => {
   const [searchError, setSearchError] = useState<string | null>(null);
   const [sortMethod, setSortMethod] = useState<string>('price asc');
   const [searhcQuery, setSearchQuery] = useState<string>('');
+  const [minPrice, setMinPrice] = useState<number>(0);
+  const [maxPrice, setMaxPrice] = useState<number>(100);
   const [loading, setLoading] = useState(true);
 
   async function fetchProducts() {
@@ -31,6 +34,8 @@ const CatalogPage = () => {
       const productsResponse = await productRepository.getProducts(
         sortMethod,
         searhcQuery,
+        minPrice,
+        maxPrice,
         currentCategory,
       );
 
@@ -49,7 +54,7 @@ const CatalogPage = () => {
 
   useEffect(() => {
     void fetchProducts();
-  }, [sortMethod, currentCategory, searhcQuery]);
+  }, [sortMethod, currentCategory, searhcQuery, maxPrice, minPrice]);
 
   const updateBreadcrumbs = async (category: Category | null) => {
     if (category) {
@@ -111,6 +116,11 @@ const CatalogPage = () => {
     setSortMethod(method);
   };
 
+  const handlePriceChange = (minPriceArg: number, maxPriceArg: number) => {
+    setMinPrice(minPriceArg);
+    setMaxPrice(maxPriceArg);
+  };
+
   return (
     <>
       <Header />
@@ -130,6 +140,7 @@ const CatalogPage = () => {
               sortMethod={sortMethod}
               onSortChange={handleSortChange}
             />
+            <PriceFilter onPriceChange={handlePriceChange} />
             <Search onSearch={handleSearch} currentCategory={currentCategory} />
           </div>
           {loading ? (

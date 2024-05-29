@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { CustomerRepository } from '../../services/CustomerRepository';
-import showToast from '../../utils/notifications';
-import { passwordProps } from '../../utils/validation';
-import BaseButton from '../Button/Button';
-import Input from '../Input/Input';
-import Label from '../Label/Label';
+import { CustomerRepository } from '../../../services/CustomerRepository';
+import showToast from '../../../utils/notifications';
+import { passwordProps } from '../../../utils/validation';
+import BaseButton from '../../Button/Button';
+import Input from '../../Input/Input';
+import Label from '../../Label/Label';
 
 type FormFields = {
   newPassword: string;

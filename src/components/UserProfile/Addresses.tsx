@@ -7,7 +7,7 @@ import BaseButton from '../Button/Button';
 import Label from '../Label/Label';
 
 import AddressField from './AddressField';
-import ModalAddress from './ModalAddress';
+import ModalAddress from './modals/ModalAddress';
 
 function Addresses() {
   const [addressArray, setAddressArray] = useState<Address[]>([]);

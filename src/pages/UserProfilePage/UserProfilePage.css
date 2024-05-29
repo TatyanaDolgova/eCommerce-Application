@@ -53,3 +53,19 @@
   padding-left: 10px;
   color: var(--background-color);
 }
+
+@media (max-width: 758px) {
+  .info-container {
+    flex-direction: column;
+  }
+  .user-profile_fieldset {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+ .user-profile_fieldset {
+    padding: 10px;
+  }
+
+}

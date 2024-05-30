@@ -9,6 +9,22 @@ interface SingleImageProps {
   imageData: Image;
 }
 
+interface SingleInnerImageProps extends SingleImageProps {
+  className: string;
+  openCallback?: () => void;
+}
+
+const SingleInnerImage = (props: SingleInnerImageProps) => {
+  return (
+    <img
+      className={props.className}
+      src={props.imageData.url}
+      alt="prooduct"
+      onClick={props.openCallback}
+    />
+  );
+};
+
 export const SingleImage = (props: SingleImageProps) => {
   const [modalImageOpen, setModalImage] = useState(false);
 
@@ -30,22 +46,19 @@ export const SingleImage = (props: SingleImageProps) => {
             type="button"
             callback={closeModal}
           />
-          <img
-            className="detail_image zoomed_in"
-            src={props.imageData.url}
-            alt="prooduct"
-            onClick={() => showModal()}
+          <SingleInnerImage
+            imageData={props.imageData}
+            className="detail_image"
           />
         </div>
       </div>
     );
   } else {
     return (
-      <img
+      <SingleInnerImage
+        imageData={props.imageData}
+        openCallback={showModal}
         className="detail_image zoomed_in"
-        src={props.imageData.url}
-        alt="prooduct"
-        onClick={() => showModal()}
       />
     );
   }

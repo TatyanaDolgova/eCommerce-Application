@@ -79,6 +79,7 @@ class ProductRepository {
     query: string,
     minPrice: number,
     maxPrice: number,
+    size: string,
     categoryId?: string,
   ): Promise<ProductProjection[]> {
     try {
@@ -91,9 +92,11 @@ class ProductRepository {
         'filter.query': `variants.price.centAmount:range (${minPrice * 100} to ${maxPrice * 100})`,
       };
 
-      const filters: string[] = [
-        // `variants.price.centAmount:range ((${minPrice * 100} to ${maxPrice * 100}), (${minPrice * 100} to ${maxPrice * 100}))`,
-      ];
+      const filters: string[] = [];
+
+      if (size) {
+        filters.push(`variants.attributes.size:"${size}"`);
+      }
 
       if (categoryId) {
         filters.push(`categories.id:subtree("${categoryId}")`);

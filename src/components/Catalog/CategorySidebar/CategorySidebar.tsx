@@ -71,7 +71,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
 
     return (
       <ul className="category-container">
-        {filteredCategories.map((category) => (
+        {filteredCategories.reverse().map((category) => (
           <li key={category.id}>
             <div
               className={`category-item ${

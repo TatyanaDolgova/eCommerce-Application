@@ -1,11 +1,12 @@
 import { Address, CustomerUpdateAction } from '@commercetools/platform-sdk';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { CustomerRepository } from '../../services/CustomerRepository';
-import showToast from '../../utils/notifications';
-import { nameProps, postCodeProps } from '../../utils/validation';
-import BaseButton from '../Button/Button';
-import Label from '../Label/Label';
+import { CustomerRepository } from '../../../services/CustomerRepository';
+import showToast from '../../../utils/notifications';
+import { nameProps, postCodeProps } from '../../../utils/validation';
+import BaseButton from '../../Button/Button';
+import Label from '../../Label/Label';
 
 type FormFields = {
   addressType?: string;
@@ -16,16 +17,21 @@ type FormFields = {
 };
 
 function ModalAddress(modalAddressesProps: ModalAddressesProps) {
+  const [postcode] = useState(modalAddressesProps.address?.postalCode);
+  const [country, setCountry] = useState(
+    modalAddressesProps.address?.country ?? 'US',
+  );
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
+    setValue,
   } = useForm<FormFields>({
     defaultValues: {
       city: modalAddressesProps.address?.city,
-      country: modalAddressesProps.address?.country,
-      postcode: modalAddressesProps.address?.postalCode,
+      country: country,
+      postcode: postcode,
       street: modalAddressesProps.address?.streetName,
     },
     mode: 'all',
@@ -133,7 +139,6 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
               type="text"
               id="street"
               name="street"
-              // defaultValue={modalAddressesProps.address?.streetName ?? ''}
             ></input>
             <div className="error_message modal_error">
               {errors.street?.message}
@@ -147,7 +152,6 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
               type="text"
               id="city"
               name="city"
-              // defaultValue={modalAddressesProps.address?.city ?? ''}
             ></input>
             <div className="error_message modal_error">
               {errors.city?.message}
@@ -156,12 +160,11 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
           <div className="modal-input-wrapper">
             <Label classes="label" text="Postal Code" for="postcode"></Label>
             <input
-              {...register('postcode', postCodeProps(getValues('country')))}
+              {...register('postcode', postCodeProps(country))}
               className="input"
               type="text"
               id="postcode"
               name="postcode"
-              // defaultValue={modalAddressesProps.address?.postalCode ?? ''}
             ></input>
             <div className="error_message modal_error">
               {errors.postcode?.message}
@@ -174,15 +177,12 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
               id="country"
               name="country"
               className="select"
-              // onChange={(e) => {
-              //   if (getValues('useSameAddress')) {
-              //     setBillingCountry(e.target.value);
-              //     setValue('country2', e.target.value, {
-              //       shouldValidate: true,
-              //     });
-              //   }
-              // }}
-              // defaultValue={modalAddressesProps.address?.country ?? 'US'}
+              onChange={(e) => {
+                setValue('country', e.target.value, {
+                  shouldValidate: true,
+                });
+                setCountry(e.target.value);
+              }}
             >
               <option value="US">USA</option>
               <option value="RU">Russia</option>

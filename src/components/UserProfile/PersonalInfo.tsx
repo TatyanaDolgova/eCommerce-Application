@@ -4,8 +4,8 @@ import { CustomerRepository } from '../../services/CustomerRepository';
 import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
 
-import ModalPassword from './ModalPasswordChange';
-import ModalPersonalInfo from './ModalPersonalInfo';
+import ModalPassword from './modals/ModalPasswordChange';
+import ModalPersonalInfo from './modals/ModalPersonalInfo';
 
 function PersonalInfo() {
   const [customerName, setCustomerName] = useState('');

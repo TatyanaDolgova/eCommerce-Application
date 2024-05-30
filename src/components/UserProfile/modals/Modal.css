@@ -106,3 +106,45 @@
 .change-password-button {
   margin: 20px auto;
 }
+@media (max-width: 550px) {
+  .modal-container {
+    width: 80%;
+   }
+}
+
+
+@media (max-width: 400px) {
+  .edit-address-button {
+    width: 80px;
+  }
+  .set-default-button {
+  width: 180px;
+  }
+  .modal-container > .modal-h2 {
+    font-size: 1.3em;
+  }
+
+  .modal-container .label {
+    font-size: smaller;
+  }
+
+  .modal-container .button {
+    font-size: smaller;
+  }
+
+  .modal-container .input {
+    min-width: 150px;
+  }
+
+  .modal_error {
+    font-size: x-small;
+    min-height: 20px;
+  }
+  .modal-container .show_password_input {
+    min-width: 30px;
+    margin: 0 10px;
+  }
+  .modal-container .select {
+    min-width: 150px;
+  }
+}

@@ -4,7 +4,7 @@ import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css/bundle';
-import { ModalProductImage } from './ProductImageModal';
+import { ModalProductImage } from '../modals/ModalProductImage';
 
 interface SliderProps {
   slides: Image[];

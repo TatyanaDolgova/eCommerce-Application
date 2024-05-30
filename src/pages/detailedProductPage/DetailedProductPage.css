@@ -10,7 +10,6 @@
 
 .detail_product_wrapper {
   max-width: 90%;
-  padding: 2%;
   display: flex;
   justify-content: space-around;
   align-items: stretch;
@@ -67,6 +66,8 @@
 .disc_price_wrapper {
   color: var(--error-message-color);
 }
+
+/* Swiper */
 
 .swiper-slide img {
   width: 100%;

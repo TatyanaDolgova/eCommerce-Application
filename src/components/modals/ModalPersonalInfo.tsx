@@ -2,11 +2,11 @@ import './Modal.css';
 import { CustomerUpdateAction } from '@commercetools/platform-sdk';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { CustomerRepository } from '../../../services/CustomerRepository';
-import showToast from '../../../utils/notifications';
-import { emailProps, minBirthDate, nameProps } from '../../../utils/validation';
-import BaseButton from '../../Button/Button';
-import Label from '../../Label/Label';
+import { CustomerRepository } from '../../services/CustomerRepository';
+import showToast from '../../utils/notifications';
+import { emailProps, minBirthDate, nameProps } from '../../utils/validation';
+import BaseButton from '../Button/Button';
+import Label from '../Label/Label';
 
 type FormFields = {
   birthDate: Date;

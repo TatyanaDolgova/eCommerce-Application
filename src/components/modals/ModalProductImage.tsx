@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import BaseButton from '../Button/Button';
 
-import '../UserProfile/Modal.css';
+import './Modal.css';
 
 interface SliderProps {
   closeModal: () => void;
@@ -14,9 +14,9 @@ interface SliderProps {
 export const ModalProductImage = ({ slides, closeModal }: SliderProps) => {
   return (
     <div className="shadow">
-      <div className="modal-container">
+      <div className="modal-container detailed">
         <BaseButton
-          classes="button buttonX"
+          classes="button buttonX detailed"
           text="X"
           type="button"
           callback={closeModal}

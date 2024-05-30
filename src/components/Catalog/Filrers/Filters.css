@@ -1,8 +1,8 @@
-.price-filter-container {
+.filters-container {
   position: relative;
 }
 
-.price-filter-header {
+.filters-header {
   cursor: pointer;
   padding: 10px;
   background-color: #f0f0f0;
@@ -10,9 +10,9 @@
   border-radius: 4px;
 }
 
-.price-filter-content {
+.filters-content {
   position: absolute;
-  top: 40px;
+  top: 100%;
   z-index: 1000;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -24,14 +24,20 @@
   background-color: #fff;
 }
 
-.price-filter-label {
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-label {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 5px;
 }
 
-.price-filter-content-input {
+.filter-content-input {
   width: 100px;
   padding: 10px;
   border: 2px solid var(--silver);
@@ -39,12 +45,17 @@
   font-size: 16px;
 }
 
-.price-filter-content-input:focus {
+.filter-content-input:focus {
   outline: none;
   border-color: var(--dark-moss-green);
 }
 
-.price-filter-button {
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-button {
   padding: 10px 20px;
   background-color: var(--dark-moss-green);
   color: #fff;
@@ -54,6 +65,34 @@
   cursor: pointer;
 }
 
+.filter-button:hover {
+  background-color: var(--fern-green);
+}
+
 .rc-slider {
   margin: 10px 0;
+}
+
+.applied-filters {
+  color: #fff;
+}
+
+.applied-filters-text {
+  display: inline;
+  margin: 0;
+}
+
+.size-select {
+  width: 100px;
+  padding: 5px;
+  border: 2px solid var(--silver);
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+}
+
+.size-select:focus {
+  outline: none;
+  border-color: var(--dark-moss-green);
 }

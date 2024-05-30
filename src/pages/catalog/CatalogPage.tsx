@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import Breadcrumbs from '../../components/Catalog/Breadcrumbs/Breadcrumbs';
 import CategorySidebar from '../../components/Catalog/CategorySidebar/CategorySidebar';
-import PriceFilter from '../../components/Catalog/PriceFilter/PriceFilter';
+import Filrers from '../../components/Catalog/Filrers/Filters';
 import ProductList from '../../components/Catalog/ProductList/ProductList';
 import Search from '../../components/Catalog/Search/Search';
 import SortingSelect from '../../components/Catalog/SortingSelect/SortingSelect';
@@ -25,6 +25,7 @@ const CatalogPage = () => {
   const [searhcQuery, setSearchQuery] = useState<string>('');
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(100);
+  const [size, setSize] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
   async function fetchProducts() {
@@ -36,6 +37,7 @@ const CatalogPage = () => {
         searhcQuery,
         minPrice,
         maxPrice,
+        size,
         currentCategory,
       );
 
@@ -54,7 +56,7 @@ const CatalogPage = () => {
 
   useEffect(() => {
     void fetchProducts();
-  }, [sortMethod, currentCategory, searhcQuery, maxPrice, minPrice]);
+  }, [sortMethod, currentCategory, searhcQuery, maxPrice, minPrice, size]);
 
   const updateBreadcrumbs = async (category: Category | null) => {
     if (category) {
@@ -121,6 +123,16 @@ const CatalogPage = () => {
     setMaxPrice(maxPriceArg);
   };
 
+  const handleSizeChange = (sizeArg: string) => {
+    setSize(sizeArg);
+  };
+
+  const handleResetFilters = () => {
+    setMinPrice(0);
+    setMaxPrice(100);
+    setSize('');
+  };
+
   return (
     <>
       <Header />
@@ -136,12 +148,17 @@ const CatalogPage = () => {
         />
         <div className="main-content">
           <div className="settings-container">
+            <Search onSearch={handleSearch} currentCategory={currentCategory} />
             <SortingSelect
               sortMethod={sortMethod}
               onSortChange={handleSortChange}
             />
-            <PriceFilter onPriceChange={handlePriceChange} />
-            <Search onSearch={handleSearch} currentCategory={currentCategory} />
+
+            <Filrers
+              onPriceChange={handlePriceChange}
+              onResetFilters={handleResetFilters}
+              onSizeChange={handleSizeChange}
+            />
           </div>
           {loading ? (
             <Spinner />

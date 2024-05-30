@@ -5,7 +5,7 @@ import { CustomerRepository } from '../../services/CustomerRepository';
 import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
 
-import ModalAddress from './ModalAddress';
+import ModalAddress from './modals/ModalAddress';
 
 const AddressField: React.FC<AddressFieldProps> = (
   props: AddressFieldProps,

@@ -3,7 +3,6 @@ import {
   Category,
   Product,
   ProductProjection,
-  QueryParam,
 } from '@commercetools/platform-sdk';
 import { key } from 'localforage';
 
@@ -78,6 +77,9 @@ class ProductRepository {
   async getProducts(
     sortBy: string,
     query: string,
+    minPrice: number,
+    maxPrice: number,
+    size: string,
     categoryId?: string,
   ): Promise<ProductProjection[]> {
     try {
@@ -86,11 +88,21 @@ class ProductRepository {
         fuzzy: true,
         sort: sortBy,
         limit: 60,
+        filter: [],
+        'filter.query': `variants.price.centAmount:range (${minPrice * 100} to ${maxPrice * 100})`,
       };
 
-      if (categoryId) {
-        queryArgs.filter = [`categories.id:subtree("${categoryId}")`];
+      const filters: string[] = [];
+
+      if (size) {
+        filters.push(`variants.attributes.size:"${size}"`);
       }
+
+      if (categoryId) {
+        filters.push(`categories.id:subtree("${categoryId}")`);
+      }
+
+      queryArgs.filter = filters;
 
       const response = await this.apiRoot
         .productProjections()

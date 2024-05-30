@@ -24,7 +24,7 @@ const Search: React.FC<SearchBarProps> = ({ onSearch, currentCategory }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="search-form" onSubmit={handleSubmit}>
       <input
         type="text"
         value={query}

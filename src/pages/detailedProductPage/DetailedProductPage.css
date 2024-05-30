@@ -67,6 +67,10 @@
   color: var(--error-message-color);
 }
 
+.zoomed_in {
+  cursor: zoom-in;
+}
+
 /* Swiper */
 
 .swiper-slide img {

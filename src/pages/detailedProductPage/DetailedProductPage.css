@@ -20,6 +20,7 @@
 .detail_image {
   min-width: 250px;
   max-width: 45%;
+  max-height: 80vh;
   border-radius: 12px;
 }
 
@@ -70,6 +71,12 @@
 .zoomed_in {
   cursor: zoom-in;
 }
+
+.detail_image.extended_image {
+  min-width: 50%;
+  max-width: 450px;
+}
+
 
 /* Swiper */
 

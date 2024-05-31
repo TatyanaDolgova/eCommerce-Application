@@ -112,7 +112,9 @@
 .modal-container.detailed {
   width: min-content;
   max-width: 80%;
+  max-height: 80vh;
   background-color: inherit;
+  padding: 0;
 }
 
 .button.buttonX.detailed {

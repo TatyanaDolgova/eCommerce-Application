@@ -1,6 +1,12 @@
 import { Image } from '@commercetools/platform-sdk';
 import { useState } from 'react';
-import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
+import {
+  A11y,
+  EffectCoverflow,
+  Navigation,
+  Pagination,
+  Scrollbar,
+} from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import BaseButton from '../Button/Button';
@@ -20,12 +26,13 @@ interface InnerSliderProps extends SliderProps {
 const InnerSlider = (props: InnerSliderProps) => {
   return (
     <Swiper
-      modules={[Navigation, Pagination, Scrollbar, A11y]}
+      modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow]}
       spaceBetween={50}
       slidesPerView={1}
       navigation
       pagination={{ clickable: true, type: 'fraction' }}
       scrollbar={{ draggable: true }}
+      effect="coverflow"
     >
       {props.slides.map((slide) => (
         <SwiperSlide key={slide.url}>

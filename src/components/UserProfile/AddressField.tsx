@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
-
-import ModalAddress from './modals/ModalAddress';
+import ModalAddress from '../modals/ModalAddress';
 
 const AddressField: React.FC<AddressFieldProps> = (
   props: AddressFieldProps,

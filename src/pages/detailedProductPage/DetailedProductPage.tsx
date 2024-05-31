@@ -4,7 +4,8 @@ import { useLocation } from 'react-router-dom';
 
 import './DetailedProductPage.css';
 
-import { MySlider } from '../../components/DetailedProduct/Slider';
+import { ProductSlider } from '../../components/DetailedProduct/ProductSlider';
+import { SingleImage } from '../../components/DetailedProduct/SingleImage';
 import Header from '../../components/Header/Header';
 import ProductRepository from '../../services/ProductRepository';
 
@@ -43,15 +44,11 @@ const DetailedProductPage = () => {
 
   const ShowImage = () => {
     if (images.length > 1) {
-      return <MySlider slides={images}></MySlider>;
+      return <ProductSlider slides={images}></ProductSlider>;
+    } else if (images.length === 1) {
+      return <SingleImage imageData={images[0]} />;
     } else {
-      return (
-        <img
-          className="detail_image"
-          src={productData?.masterVariant.images?.[0].url}
-          alt="prooduct"
-        />
-      );
+      return null;
     }
   };
 

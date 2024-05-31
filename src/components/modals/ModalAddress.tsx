@@ -2,11 +2,11 @@ import { Address, CustomerUpdateAction } from '@commercetools/platform-sdk';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { CustomerRepository } from '../../../services/CustomerRepository';
-import showToast from '../../../utils/notifications';
-import { nameProps, postCodeProps } from '../../../utils/validation';
-import BaseButton from '../../Button/Button';
-import Label from '../../Label/Label';
+import { CustomerRepository } from '../../services/CustomerRepository';
+import showToast from '../../utils/notifications';
+import { nameProps, postCodeProps } from '../../utils/validation';
+import BaseButton from '../Button/Button';
+import Label from '../Label/Label';
 
 type FormFields = {
   addressType?: string;

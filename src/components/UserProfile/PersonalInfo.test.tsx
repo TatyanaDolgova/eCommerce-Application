@@ -90,3 +90,59 @@ test('should open a modal on edit button click', () => {
 
   expect(modalHeading).toBeInTheDocument();
 });
+
+test('should open a modal on change password button click', () => {
+  render(
+    <BrowserRouter>
+      <PersonalInfo />
+    </BrowserRouter>,
+  );
+
+  const changeBtn = screen.getByText('Change password');
+
+  fireEvent.click(changeBtn);
+
+  const label = screen.getByText('New Password');
+
+  expect(label).toBeInTheDocument();
+});
+
+test('should close the modal on cancel button click', () => {
+  render(
+    <BrowserRouter>
+      <PersonalInfo />
+    </BrowserRouter>,
+  );
+
+  const changeBtn = screen.getByText('Change password');
+
+  fireEvent.click(changeBtn);
+
+  const label = screen.getByText('New Password');
+
+  const cancel = screen.getByText('Cancel');
+
+  fireEvent.click(cancel);
+
+  expect(label).not.toBeInTheDocument();
+});
+
+test('should close the modal on x button click', () => {
+  render(
+    <BrowserRouter>
+      <PersonalInfo />
+    </BrowserRouter>,
+  );
+
+  const changeBtn = screen.getByText('Change password');
+
+  fireEvent.click(changeBtn);
+
+  const label = screen.getByText('New Password');
+
+  const cancel = screen.getByText('X');
+
+  fireEvent.click(cancel);
+
+  expect(label).not.toBeInTheDocument();
+});

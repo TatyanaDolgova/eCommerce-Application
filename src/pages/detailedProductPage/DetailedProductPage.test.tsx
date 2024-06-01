@@ -75,11 +75,82 @@ test('should show slider without modal if several image was returned', async () 
   );
 
   await waitFor(() => {
-    const singleImages = screen.getAllByTestId('slider');
+    const images = screen.getAllByTestId('slider');
 
-    singleImages.forEach((singleImage) => {
+    images.forEach((singleImage) => {
       expect(singleImage).toBeInTheDocument();
     });
-    expect(singleImages).toHaveLength(2);
+    expect(images).toHaveLength(2);
+  });
+});
+
+test('should show modal single image if single image was returned and clicked', async () => {
+  class MockProductRepository extends ProductRepository {
+    getProduct(productID: string): Promise<Product | undefined> {
+      return new Promise((resolve) => {
+        console.log(this);
+        resolve(getTestProduct(1));
+      });
+    }
+  }
+
+  const mockProductRepository = new MockProductRepository();
+
+  render(
+    <BrowserRouter>
+      <DetailedProductPage productRepository={mockProductRepository} />
+    </BrowserRouter>,
+  );
+
+  await waitFor(() => {
+    const singleImage = screen.getByTestId('single_image');
+
+    expect(singleImage).toBeInTheDocument();
+  });
+
+  const singleImage = screen.getByTestId('single_image');
+
+  fireEvent.click(singleImage);
+
+  const modalSingleImage = screen.getByTestId('modal_single_image');
+
+  expect(modalSingleImage).toBeInTheDocument();
+});
+
+test('should show modal slider if seversl images was returned and clicked', async () => {
+  class MockProductRepository extends ProductRepository {
+    getProduct(productID: string): Promise<Product | undefined> {
+      return new Promise((resolve) => {
+        console.log(this);
+        resolve(getTestProduct(2));
+      });
+    }
+  }
+
+  const mockProductRepository = new MockProductRepository();
+
+  render(
+    <BrowserRouter>
+      <DetailedProductPage productRepository={mockProductRepository} />
+    </BrowserRouter>,
+  );
+
+  await waitFor(() => {
+    const images = screen.getAllByTestId('slider');
+
+    images.forEach((singleImage) => {
+      expect(singleImage).toBeInTheDocument();
+    });
+    expect(images).toHaveLength(2);
+  });
+
+  const images = screen.getAllByTestId('slider');
+
+  fireEvent.click(images[0]);
+
+  const modalSliderImages = screen.getAllByTestId('modal_slider');
+
+  modalSliderImages.forEach((modalSliderImage) => {
+    expect(modalSliderImage).toBeInTheDocument();
   });
 });

@@ -1,80 +1,66 @@
 import { Product } from '@commercetools/platform-sdk';
 
-export const testProduct: Product = {
-  id: 'test',
-  version: 0,
-  createdAt: 'test',
-  lastModifiedAt: 'test',
-  productType: {
-    typeId: 'product-type',
-    id: 'test',
-  },
-  masterData: {
-    published: true,
-    hasStagedChanges: true,
-    staged: {
-      name: {
-        'en-US': 'test',
-      },
-      categories: [],
-      slug: {
-        'en-US': 'test',
-      },
-      variants: [],
-      searchKeywords: {
-        'en-US': [],
-      },
-      masterVariant: {
-        id: 0,
-        images: [
-          {
-            url: 'test image',
-            dimensions: {
-              w: 0,
-              h: 0,
-            },
-          },
-        ],
-      },
-    },
-    current: {
-      name: {
-        'en-US': 'test',
-      },
-      categories: [],
-      slug: {
-        'en-US': 'test',
-      },
-      variants: [],
-      searchKeywords: {
-        'en-US': [],
-      },
-      masterVariant: {
-        id: 0,
-        images: [
-          {
-            url: 'test image',
-            dimensions: {
-              w: 0,
-              h: 0,
-            },
-          },
-        ],
-      },
-    },
-  },
-};
-
 export const getTestProduct = (imageCount: number) => {
-  const result = testProduct;
+  const testProduct: Product = {
+    id: 'test',
+    version: 0,
+    createdAt: 'test',
+    lastModifiedAt: 'test',
+    productType: {
+      typeId: 'product-type',
+      id: 'test',
+    },
+    masterData: {
+      published: true,
+      hasStagedChanges: true,
+      staged: {
+        name: {
+          'en-US': 'test',
+        },
+        categories: [],
+        slug: {
+          'en-US': 'test',
+        },
+        variants: [],
+        searchKeywords: {
+          'en-US': [],
+        },
+        masterVariant: {
+          id: 0,
+          images: [],
+        },
+      },
+      current: {
+        name: {
+          'en-US': 'test',
+        },
+        categories: [],
+        slug: {
+          'en-US': 'test',
+        },
+        variants: [],
+        searchKeywords: {
+          'en-US': [],
+        },
+        masterVariant: {
+          id: 0,
+          images: [],
+        },
+      },
+    },
+  };
 
-  for (let i = 1; i < imageCount; i++) {
-    const images = result.masterData.current.masterVariant.images;
+  const image = {
+    url: 'test image',
+    dimensions: {
+      w: 0,
+      h: 0,
+    },
+  };
 
-    if (images) {
-      result.masterData.current.masterVariant.images?.push(images[0]);
-    }
+  for (let i = 0; i < imageCount; i++) {
+    testProduct.masterData.current.masterVariant.images?.push(image);
   }
 
-  return result;
+  return testProduct;
 };

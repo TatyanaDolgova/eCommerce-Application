@@ -10,7 +10,11 @@ import Header from '../../components/Header/Header';
 import Spinner from '../../components/Spinners/Spinner-category';
 import ProductRepository from '../../services/ProductRepository';
 
-const DetailedProductPage = () => {
+interface DetailedProductPageProps {
+  productRepository: ProductRepository;
+}
+
+const DetailedProductPage = (props: DetailedProductPageProps) => {
   const data = useLocation();
   const productID = data.state as string;
   const defaultImages: Image[] = [];
@@ -21,7 +25,7 @@ const DetailedProductPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const productRepository = new ProductRepository();
+      const productRepository = props.productRepository;
       const resp: Product | undefined =
         await productRepository.getProduct(productID);
 

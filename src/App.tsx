@@ -10,6 +10,7 @@ import RegistrationPage from './pages/registration/RegistrationPage';
 import UserProfilePage from './pages/UserProfilePage/UserProfilePage';
 import { CustomerRepository } from './services/CustomerRepository';
 import { userTokenStorage } from './services/LocalStorage';
+import { productRepository } from './services/ProductRepository';
 import { RouteGuard, RouteGuardLoggedIn } from './utils/RouteGuard';
 
 function App() {
@@ -30,7 +31,9 @@ function App() {
         <Route path="/catalog" element={<CatalogPage />} />
         <Route
           path="/detailed/:ProductSlug"
-          element={<DetailedProductPage />}
+          element={
+            <DetailedProductPage productRepository={productRepository} />
+          }
         />
         <Route
           path="/login"

@@ -4,7 +4,6 @@ import {
   Product,
   ProductProjection,
 } from '@commercetools/platform-sdk';
-import { key } from 'localforage';
 
 import { CustomerRepository } from './CustomerRepository';
 

@@ -106,6 +106,25 @@
 .change-password-button {
   margin: 20px auto;
 }
+
+/* Detailed slider */
+
+.modal-container.detailed {
+  width: min-content;
+  max-width: 80%;
+  max-height: 80vh;
+  background-color: inherit;
+  padding: 0;
+}
+
+.button.buttonX.detailed {
+  position: relative;
+  top: 80px;
+  z-index: 1000;
+  right: 25px;
+}
+
+
 @media (max-width: 550px) {
   .modal-container {
     width: 80%;

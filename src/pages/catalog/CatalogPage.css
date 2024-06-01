@@ -11,7 +11,23 @@
 
 .settings-container {
   display: flex;
-  column-gap: 30px;
+  gap: 30px;
   flex-wrap: wrap;
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 758px) {
+  .catalog-page {
+    flex-direction: column;
+  }
+
+  .settings-container {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .settings-container {
+    gap: 20px;
+  }
 }

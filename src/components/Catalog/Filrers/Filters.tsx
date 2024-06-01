@@ -10,7 +10,7 @@ interface PriceFilterProps {
   onSizeChange: (size: string) => void;
 }
 
-const Filrers: React.FC<PriceFilterProps> = ({
+const Filters: React.FC<PriceFilterProps> = ({
   onPriceChange,
   onSizeChange,
   onResetFilters,
@@ -90,7 +90,7 @@ const Filrers: React.FC<PriceFilterProps> = ({
         Price: {minPrice} - {maxPrice} ▼{size && <div>Size: {size}</div>}
       </div>
       {isOpen && (
-        <div className="filters-content">
+        <div className="filters-content" data-testid="filters-content">
           <div className="filter-section">
             <label className="filter-label">
               Min:
@@ -147,4 +147,4 @@ const Filrers: React.FC<PriceFilterProps> = ({
   );
 };
 
-export default Filrers;
+export default Filters;

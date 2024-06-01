@@ -48,7 +48,7 @@ export const SingleImage = (props: SingleImageProps) => {
           />
           <SingleInnerImage
             imageData={props.imageData}
-            className="detail_image"
+            className="detail_image extended_image"
           />
         </div>
       </div>

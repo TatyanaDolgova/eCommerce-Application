@@ -70,36 +70,45 @@ function ModalPersonalInfo(modalProps: ModalProps) {
         <h2 className="modal-h2">Edit Personal Information</h2>
         <form className="modal-form" onSubmit={handleSubmit(onSubmit)}>
           <div className="modal-input-wrapper">
-            <Label classes="label" text="First Name" />
+            <Label classes="label" text="First Name" for="firstName" />
             <input
               {...register('firstName', nameProps('First name'))}
               className="input"
               type="text"
+              id="firstName"
               defaultValue={modalProps.customerName}
             />
-            <div className="error_message modal_error">
+            <div
+              className="error_message modal_error"
+              data-testid="name_error_message"
+            >
               {errors.firstName?.message ?? ''}
             </div>
           </div>
           <div className="modal-input-wrapper">
-            <Label classes="label" text="Last Name" />
+            <Label classes="label" text="Last Name" for="lastName" />
             <input
               {...register('lastName', nameProps('Last name'))}
               className="input"
+              id="lastName"
               type="text"
               defaultValue={modalProps.customerLastName}
             />
-            <div className="error_message modal_error">
+            <div
+              className="error_message modal_error"
+              data-testid="lastName_error_message"
+            >
               {errors.lastName?.message ?? ''}
             </div>
           </div>
           <div className="modal-input-wrapper">
-            <Label classes="label" text="Date" />
+            <Label classes="label" text="Date of Birth" for="birthDate" />
             <input
               {...register('birthDate', {
                 required: 'Date of birth is required',
               })}
               className="input"
+              id="birthDate"
               type="date"
               min="1900-01-01"
               max={minBirthDate()}
@@ -110,14 +119,18 @@ function ModalPersonalInfo(modalProps: ModalProps) {
             </div>
           </div>
           <div className="modal-input-wrapper">
-            <Label classes="label" text="Email" />
+            <Label classes="label" text="Email" for="email" />
             <input
               {...register('email', emailProps)}
               className="input"
+              id="email"
               type="text"
               defaultValue={modalProps.email}
             />
-            <div className="error_message modal_error">
+            <div
+              className="error_message modal_error"
+              data-testid="email_error_message"
+            >
               {errors.email?.message ?? ''}
             </div>
           </div>

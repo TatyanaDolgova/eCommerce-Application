@@ -5,9 +5,9 @@ import { CustomerRepository } from '../../services/CustomerRepository';
 import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
 import Label from '../Label/Label';
+import ModalAddress from '../modals/ModalAddress';
 
 import AddressField from './AddressField';
-import ModalAddress from './modals/ModalAddress';
 
 function Addresses() {
   const [addressArray, setAddressArray] = useState<Address[]>([]);
@@ -45,7 +45,7 @@ function Addresses() {
       setCustomerId(customer.body.id);
       setCustomerVersion(customer.body.version);
     } catch (error) {
-      throw new Error('error fetching customer');
+      showToast('something went wrong. Refresh the page', true);
     }
   }
 

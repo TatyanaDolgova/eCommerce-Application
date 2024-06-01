@@ -30,7 +30,7 @@ test('renders Filters component correctly', () => {
   expect(resetButton).toBeInTheDocument();
 });
 
-test('заголовок фильтров отображается и вызывает функцию toggleOpen при клике', () => {
+test('the filters header is displayed and calls toggleOpen function when clicked', () => {
   render(<Filters {...mockProps} />);
 
   const filtersHeader = screen.getByText(/Price:/i);
@@ -44,7 +44,7 @@ test('заголовок фильтров отображается и вызыв
   expect(filtersContent).toBeInTheDocument();
 });
 
-test('изменяет минимальную цену, если введенное значение больше максимальной цены', () => {
+test('changes the minimum price if the entered value exceeds the maximum price', () => {
   render(<Filters {...mockProps} />);
 
   const filtersHeader = screen.getByText(/Price:/i);
@@ -63,7 +63,7 @@ test('изменяет минимальную цену, если введенн�
   expect(maxPriceInput).toHaveValue(90);
 });
 
-test('изменяет максимальную цену, если введенное значение меньше минимальной цены', () => {
+test('changes the maximum price if the entered value is less than the minimum price', () => {
   render(<Filters {...mockProps} />);
 
   const filtersHeader = screen.getByText(/Price:/i);
@@ -82,7 +82,7 @@ test('изменяет максимальную цену, если введен�
   expect(maxPriceInput).toHaveValue(60);
 });
 
-test('вызывает функцию обработчика при нажатии на кнопку "Apply"', () => {
+test('calls the handler function when the "Apply" button is clicked', () => {
   render(<Filters {...mockProps} />);
 
   const filtersHeader = screen.getByText(/Price:/i);
@@ -98,7 +98,7 @@ test('вызывает функцию обработчика при нажати
   expect(mockProps.onSizeChange).toHaveBeenCalled();
 });
 
-test('вызывает функцию обработчика при нажатии на кнопку "Reset"', () => {
+test('calls the handler function when the "Reset" button is clicked', () => {
   render(<Filters {...mockProps} />);
 
   const filtersHeader = screen.getByText(/Price:/i);

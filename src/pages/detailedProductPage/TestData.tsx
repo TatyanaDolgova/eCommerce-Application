@@ -64,3 +64,17 @@ export const testProduct: Product = {
     },
   },
 };
+
+export const getTestProduct = (imageCount: number) => {
+  const result = testProduct;
+
+  for (let i = 1; i < imageCount; i++) {
+    const images = result.masterData.current.masterVariant.images;
+
+    if (images) {
+      result.masterData.current.masterVariant.images?.push(images[0]);
+    }
+  }
+
+  return result;
+};

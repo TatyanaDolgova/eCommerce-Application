@@ -1,12 +1,12 @@
 import { Product } from '@commercetools/platform-sdk';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import ProductRepository from '../../services/ProductRepository';
 
 import DetailedProductPage from './DetailedProductPage';
-import { testProduct } from './TestData';
+import { getTestProduct } from './TestData';
 
 test('should show srinner while loading data', () => {
   class MockProductRepository extends ProductRepository {
@@ -36,7 +36,7 @@ test('should show single image without modal if single image was returned', asyn
     getProduct(productID: string): Promise<Product | undefined> {
       return new Promise((resolve) => {
         console.log(this);
-        resolve(testProduct);
+        resolve(getTestProduct(1));
       });
     }
   }
@@ -53,5 +53,33 @@ test('should show single image without modal if single image was returned', asyn
     const singleImage = screen.getByTestId('single_image');
 
     expect(singleImage).toBeInTheDocument();
+  });
+});
+
+test('should show slider without modal if several image was returned', async () => {
+  class MockProductRepository extends ProductRepository {
+    getProduct(productID: string): Promise<Product | undefined> {
+      return new Promise((resolve) => {
+        console.log(this);
+        resolve(getTestProduct(2));
+      });
+    }
+  }
+
+  const mockProductRepository = new MockProductRepository();
+
+  render(
+    <BrowserRouter>
+      <DetailedProductPage productRepository={mockProductRepository} />
+    </BrowserRouter>,
+  );
+
+  await waitFor(() => {
+    const singleImages = screen.getAllByTestId('slider');
+
+    singleImages.forEach((singleImage) => {
+      expect(singleImage).toBeInTheDocument();
+    });
+    expect(singleImages).toHaveLength(2);
   });
 });

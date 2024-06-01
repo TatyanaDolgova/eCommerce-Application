@@ -21,6 +21,7 @@ interface SliderProps {
 interface InnerSliderProps extends SliderProps {
   className?: string;
   openCallback?: () => void;
+  testId: string;
 }
 
 const InnerSlider = (props: InnerSliderProps) => {
@@ -42,6 +43,7 @@ const InnerSlider = (props: InnerSliderProps) => {
               alt="product_picture"
               onClick={props.openCallback}
               className={props.className}
+              data-testid={props.testId}
             />
           </div>
         </SwiperSlide>
@@ -71,7 +73,7 @@ export const ProductSlider = ({ slides }: SliderProps) => {
             type="button"
             callback={closeModal}
           />
-          <InnerSlider slides={slides} />
+          <InnerSlider slides={slides} testId="modal_slider" />
         </div>
       </div>
     );
@@ -81,6 +83,7 @@ export const ProductSlider = ({ slides }: SliderProps) => {
         slides={slides}
         openCallback={showModal}
         className="zoomed_in"
+        testId="slider"
       />
     );
   }

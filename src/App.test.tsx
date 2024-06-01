@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-// import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
 
-// import App from './App';
+import App from './App';
 
-test.skip('renders learn react link', () => {
-  // render(<App />);
-  // const linkElement = screen.getByText(/learn react/i);
-  // expect(linkElement).toBeInTheDocument();
+test('should render home page', () => {
+  render(<App />);
+  const heroSection = screen.getByText(/Don't panic/i);
+
+  expect(heroSection).toBeInTheDocument();
 });

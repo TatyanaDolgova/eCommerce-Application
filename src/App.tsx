@@ -30,7 +30,7 @@ function App() {
         <Route path="/home" element={<MainPage />} />
         <Route path="/catalog" element={<CatalogPage />} />
         <Route
-          path="/detailed/:ProductSlug"
+          path="/catalog/:ProductSlug"
           element={
             <DetailedProductPage productRepository={productRepository} />
           }

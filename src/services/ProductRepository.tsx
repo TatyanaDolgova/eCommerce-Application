@@ -8,15 +8,15 @@ import {
 import { CustomerRepository } from './CustomerRepository';
 
 class ProductRepository {
-  apiRoot: ByProjectKeyRequestBuilder;
+  apiRoot: ByProjectKeyRequestBuilder | undefined;
 
   constructor() {
-    this.apiRoot = CustomerRepository.apiRoot;
+    this.apiRoot = undefined;
   }
 
   async getAllSubcategories(parentCategoryId: string) {
     try {
-      const response = await this.apiRoot
+      const response = await this.getRoot()
         .productProjections()
         .search()
         .get({
@@ -34,7 +34,7 @@ class ProductRepository {
 
   async getCategories() {
     try {
-      const response = await this.apiRoot.categories().get().execute();
+      const response = await this.getRoot().categories().get().execute();
       const categories = response.body.results;
 
       return categories;
@@ -45,7 +45,7 @@ class ProductRepository {
 
   async getCategoryById(categoryId: string): Promise<Category> {
     try {
-      const response = await this.apiRoot
+      const response = await this.getRoot()
         .categories()
         .withId({ ID: categoryId })
         .get()
@@ -59,7 +59,7 @@ class ProductRepository {
 
   async getProduct(productID: string): Promise<Product | undefined> {
     try {
-      const resp = await this.apiRoot
+      const resp = await this.getRoot()
         .products()
         .withId({ ID: productID })
         .get()
@@ -103,7 +103,7 @@ class ProductRepository {
 
       queryArgs.filter = filters;
 
-      const response = await this.apiRoot
+      const response = await this.getRoot()
         .productProjections()
         .search()
         .get({ queryArgs })
@@ -115,6 +115,12 @@ class ProductRepository {
     } catch (error) {
       throw new Error('Error fetching products');
     }
+  }
+
+  getRoot(): ByProjectKeyRequestBuilder {
+    this.apiRoot = CustomerRepository.apiRoot;
+
+    return this.apiRoot;
   }
 }
 

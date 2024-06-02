@@ -26,6 +26,8 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const fetchProducts = async () => {
     try {
       const productRepository = props.productRepository;
+
+      // productRepository.refreshRoot();
       const resp: Product | undefined =
         await productRepository.getProduct(productID);
 

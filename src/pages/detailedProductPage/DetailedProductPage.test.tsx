@@ -12,7 +12,6 @@ test('should show srinner while loading data', () => {
   class MockProductRepository extends ProductRepository {
     getProduct(productID: string): Promise<Product | undefined> {
       return new Promise((resolve) => {
-        console.log(this);
         resolve(undefined);
       });
     }
@@ -35,7 +34,6 @@ test('should show single image without modal if single image was returned', asyn
   class MockProductRepository extends ProductRepository {
     getProduct(productID: string): Promise<Product | undefined> {
       return new Promise((resolve) => {
-        console.log(this);
         resolve(getTestProduct(1));
       });
     }
@@ -60,7 +58,6 @@ test('should show slider without modal if several image was returned', async () 
   class MockProductRepository extends ProductRepository {
     getProduct(productID: string): Promise<Product | undefined> {
       return new Promise((resolve) => {
-        console.log(this);
         resolve(getTestProduct(2));
       });
     }
@@ -88,7 +85,6 @@ test('should show modal single image if single image was returned and clicked', 
   class MockProductRepository extends ProductRepository {
     getProduct(productID: string): Promise<Product | undefined> {
       return new Promise((resolve) => {
-        console.log(this);
         resolve(getTestProduct(1));
       });
     }
@@ -121,7 +117,6 @@ test('should show modal slider if seversl images was returned and clicked', asyn
   class MockProductRepository extends ProductRepository {
     getProduct(productID: string): Promise<Product | undefined> {
       return new Promise((resolve) => {
-        console.log(this);
         resolve(getTestProduct(2));
       });
     }

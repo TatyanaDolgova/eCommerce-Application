@@ -45,7 +45,7 @@ function Addresses() {
       setCustomerId(customer.body.id);
       setCustomerVersion(customer.body.version);
     } catch (error) {
-      throw new Error('error fetching customer');
+      showToast('something went wrong. Refresh the page', true);
     }
   }
 

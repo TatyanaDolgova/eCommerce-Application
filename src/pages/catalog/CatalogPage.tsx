@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import Breadcrumbs from '../../components/Catalog/Breadcrumbs/Breadcrumbs';
 import CategorySidebar from '../../components/Catalog/CategorySidebar/CategorySidebar';
-import Filrers from '../../components/Catalog/Filrers/Filters';
+import Filters from '../../components/Catalog/Filters/Filters';
 import ProductList from '../../components/Catalog/ProductList/ProductList';
 import Search from '../../components/Catalog/Search/Search';
 import SortingSelect from '../../components/Catalog/SortingSelect/SortingSelect';
@@ -154,7 +154,7 @@ const CatalogPage = () => {
               onSortChange={handleSortChange}
             />
 
-            <Filrers
+            <Filters
               onPriceChange={handlePriceChange}
               onResetFilters={handleResetFilters}
               onSizeChange={handleSizeChange}

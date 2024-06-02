@@ -95,7 +95,10 @@ function ModalPassword(props: ModalPasswordProps) {
               ></Input>
             </div>
             {errors.password?.message && (
-              <div className="error_message modal_error">
+              <div
+                className="error_message modal_error"
+                data-testid="password_error_message"
+              >
                 {errors.password.message}
               </div>
             )}
@@ -113,11 +116,14 @@ function ModalPassword(props: ModalPasswordProps) {
               <Input
                 classes="input show_password_input"
                 type="checkbox"
-                dataTestId="password_checkbox"
+                dataTestId="new_password_checkbox"
                 callback={showNewPassword}
               ></Input>
             </div>
-            <div className="error_message modal_error">
+            <div
+              className="error_message modal_error"
+              data-testid="newPassword_error_message"
+            >
               {errors.newPassword?.message ?? ''}
             </div>
           </div>

@@ -69,3 +69,26 @@
   }
 
 }
+
+@media (min-width: 1400px) {
+  .user-profile_container {
+    font-size: 24px;
+  }
+  .address_button, .edit-address-button {
+    width: 200px;
+    font-size: 28px;
+  }
+
+  .change-password-button {
+    width: 400px;
+    font-size: 28px;
+  }
+
+  .set-default-button {
+    width: 420px;
+  }
+
+  .user-profile_heading {
+    font-size: 48px;
+  }
+}

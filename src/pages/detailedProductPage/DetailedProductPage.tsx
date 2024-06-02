@@ -1,5 +1,5 @@
 import { Image, Product, ProductData } from '@commercetools/platform-sdk';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import './DetailedProductPage.css';
@@ -23,11 +23,10 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
   const [images, setImages] = useState(defaultImages);
 
-  const fetchProducts = async () => {
+  const fetchProduct = useCallback(async () => {
     try {
       const productRepository = props.productRepository;
 
-      // productRepository.refreshRoot();
       const resp: Product | undefined =
         await productRepository.getProduct(productID);
 
@@ -43,11 +42,11 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     } catch (error) {
       console.error('Error fetching product:', error);
     }
-  };
+  }, [productID, props.productRepository]);
 
   useEffect(() => {
-    void fetchProducts();
-  }, []);
+    void fetchProduct();
+  }, [fetchProduct]);
 
   const ShowImage = () => {
     if (images.length > 1) {
@@ -57,6 +56,10 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     } else {
       return null;
     }
+  };
+
+  const setPrice = (price = 0) => {
+    return Math.floor(price / 100);
   };
 
   return (
@@ -79,9 +82,8 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                 <div className="full_price_wrapper">
                   <p className="full_price">Full price:</p>
                   <p className="full_price">
-                    {Math.floor(
-                      (productData.masterVariant.prices?.[0]?.value
-                        ?.centAmount ?? 0) / 100,
+                    {setPrice(
+                      productData.masterVariant.prices?.[0]?.value?.centAmount,
                     )}
                   </p>
                   <p className="currency">
@@ -91,9 +93,9 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                 <div className="disc_price_wrapper">
                   <p className="disc_price">Sale price:</p>
                   <p className="disc_price">
-                    {Math.floor(
-                      (productData.masterVariant.prices?.[0]?.discounted?.value
-                        .centAmount ?? 0) / 100,
+                    {setPrice(
+                      productData.masterVariant.prices?.[0]?.discounted?.value
+                        .centAmount,
                     )}
                   </p>
                   <p className="currency">

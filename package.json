@@ -90,7 +90,7 @@
         "ForOfStatement"
       ],
       "lines-between-class-members": "off",
-      "class-methods-use-this": "error",
+      "class-methods-use-this": "off",
       "quotes": [
         "error",
         "single"
@@ -291,5 +291,12 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": "eslint --cache  \"src/**.ts?(x)\""
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "swiper/css": "swiper/swiper.min.css",
+      "swiper/react": "swiper/swiper-react.mjs",
+      "swiper/modules": "swiper/modules/index.mjs"
+    }
   }
 }

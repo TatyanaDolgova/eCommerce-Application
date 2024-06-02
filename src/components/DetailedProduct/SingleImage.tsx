@@ -12,6 +12,7 @@ interface SingleImageProps {
 interface SingleInnerImageProps extends SingleImageProps {
   className: string;
   openCallback?: () => void;
+  testId: string;
 }
 
 const SingleInnerImage = (props: SingleInnerImageProps) => {
@@ -21,6 +22,7 @@ const SingleInnerImage = (props: SingleInnerImageProps) => {
       src={props.imageData.url}
       alt="prooduct"
       onClick={props.openCallback}
+      data-testid={props.testId}
     />
   );
 };
@@ -49,6 +51,7 @@ export const SingleImage = (props: SingleImageProps) => {
           <SingleInnerImage
             imageData={props.imageData}
             className="detail_image extended_image"
+            testId="modal_single_image"
           />
         </div>
       </div>
@@ -59,6 +62,7 @@ export const SingleImage = (props: SingleImageProps) => {
         imageData={props.imageData}
         openCallback={showModal}
         className="detail_image zoomed_in"
+        testId="single_image"
       />
     );
   }

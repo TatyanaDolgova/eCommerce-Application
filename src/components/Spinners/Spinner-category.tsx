@@ -14,6 +14,7 @@ const Spinner = () => {
         marginTop: '50px',
       }}
       xmlnsXlink="http://www.w3.org/1999/xlink"
+      data-testid="spinner-test"
     >
       <g>
         <g>

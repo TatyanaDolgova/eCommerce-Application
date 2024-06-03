@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 import './DetailedProductPage.css';
 
+import BaseButton from '../../components/Button/Button';
 import { ProductSlider } from '../../components/DetailedProduct/ProductSlider';
 import { SingleImage } from '../../components/DetailedProduct/SingleImage';
 import Header from '../../components/Header/Header';
@@ -103,6 +104,12 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                   </p>
                 </div>
               </div>
+              <BaseButton
+                classes="button add_product_button"
+                text="Add to card"
+                type="button"
+                callback={() => {}}
+              />
             </div>
           </div>
         )}

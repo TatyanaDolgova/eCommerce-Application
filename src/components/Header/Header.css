@@ -102,6 +102,20 @@
   overflow: hidden;
 }
 
+.user-profile-link {
+  width: 45px;
+  height: 45px;
+  display: inline-block;
+  background-image: url(../../assets/icons/userprofile.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.loggedin-container {
+  display: flex;
+  gap: 10px;
+}
+
 @media screen and (max-width: 758px) {
   .header-burger {
     display: block;
@@ -136,5 +150,10 @@
 
   .header-overlay.open {
     display: block;
+  }
+
+  .loggedin-container {
+    flex-direction: column;
+    align-items: center;
   }
 }

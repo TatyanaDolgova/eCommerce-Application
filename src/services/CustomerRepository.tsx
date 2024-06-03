@@ -3,6 +3,7 @@ import {
   ClientResponse,
   CustomerSignInResult,
   CustomerSignin,
+  CustomerUpdateAction,
   MyCustomerDraft,
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
@@ -16,6 +17,30 @@ export class CustomerRepository {
   static isAuthApiRoot: boolean;
 
   static projectKey = 'ecommerce2024rss';
+
+  static async changeCustomerPassword(
+    customerId: string,
+    version: number,
+    currentPassword: string,
+    newPassword: string,
+  ) {
+    try {
+      await CustomerRepository.apiRoot
+        .customers()
+        .password()
+        .post({
+          body: {
+            id: customerId,
+            version: version,
+            currentPassword: currentPassword,
+            newPassword: newPassword,
+          },
+        })
+        .execute();
+    } catch (err) {
+      return err;
+    }
+  }
 
   public static createAnonymousCustomer(): ByProjectKeyRequestBuilder {
     const ctpClient = new CtpClient();
@@ -66,6 +91,12 @@ export class CustomerRepository {
     }
   }
 
+  public static async getCustomerInformation() {
+    const customer = await CustomerRepository.apiRoot.me().get().execute();
+
+    return customer;
+  }
+
   public static logOutCusromer() {
     const apiRoot = CustomerRepository.createAnonymousCustomer();
 
@@ -98,5 +129,26 @@ export class CustomerRepository {
     ).withProjectKey({ projectKey: CustomerRepository.projectKey });
 
     CustomerRepository.apiRoot = apiRoot;
+  }
+
+  static async updateCustomer(
+    customerID: string,
+    version: number,
+    actions: CustomerUpdateAction[],
+  ) {
+    const customer = await CustomerRepository.apiRoot
+      .customers()
+      .withId({ ID: customerID })
+      .post({
+        // The CustomerUpdate is the object within the body
+        body: {
+          // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+          version: version,
+          actions: actions,
+        },
+      })
+      .execute();
+
+    return customer;
   }
 }

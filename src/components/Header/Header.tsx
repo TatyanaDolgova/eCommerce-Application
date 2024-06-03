@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { UserContext, UserData } from '../../app-context/UserContext';
 import { CustomerRepository } from '../../services/CustomerRepository';
+import { userTokenStorage } from '../../services/LocalStorage';
 import BaseButton from '../Button/Button';
 
 const Header = () => {
@@ -29,6 +30,7 @@ const Header = () => {
             };
 
             updateState({ user: userData });
+            userTokenStorage.clearLoginState();
             redirectToMain();
           }}
           text="Log out"
@@ -64,8 +66,18 @@ const Header = () => {
           <Link to="/home" className="header-link" onClick={closeMenu}>
             Home
           </Link>
+          <Link to="/catalog" className="header-link" onClick={closeMenu}>
+            Catalog
+          </Link>
           {isLoggedIn ? (
-            <LogOutButton />
+            <div className="loggedin-container">
+              <Link
+                to="/userprofile"
+                className="user-profile-link"
+                onClick={closeMenu}
+              />
+              <LogOutButton />
+            </div>
           ) : (
             <ul className="header-links">
               <li>

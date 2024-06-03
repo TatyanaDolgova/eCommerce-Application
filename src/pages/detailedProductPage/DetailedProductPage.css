@@ -1,0 +1,134 @@
+.detail_product_page {
+  min-width: 100%;
+  min-height: 90vh;
+  padding: 2%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--background-color);
+}
+
+.detail_product_wrapper {
+  max-width: 90%;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  gap: 2%;
+  border-radius: 12px;
+}
+
+.detail_image {
+  min-width: 250px;
+  max-width: 45%;
+  max-height: 80vh;
+  border-radius: 12px;
+}
+
+.detail_image.extended_image {
+  min-width: 50%;
+  max-width: 450px;
+}
+
+.detail_product_info {
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail_product_header {
+  color: var(--dark-moss-green);
+}
+
+.detail_product_description{
+  max-width: 400px;
+  text-align: justify;
+}
+
+.detail_price_wrapper {
+  width: 100%;
+  display: flex;
+  gap: 2%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.full_price_wrapper,
+.disc_price_wrapper {
+  display: flex;
+}
+
+.full_price,
+.disc_price {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.full_price_wrapper {
+  color: var(--dark-moss-green);
+  text-decoration: line-through;
+}
+
+.disc_price_wrapper {
+  color: var(--error-message-color);
+}
+
+.zoomed_in {
+  cursor: zoom-in;
+}
+
+/* Swiper */
+
+.swiper {
+  max-width: 450px;
+  max-height: 600px;
+  border-radius: 12px;
+}
+
+.swiper-slide img {
+  border-radius: 12px;
+ }
+
+ .swiper-button-next::after,
+ .swiper-button-prev::after {
+  color: var(--dark-moss-green);
+ }
+
+ .swiper-pagination * {
+  color: var(--dark-moss-green);
+ }
+
+
+@media (max-width: 940px) {
+  .detail_price_wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 670px) {
+  .detail_product_wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .detail_product_header {
+    font-size: 28px;
+  }
+
+  .swiper {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 420px) {
+
+  .detail_product_header {
+    font-size: 24px;
+  }
+
+  .swiper {
+    max-width: 300px;
+  }
+}

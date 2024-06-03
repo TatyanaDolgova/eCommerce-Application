@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { UserContext, UserData } from '../../app-context/UserContext';
 import { CustomerRepository } from '../../services/CustomerRepository';
+import { userTokenStorage } from '../../services/LocalStorage';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
 import showToast from '../../utils/notifications';
 import { emailProps, passwordProps } from '../../utils/validation';
@@ -58,6 +59,7 @@ function LoginForm(props: LoginFormProps) {
 
       showToast('You are successfully logged in', false);
       updateState({ user: userState });
+      userTokenStorage.setLoginState('true');
       redirectToMain();
     }
   }

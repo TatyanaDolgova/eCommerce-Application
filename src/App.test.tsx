@@ -3,9 +3,9 @@ import React from 'react';
 
 import App from './App';
 
-test.skip('renders learn react link', () => {
+test('should render home page', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
+  const heroSection = screen.getByText(/Don't panic/i);
 
-  expect(linkElement).toBeInTheDocument();
+  expect(heroSection).toBeInTheDocument();
 });

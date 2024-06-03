@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import './App.css';
+import BasketPage from './pages/basket/BasketPage';
 import CatalogPage from './pages/catalog/CatalogPage';
 import DetailedProductPage from './pages/detailedProductPage/DetailedProductPage';
 import { LoginPage } from './pages/login/LoginPage';
@@ -28,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/home" element={<MainPage />} />
+        <Route path="/cart" element={<BasketPage />} />
         <Route path="/catalog" element={<CatalogPage />} />
         <Route
           path="/catalog/:ProductSlug"

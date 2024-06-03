@@ -8,3 +8,5 @@ const BasketPage = () => {
     </div>
   );
 };
+
+export default BasketPage;

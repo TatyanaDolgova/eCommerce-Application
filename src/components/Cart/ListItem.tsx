@@ -4,8 +4,6 @@ import { LineItem } from '@commercetools/platform-sdk';
 import BaseButton from '../Button/Button';
 
 const ListItem = (item: LineItem) => {
-  console.log(item.price.value);
-
   let itemImage = '';
 
   if (item.variant.images) {
@@ -21,7 +19,7 @@ const ListItem = (item: LineItem) => {
   }
 
   return (
-    <div className="cart-item">
+    <div key={item.id} className="cart-item">
       <img
         className="cart_item-image"
         src={itemImage}

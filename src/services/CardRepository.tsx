@@ -26,6 +26,7 @@ class CardRepository {
     const version = cart.version;
 
     const response = await this.getRoot()
+      .me()
       .carts()
       .withId({ ID: cartId })
       .post({
@@ -39,12 +40,26 @@ class CardRepository {
     return response.body;
   }
 
+  async checkCard(): Promise<Cart> {
+    try {
+      const responce = await this.getRoot().me().activeCart().get().execute();
+
+      console.log('Запрос на активную карту');
+      console.log(responce.body);
+
+      return responce.body;
+    } catch (error) {
+      throw new Error('Error fetching active cart');
+    }
+  }
+
   async createCart(): Promise<Cart> {
     const cartDraft: CartDraft = {
       currency: 'EUR',
     };
 
     const response = await this.getRoot()
+      .me()
       .carts()
       .post({ body: cartDraft })
       .execute();
@@ -57,6 +72,7 @@ class CardRepository {
   async getCartById(cartId: string): Promise<Cart> {
     try {
       const response = await this.getRoot()
+        .me()
         .carts()
         .withId({ ID: cartId })
         .get()
@@ -76,5 +92,7 @@ class CardRepository {
     return this.apiRoot;
   }
 }
+
+export const cartRepository = new CardRepository();
 
 export default CardRepository;

@@ -9,9 +9,11 @@ import { ProductSlider } from '../../components/DetailedProduct/ProductSlider';
 import { SingleImage } from '../../components/DetailedProduct/SingleImage';
 import Header from '../../components/Header/Header';
 import Spinner from '../../components/Spinners/Spinner-category';
+import CardRepository from '../../services/CardRepository';
 import ProductRepository from '../../services/ProductRepository';
 
 interface DetailedProductPageProps {
+  cartRepository?: CardRepository;
   productRepository: ProductRepository;
 }
 
@@ -63,6 +65,26 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     return Math.floor(price / 100);
   };
 
+  const checkCard = useCallback(async () => {
+    try {
+      const cartRepository = props.cartRepository;
+
+      if (!cartRepository) {
+        throw new Error('CartRepository is not defind');
+      }
+
+      const responce = await cartRepository.checkCard();
+
+      console.log(responce);
+    } catch (error) {
+      console.error('Error fetching active card:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    void checkCard();
+  }, [checkCard]);
+
   return (
     <>
       <Header />
@@ -108,7 +130,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                 classes="button add_product_button"
                 text="Add to cart"
                 type="button"
-                callback={() => {}}
+                callback={checkCard}
               />
             </div>
           </div>

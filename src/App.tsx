@@ -9,6 +9,7 @@ import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import RegistrationPage from './pages/registration/RegistrationPage';
 import UserProfilePage from './pages/UserProfilePage/UserProfilePage';
+import { cartRepository } from './services/CardRepository';
 import { CustomerRepository } from './services/CustomerRepository';
 import { userTokenStorage } from './services/LocalStorage';
 import { productRepository } from './services/ProductRepository';
@@ -34,7 +35,10 @@ function App() {
         <Route
           path="/catalog/:ProductSlug"
           element={
-            <DetailedProductPage productRepository={productRepository} />
+            <DetailedProductPage
+              productRepository={productRepository}
+              cartRepository={cartRepository}
+            />
           }
         />
         <Route

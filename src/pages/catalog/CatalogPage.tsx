@@ -9,12 +9,15 @@ import Search from '../../components/Catalog/Search/Search';
 import SortingSelect from '../../components/Catalog/SortingSelect/SortingSelect';
 import Header from '../../components/Header/Header';
 import Spinner from '../../components/Spinners/Spinner-category';
+import CardRepository from '../../services/CardRepository';
 import ProductRepository from '../../services/ProductRepository';
 
 import './CatalogPage.css';
 
 const CatalogPage = () => {
   const [products, setProducts] = useState<ProductProjection[]>([]);
+  const [cart, setCart] = useState<string[]>([]);
+  const [cartId, setCartId] = useState<string | null>(null);
   const [sortedProducts, setSortedProducts] = useState<ProductProjection[]>([]);
   const [breadcrumbs, setBreadcrumbs] = useState<
     { id: string; name: string }[]
@@ -133,6 +136,25 @@ const CatalogPage = () => {
     setSize('');
   };
 
+  const handleAddToCart = async (productId: string) => {
+    try {
+      const cartRepository = new CardRepository();
+      let newCartId = cartId;
+
+      if (!newCartId) {
+        const newCart = await cartRepository.createCart();
+
+        newCartId = newCart.id;
+        setCartId(newCartId);
+      }
+
+      if (newCartId) await cartRepository.addToCart(newCartId, productId);
+      setCart([...cart, productId]);
+    } catch {
+      throw Error('Error adding to cart');
+    }
+  };
+
   return (
     <>
       <Header />
@@ -165,7 +187,7 @@ const CatalogPage = () => {
           ) : searchError ? (
             <div className="search-error">{searchError}</div>
           ) : (
-            <ProductList products={products} />
+            <ProductList products={products} onAddToCart={handleAddToCart} />
           )}
         </div>
       </div>

@@ -4,10 +4,11 @@ import './ProductCard.css';
 import { Link } from 'react-router-dom';
 
 interface ProductCardProps {
+  onAddToCart: (productId: string) => void;
   product: ProductProjection;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   const productSlug: string = product.slug['en-US'];
   const productID = product.id;
   const productName = product.name['en-US'];
@@ -34,6 +35,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div className="price-old">{Math.floor(priceOld / 100)} €</div>
           <div className="price-new">{Math.floor(priceNew / 100)} €</div>
         </div>
+
+        <button
+          className="add-to-cart-button"
+          onClick={() => onAddToCart(productID)}
+        >
+          {'Add to Cart 🛒'}
+        </button>
       </div>
     </div>
   );

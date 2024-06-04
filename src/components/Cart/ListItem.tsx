@@ -19,7 +19,7 @@ const ListItem = (item: LineItem) => {
   }
 
   return (
-    <div key={item.id} className="cart-item">
+    <div className="cart-item">
       <img
         className="cart_item-image"
         src={itemImage}

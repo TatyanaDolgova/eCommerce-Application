@@ -34,7 +34,7 @@ const Cart = () => {
       <div>
         <div className="list-container">
           {listItems.map((item) => {
-            return <ListItem {...item} />;
+            return <ListItem key={item.key} {...item} />;
           })}
         </div>
         <div className="total">

@@ -100,6 +100,10 @@ class CardRepository {
     }
   }
 
+  getCartID() {
+    return this.cardId;
+  }
+
   getRoot(): ByProjectKeyRequestBuilder {
     this.apiRoot = CustomerRepository.apiRoot;
 

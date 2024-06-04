@@ -131,6 +131,38 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     return Math.floor(price / 100);
   };
 
+  const checkCard = useCallback(async () => {
+    try {
+      const cartRepository = props.cartRepository;
+
+      if (!cartRepository) {
+        throw new Error('CartRepository is not defind');
+      }
+
+      const responce: Cart = await cartRepository.checkActiveCard();
+
+      setCartId(responce.id);
+
+      const productState = await cartRepository.checkProduct(productID);
+
+      setProductState(productState);
+    } catch (error) {
+      console.error('No active cart exists.', error);
+    }
+  }, [props.cartRepository, productID]);
+
+  useEffect(() => {
+    void checkCard();
+  }, [checkCard]);
+
+  const addProduct = async () => {
+    const cartRepository = props.cartRepository;
+
+    if (cartRepository && cartID) {
+      await cartRepository.addToCart(cartID, productID);
+    }
+  };
+
   return (
     <>
       <Header />

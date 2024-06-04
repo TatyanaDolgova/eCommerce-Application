@@ -6,6 +6,7 @@ function BaseButton(props: ButtonProps) {
       className={props.classes}
       type={props.type}
       onClick={props.callback}
+      disabled={props.disabled}
     >
       {props.text}
     </button>
@@ -15,6 +16,7 @@ function BaseButton(props: ButtonProps) {
 interface ButtonProps {
   callback?: MouseEventHandler;
   classes: string;
+  disabled?: boolean;
   text: string;
   type: 'button' | 'submit' | 'reset' | undefined;
 }

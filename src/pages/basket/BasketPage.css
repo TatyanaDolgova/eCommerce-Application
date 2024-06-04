@@ -1,0 +1,20 @@
+.basket_page_container {
+  padding: 20px 40px;
+}
+
+.basket_page_container h2{
+  font-size: xx-large;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.total {
+  margin-top: 20px;
+  text-align: end;
+  font-size: xx-large;
+  font-weight: 600;
+}

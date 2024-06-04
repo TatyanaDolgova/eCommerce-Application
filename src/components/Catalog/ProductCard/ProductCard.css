@@ -11,7 +11,7 @@
 }
 
 .card:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
   background-color: #f5f5f5;
 }
@@ -100,5 +100,20 @@
 
 .price-old,
 .price-new {
+  cursor: default;
+}
+
+.add-to-cart-button {
+  padding: 10px 20px;
+  background-color: var(--dark-moss-green);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.added-to-cart {
+  text-align: center;
   cursor: default;
 }

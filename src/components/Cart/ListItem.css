@@ -1,0 +1,27 @@
+.cart-item {
+  display: grid;
+  grid-template-columns: 120px 2fr 2fr 1fr 1fr;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--cambridge-blue);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: larger;
+  gap: 10px;
+}
+
+.cart_item-image {
+  width: 100px;
+  border-radius: 10px;
+}
+
+.cart_item-button {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  margin: 0 10px;
+}
+
+.strike-through {
+  text-decoration: line-through;
+}

@@ -61,12 +61,14 @@ export default class CtpClient {
     ];
 
     this.anonCustomerScopes = [
+      'manage_orders:ecommerce2024rss',
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
       'manage_products:ecommerce2024rss',
     ];
 
     this.customerScopes = [
+      'manage_orders:ecommerce2024rss',
       'manage_my_profile:ecommerce2024rss',
       'manage_my_orders:ecommerce2024rss',
       'manage_customers:ecommerce2024rss',

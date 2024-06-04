@@ -67,13 +67,13 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   };
 
   const checkCard = useCallback(async () => {
+    const cartRepository = props.cartRepository;
+
+    if (!cartRepository) {
+      throw new Error('CartRepository is not defined');
+    }
+
     try {
-      const cartRepository = props.cartRepository;
-
-      if (!cartRepository) {
-        throw new Error('CartRepository is not defind');
-      }
-
       const responce: Cart = await cartRepository.checkActiveCard();
 
       setCartId(responce.id);
@@ -81,8 +81,17 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
       const productState = await cartRepository.checkProduct(productID);
 
       setProductState(productState);
-    } catch (error) {
-      console.error('No active cart exists.', error);
+    } catch (getActiveCartError) {
+      console.error('No active cart exists.', getActiveCartError);
+
+      try {
+        const cart: Cart = await cartRepository.createCart();
+
+        setCartId(cart.id);
+        setProductState(false);
+      } catch (createCartError) {
+        console.error('Cart has not been created.', createCartError);
+      }
     }
   }, [props.cartRepository, productID]);
 
@@ -95,6 +104,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
     if (cartRepository && cartID) {
       await cartRepository.addToCart(cartID, productID);
+      setProductState(true);
     }
   };
 
@@ -139,16 +149,13 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                   </p>
                 </div>
               </div>
-              <button
-                className="button add_product_button"
-                // classes="button add_product_button"
-                // text="Add to cart"
+              <BaseButton
+                classes="button add_product_button"
+                text="Add to cart"
                 type="button"
-                onClick={addProduct}
+                callback={addProduct}
                 disabled={isProductInCart}
-              >
-                {'Add to cart'}
-              </button>
+              />
             </div>
           </div>
         )}

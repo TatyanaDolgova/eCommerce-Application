@@ -9,7 +9,7 @@ import Search from '../../components/Catalog/Search/Search';
 import SortingSelect from '../../components/Catalog/SortingSelect/SortingSelect';
 import Header from '../../components/Header/Header';
 import Spinner from '../../components/Spinners/Spinner-category';
-import CardRepository from '../../services/CardRepository';
+import { cartRepository } from '../../services/CardRepository';
 import ProductRepository from '../../services/ProductRepository';
 
 import './CatalogPage.css';
@@ -56,6 +56,38 @@ const CatalogPage = () => {
       setSearchError('Error fetching products');
     }
   }
+
+  const createNewCart = async () => {
+    try {
+      const newCart = await cartRepository.createCart();
+
+      setCartId(newCart.id);
+      localStorage.setItem('cart_JSFE2023Q4', 'true');
+    } catch (createError) {
+      throw Error('Error creating new cart');
+    }
+  };
+
+  async function fetchCart() {
+    const savedCart = localStorage.getItem('cartId_JSFE2023Q4');
+
+    if (savedCart) {
+      try {
+        const activeCart = await cartRepository.checkActiveCard();
+        const cartItems = activeCart.lineItems.map((item) => item.productId);
+
+        setCart(cartItems);
+      } catch (error) {
+        await createNewCart();
+      }
+    } else {
+      await createNewCart();
+    }
+  }
+
+  useEffect(() => {
+    void fetchCart();
+  }, []);
 
   useEffect(() => {
     void fetchProducts();
@@ -138,7 +170,6 @@ const CatalogPage = () => {
 
   const handleAddToCart = async (productId: string) => {
     try {
-      const cartRepository = new CardRepository();
       let newCartId = cartId;
 
       if (!newCartId) {
@@ -146,12 +177,12 @@ const CatalogPage = () => {
 
         newCartId = newCart.id;
         setCartId(newCartId);
+        localStorage.setItem('cart_JSFE2023Q4', 'true');
       }
-
       if (newCartId) await cartRepository.addToCart(newCartId, productId);
       setCart([...cart, productId]);
     } catch {
-      throw Error('Error adding to cart');
+      throw new Error('Error adding to cart');
     }
   };
 
@@ -187,7 +218,11 @@ const CatalogPage = () => {
           ) : searchError ? (
             <div className="search-error">{searchError}</div>
           ) : (
-            <ProductList products={products} onAddToCart={handleAddToCart} />
+            <ProductList
+              products={products}
+              onAddToCart={handleAddToCart}
+              cart={cart}
+            />
           )}
         </div>
       </div>

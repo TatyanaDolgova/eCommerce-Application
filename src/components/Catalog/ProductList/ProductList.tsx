@@ -5,11 +5,17 @@ import ProductCard from '../ProductCard/ProductCard';
 import './ProductList.css';
 
 interface ProductListProps {
+  cart: string[];
   onAddToCart: (productId: string) => void;
+
   products: ProductProjection[];
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart }) => {
+const ProductList: React.FC<ProductListProps> = ({
+  products,
+  onAddToCart,
+  cart,
+}) => {
   return (
     <>
       <div className="products-container">
@@ -18,6 +24,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart }) => {
             key={product.id}
             product={product}
             onAddToCart={onAddToCart}
+            cart={cart}
           />
         ))}
       </div>

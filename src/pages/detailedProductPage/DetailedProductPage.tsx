@@ -52,20 +52,6 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     void fetchProduct();
   }, [fetchProduct]);
 
-  const ShowImage = () => {
-    if (images.length > 1) {
-      return <ProductSlider slides={images}></ProductSlider>;
-    } else if (images.length === 1) {
-      return <SingleImage imageData={images[0]} />;
-    } else {
-      return null;
-    }
-  };
-
-  const setPrice = (price = 0) => {
-    return Math.floor(price / 100);
-  };
-
   const checkCart = useCallback(async () => {
     const cartRepository = props.cartRepository;
 
@@ -116,6 +102,35 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     setProductState(true);
   };
 
+  const ShowCartOptions = () => {
+    if (!isProductInCart) {
+      return (
+        <BaseButton
+          classes="button add_product_button"
+          text="Add to cart"
+          type="button"
+          callback={addProduct}
+        />
+      );
+    } else {
+      return <p>Already in the Cart</p>;
+    }
+  };
+
+  const ShowImage = () => {
+    if (images.length > 1) {
+      return <ProductSlider slides={images}></ProductSlider>;
+    } else if (images.length === 1) {
+      return <SingleImage imageData={images[0]} />;
+    } else {
+      return null;
+    }
+  };
+
+  const setPrice = (price = 0) => {
+    return Math.floor(price / 100);
+  };
+
   return (
     <>
       <Header />
@@ -157,13 +172,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                   </p>
                 </div>
               </div>
-              <BaseButton
-                classes="button add_product_button"
-                text="Add to cart"
-                type="button"
-                callback={addProduct}
-                disabled={isProductInCart}
-              />
+              <ShowCartOptions />
             </div>
           </div>
         )}

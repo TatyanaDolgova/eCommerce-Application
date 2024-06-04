@@ -81,11 +81,6 @@
   background-color: var(--fern-green);
 }
 
-.add_product_button:disabled {
-  pointer-events: none;
-  background-color: var(--dark-moss-green);
-}
-
 .add_product_button::after {
   content: '';
   display: block;

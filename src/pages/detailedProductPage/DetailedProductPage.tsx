@@ -1,16 +1,19 @@
-import { Image, Product, ProductData } from '@commercetools/platform-sdk';
+import { Cart, Image, Product, ProductData } from '@commercetools/platform-sdk';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import './DetailedProductPage.css';
 
+import BaseButton from '../../components/Button/Button';
 import { ProductSlider } from '../../components/DetailedProduct/ProductSlider';
 import { SingleImage } from '../../components/DetailedProduct/SingleImage';
 import Header from '../../components/Header/Header';
 import Spinner from '../../components/Spinners/Spinner-category';
+import CardRepository from '../../services/CardRepository';
 import ProductRepository from '../../services/ProductRepository';
 
 interface DetailedProductPageProps {
+  cartRepository?: CardRepository;
   productRepository: ProductRepository;
 }
 
@@ -18,7 +21,8 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const data = useLocation();
   const productID = data.state as string;
   const defaultImages: Image[] = [];
-
+  const [cartID, setCartId] = useState<string | null>(null);
+  const [isProductInCart, setProductState] = useState<boolean>(true);
   const [productData, setProduct] = useState<ProductData>();
 
   const [images, setImages] = useState(defaultImages);
@@ -62,6 +66,38 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     return Math.floor(price / 100);
   };
 
+  const checkCard = useCallback(async () => {
+    try {
+      const cartRepository = props.cartRepository;
+
+      if (!cartRepository) {
+        throw new Error('CartRepository is not defind');
+      }
+
+      const responce: Cart = await cartRepository.checkActiveCard();
+
+      setCartId(responce.id);
+
+      const productState = await cartRepository.checkProduct(productID);
+
+      setProductState(productState);
+    } catch (error) {
+      console.error('No active cart exists.', error);
+    }
+  }, [props.cartRepository, productID]);
+
+  useEffect(() => {
+    void checkCard();
+  }, [checkCard]);
+
+  const addProduct = async () => {
+    const cartRepository = props.cartRepository;
+
+    if (cartRepository && cartID) {
+      await cartRepository.addToCart(cartID, productID);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -103,6 +139,16 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                   </p>
                 </div>
               </div>
+              <button
+                className="button add_product_button"
+                // classes="button add_product_button"
+                // text="Add to cart"
+                type="button"
+                onClick={addProduct}
+                disabled={isProductInCart}
+              >
+                {'Add to cart'}
+              </button>
             </div>
           </div>
         )}

@@ -2,6 +2,7 @@ import {
   ByProjectKeyRequestBuilder,
   Cart,
   CartDraft,
+  LineItem,
   LineItemDraft,
 } from '@commercetools/platform-sdk';
 
@@ -26,6 +27,7 @@ class CardRepository {
     const version = cart.version;
 
     const response = await this.getRoot()
+      .me()
       .carts()
       .withId({ ID: cartId })
       .post({
@@ -39,12 +41,39 @@ class CardRepository {
     return response.body;
   }
 
+  async checkActiveCard(): Promise<Cart> {
+    try {
+      const responce = await this.getRoot().me().activeCart().get().execute();
+
+      this.cardId = responce.body.id;
+
+      return responce.body;
+    } catch (error) {
+      throw new Error('No active cart exists.');
+    }
+  }
+
+  async checkProduct(productID: string) {
+    const cart = await this.getCartById(this.cardId);
+
+    const products: LineItem[] = cart.lineItems;
+
+    const item = products.find((product) => product.productId === productID);
+
+    if (item) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   async createCart(): Promise<Cart> {
     const cartDraft: CartDraft = {
       currency: 'EUR',
     };
 
     const response = await this.getRoot()
+      .me()
       .carts()
       .post({ body: cartDraft })
       .execute();
@@ -57,6 +86,7 @@ class CardRepository {
   async getCartById(cartId: string): Promise<Cart> {
     try {
       const response = await this.getRoot()
+        .me()
         .carts()
         .withId({ ID: cartId })
         .get()
@@ -80,5 +110,7 @@ class CardRepository {
     return this.apiRoot;
   }
 }
+
+export const cartRepository = new CardRepository();
 
 export default CardRepository;

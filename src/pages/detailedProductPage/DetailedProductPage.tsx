@@ -66,7 +66,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     return Math.floor(price / 100);
   };
 
-  const checkCard = useCallback(async () => {
+  const checkCart = useCallback(async () => {
     const cartRepository = props.cartRepository;
 
     if (!cartRepository) {
@@ -82,30 +82,38 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
       setProductState(productState);
     } catch (getActiveCartError) {
-      console.error('No active cart exists.', getActiveCartError);
-
-      try {
-        const cart: Cart = await cartRepository.createCart();
-
-        setCartId(cart.id);
-        setProductState(false);
-      } catch (createCartError) {
-        console.error('Cart has not been created.', createCartError);
-      }
+      setProductState(false);
     }
   }, [props.cartRepository, productID]);
 
   useEffect(() => {
-    void checkCard();
-  }, [checkCard]);
+    void checkCart();
+  }, [checkCart]);
+
+  const getCartId = async (cartRepository: CardRepository): Promise<string> => {
+    if (!cartID) {
+      const cart: Cart = await cartRepository.createCart();
+
+      setCartId(cart.id);
+      setProductState(false);
+
+      return cart.id;
+    } else {
+      return cartID;
+    }
+  };
 
   const addProduct = async () => {
     const cartRepository = props.cartRepository;
 
-    if (cartRepository && cartID) {
-      await cartRepository.addToCart(cartID, productID);
-      setProductState(true);
+    if (!cartRepository) {
+      throw new Error('CartRepository is not defined');
     }
+
+    const currentCartID = await getCartId(cartRepository);
+
+    await cartRepository.addToCart(currentCartID, productID);
+    setProductState(true);
   };
 
   return (

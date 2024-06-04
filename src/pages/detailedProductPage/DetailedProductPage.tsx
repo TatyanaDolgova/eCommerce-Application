@@ -106,7 +106,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
               </div>
               <BaseButton
                 classes="button add_product_button"
-                text="Add to card"
+                text="Add to cart"
                 type="button"
                 callback={() => {}}
               />

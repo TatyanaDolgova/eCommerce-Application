@@ -4,11 +4,16 @@ import './ProductCard.css';
 import { Link } from 'react-router-dom';
 
 interface ProductCardProps {
+  cart: string[];
   onAddToCart: (productId: string) => void;
   product: ProductProjection;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  onAddToCart,
+  cart,
+}) => {
   const productSlug: string = product.slug['en-US'];
   const productID = product.id;
   const productName = product.name['en-US'];
@@ -17,6 +22,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   const priceOld = product.masterVariant.prices?.[0]?.value?.centAmount ?? 0;
   const priceNew =
     product.masterVariant.prices?.[0].discounted?.value.centAmount ?? 0;
+
+  const isInCart = cart.includes(productID);
 
   return (
     <div className="card">
@@ -36,12 +43,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           <div className="price-new">{Math.floor(priceNew / 100)} €</div>
         </div>
 
-        <button
-          className="add-to-cart-button"
-          onClick={() => onAddToCart(productID)}
-        >
-          {'Add to Cart 🛒'}
-        </button>
+        {isInCart ? (
+          <div className="added-to-cart">Already in Cart</div>
+        ) : (
+          <button
+            className="add-to-cart-button"
+            onClick={() => onAddToCart(productID)}
+          >
+            {'Add to Cart 🛒'}
+          </button>
+        )}
       </div>
     </div>
   );

@@ -4,8 +4,6 @@ import { LineItem } from '@commercetools/platform-sdk';
 import BaseButton from '../Button/Button';
 
 const ListItem = (item: LineItem) => {
-  console.log(item.price.value);
-
   let itemImage = '';
 
   if (item.variant.images) {

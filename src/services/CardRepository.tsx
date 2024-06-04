@@ -2,6 +2,7 @@ import {
   ByProjectKeyRequestBuilder,
   Cart,
   CartDraft,
+  LineItem,
   LineItemDraft,
 } from '@commercetools/platform-sdk';
 
@@ -40,16 +41,29 @@ class CardRepository {
     return response.body;
   }
 
-  async checkCard(): Promise<Cart> {
+  async checkActiveCard(): Promise<Cart> {
     try {
       const responce = await this.getRoot().me().activeCart().get().execute();
 
-      console.log('Запрос на активную карту');
-      console.log(responce.body);
+      this.cardId = responce.body.id;
 
       return responce.body;
     } catch (error) {
-      throw new Error('Error fetching active cart');
+      throw new Error('No active cart exists.');
+    }
+  }
+
+  async checkProduct(productID: string) {
+    const cart = await this.getCartById(this.cardId);
+
+    const products: LineItem[] = cart.lineItems;
+
+    const item = products.find((product) => product.productId === productID);
+
+    if (item) {
+      return true;
+    } else {
+      return false;
     }
   }
 

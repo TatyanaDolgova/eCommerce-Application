@@ -1,4 +1,4 @@
-import { Image, Product, ProductData } from '@commercetools/platform-sdk';
+import { Cart, Image, Product, ProductData } from '@commercetools/platform-sdk';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -21,7 +21,8 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const data = useLocation();
   const productID = data.state as string;
   const defaultImages: Image[] = [];
-
+  const [cartID, setCartId] = useState<string | null>(null);
+  const [isProductInCart, setProductState] = useState<boolean>(true);
   const [productData, setProduct] = useState<ProductData>();
 
   const [images, setImages] = useState(defaultImages);
@@ -73,17 +74,29 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
         throw new Error('CartRepository is not defind');
       }
 
-      const responce = await cartRepository.checkCard();
+      const responce: Cart = await cartRepository.checkActiveCard();
 
-      console.log(responce);
+      setCartId(responce.id);
+
+      const productState = await cartRepository.checkProduct(productID);
+
+      setProductState(productState);
     } catch (error) {
-      console.error('Error fetching active card:', error);
+      console.error('No active cart exists.', error);
     }
-  }, []);
+  }, [props.cartRepository, productID]);
 
   useEffect(() => {
     void checkCard();
   }, [checkCard]);
+
+  const addProduct = async () => {
+    const cartRepository = props.cartRepository;
+
+    if (cartRepository && cartID) {
+      await cartRepository.addToCart(cartID, productID);
+    }
+  };
 
   return (
     <>
@@ -126,12 +139,16 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                   </p>
                 </div>
               </div>
-              <BaseButton
-                classes="button add_product_button"
-                text="Add to cart"
+              <button
+                className="button add_product_button"
+                // classes="button add_product_button"
+                // text="Add to cart"
                 type="button"
-                callback={checkCard}
-              />
+                onClick={addProduct}
+                disabled={isProductInCart}
+              >
+                {'Add to cart'}
+              </button>
             </div>
           </div>
         )}

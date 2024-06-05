@@ -136,6 +136,31 @@ class CardRepository {
 
     return response.body;
   }
+
+  async removeFromCart(productID: string): Promise<Cart> {
+    const cart = await this.checkActiveCard();
+    const cartID = cart.id;
+    const version = cart.version;
+
+    const response = await this.getRoot()
+      .me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({
+        body: {
+          version: version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: productID,
+            },
+          ],
+        },
+      })
+      .execute();
+
+    return response.body;
+  }
 }
 
 export const cartRepository = new CardRepository();

@@ -7,9 +7,11 @@ import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
 
 interface ListItemProps {
-  callback: Dispatch<SetStateAction<number>>;
+  callback: Dispatch<SetStateAction<LineItem[]>>;
   item: LineItem;
   key: string | undefined;
+
+  setPrice: Dispatch<SetStateAction<number>>;
 }
 
 const ListItem = (props: ListItemProps) => {
@@ -49,6 +51,17 @@ const ListItem = (props: ListItemProps) => {
     }
   }
 
+  async function deleteItem() {
+    const updCart: Cart = await cartRepository.removeFromCart(props.item.id);
+
+    if (updCart instanceof Error) {
+      console.error('Error removing item');
+    } else {
+      props.callback(updCart.lineItems);
+      props.setPrice(updCart.totalPrice.centAmount / 100);
+    }
+  }
+
   useEffect(() => {
     void getCart();
     void checkDisabledButtonState(itemQuantity);
@@ -74,6 +87,8 @@ const ListItem = (props: ListItemProps) => {
       if (updatedCart instanceof Error) {
         showToast('Error modifying quantity', true);
       } else {
+        props.callback(updatedCart.lineItems);
+        props.setPrice(updatedCart.totalPrice.centAmount / 100);
         const findItem = updatedCart.lineItems.find(
           (el) => el.id === listItem.id,
         );
@@ -83,7 +98,6 @@ const ListItem = (props: ListItemProps) => {
           setItemQuantity(findItem.quantity);
           checkDisabledButtonState(findItem.quantity);
         }
-        props.callback(updatedCart.totalPrice.centAmount / 100);
       }
     }
   }
@@ -97,7 +111,7 @@ const ListItem = (props: ListItemProps) => {
       ></img>
 
       <span>{props.item.name['en-US']}</span>
-      <div>
+      <div className="quantity-container">
         Quantity:
         <BaseButton
           classes={disabledButton}
@@ -114,6 +128,14 @@ const ListItem = (props: ListItemProps) => {
           type="button"
           callback={async () => {
             await changeQuantity(true);
+          }}
+        />
+        <BaseButton
+          classes="button cart_item-button cart_delete-button"
+          text=" "
+          type="button"
+          callback={async () => {
+            await deleteItem();
           }}
         />
       </div>

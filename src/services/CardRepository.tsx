@@ -109,6 +109,33 @@ class CardRepository {
 
     return this.apiRoot;
   }
+
+  async modifyQuantity(
+    cartID: string,
+    productID: string,
+    quantity: number,
+    version: number,
+  ): Promise<Cart> {
+    const response = await this.getRoot()
+      .me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({
+        body: {
+          version: version,
+          actions: [
+            {
+              action: 'changeLineItemQuantity',
+              lineItemId: productID,
+              quantity: quantity,
+            },
+          ],
+        },
+      })
+      .execute();
+
+    return response.body;
+  }
 }
 
 export const cartRepository = new CardRepository();

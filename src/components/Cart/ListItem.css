@@ -25,3 +25,7 @@
 .strike-through {
   text-decoration: line-through;
 }
+
+.disabled {
+  pointer-events: none;
+}

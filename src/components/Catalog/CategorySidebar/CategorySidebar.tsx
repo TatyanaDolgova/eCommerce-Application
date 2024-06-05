@@ -30,10 +30,10 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
         if (categoriesResponse) {
           setCategories(categoriesResponse);
         } else {
-          throw new Error('Categories response is undefined');
+          console.error('Categories response is undefined');
         }
       } catch (error) {
-        throw new Error('Error fetching categories');
+        console.error('Error fetching categories');
       } finally {
         setLoading(false);
       }

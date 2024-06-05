@@ -111,6 +111,10 @@
   background-repeat: no-repeat;
 }
 
+.cart-link {
+  background-image: url(../../assets/icons/shopping-cart.png);
+}
+
 .loggedin-container {
   display: flex;
   gap: 10px;

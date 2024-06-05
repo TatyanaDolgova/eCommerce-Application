@@ -85,25 +85,19 @@ const CatalogPage = () => {
       const newCart = await cartRepository.createCart();
 
       setCartId(newCart.id);
-      localStorage.setItem('cart_JSFE2023Q4', 'true');
     } catch (createError) {
       throw Error('Error creating new cart');
     }
   };
 
   async function fetchCart() {
-    const savedCart = localStorage.getItem('cartId_JSFE2023Q4');
+    try {
+      const activeCart = await cartRepository.checkActiveCard();
+      const cartItems = activeCart.lineItems.map((item) => item.productId);
 
-    if (savedCart) {
-      try {
-        const activeCart = await cartRepository.checkActiveCard();
-        const cartItems = activeCart.lineItems.map((item) => item.productId);
-
-        setCart(cartItems);
-      } catch (error) {
-        await createNewCart();
-      }
-    } else {
+      setCart(cartItems);
+      setCartId(activeCart.id);
+    } catch (error) {
       await createNewCart();
     }
   }
@@ -148,7 +142,7 @@ const CatalogPage = () => {
           });
         }
       } catch (error) {
-        throw new Error('Error updating breadcrumbs');
+        console.error('Error updating breadcrumbs');
       }
     } else {
       setBreadcrumbs(() => {
@@ -174,7 +168,7 @@ const CatalogPage = () => {
         await updateBreadcrumbs(null);
       }
     } catch (error) {
-      throw new Error('Error fetching products for category');
+      console.error('Error fetching products for category');
     }
   };
 
@@ -209,13 +203,14 @@ const CatalogPage = () => {
         const newCart = await cartRepository.createCart();
 
         newCartId = newCart.id;
+
         setCartId(newCartId);
-        localStorage.setItem('cart_JSFE2023Q4', 'true');
       }
+
       if (newCartId) await cartRepository.addToCart(newCartId, productId);
       setCart([...cart, productId]);
     } catch {
-      throw new Error('Error adding to cart');
+      console.error('Error adding to cart');
     }
   };
 

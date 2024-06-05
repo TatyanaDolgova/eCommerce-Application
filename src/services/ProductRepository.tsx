@@ -3,6 +3,7 @@ import {
   Category,
   Product,
   ProductProjection,
+  ProductProjectionPagedSearchResponse,
 } from '@commercetools/platform-sdk';
 
 import { CustomerRepository } from './CustomerRepository';
@@ -79,14 +80,19 @@ class ProductRepository {
     minPrice: number,
     maxPrice: number,
     size: string,
+    productsPerPage: number,
     categoryId?: string,
-  ): Promise<ProductProjection[]> {
+    page = 1,
+  ): Promise<{ results: ProductProjection[]; totalPages: number }> {
     try {
+      const offset = (page - 1) * productsPerPage;
+
       const queryArgs: Record<string, string | string[] | boolean | number> = {
         'text.en-US': query,
         fuzzy: true,
         sort: sortBy,
-        limit: 60,
+        limit: productsPerPage,
+        offset: offset,
         filter: [],
         'filter.query': `variants.price.centAmount:range (${minPrice * 100} to ${maxPrice * 100})`,
       };
@@ -108,10 +114,14 @@ class ProductRepository {
         .search()
         .get({ queryArgs })
         .execute();
+      const products: ProductProjectionPagedSearchResponse = response.body;
 
-      const products: ProductProjection[] = response.body.results;
-
-      return products;
+      return {
+        results: response.body.results,
+        totalPages: products.total
+          ? Math.ceil(products.total / productsPerPage)
+          : 0,
+      };
     } catch (error) {
       throw new Error('Error fetching products');
     }

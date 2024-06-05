@@ -28,8 +28,28 @@ const CatalogPage = () => {
   const [searhcQuery, setSearchQuery] = useState<string>('');
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(100);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const [size, setSize] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [productsPerPage, setProductsPerPage] = useState<number>(6);
+
+  useEffect(() => {
+    const updateProductsPerPage = () => {
+      if (window.innerWidth > 1610) {
+        setProductsPerPage(8);
+      } else {
+        setProductsPerPage(6);
+      }
+    };
+
+    updateProductsPerPage();
+    window.addEventListener('resize', updateProductsPerPage);
+
+    return () => {
+      window.removeEventListener('resize', updateProductsPerPage);
+    };
+  }, []);
 
   async function fetchProducts() {
     try {
@@ -41,15 +61,18 @@ const CatalogPage = () => {
         minPrice,
         maxPrice,
         size,
+        productsPerPage,
         currentCategory,
+        page,
       );
 
       setLoading(false);
-      setProducts(productsResponse);
-      setSortedProducts(productsResponse);
+      setProducts(productsResponse.results);
+      setSortedProducts(productsResponse.results);
+      setTotalPages(productsResponse.totalPages);
       setSearchError(null);
 
-      if (productsResponse.length === 0) {
+      if (productsResponse.results.length === 0) {
         setSearchError('Nothing found');
       }
     } catch (error) {
@@ -91,7 +114,16 @@ const CatalogPage = () => {
 
   useEffect(() => {
     void fetchProducts();
-  }, [sortMethod, currentCategory, searhcQuery, maxPrice, minPrice, size]);
+  }, [
+    sortMethod,
+    currentCategory,
+    searhcQuery,
+    maxPrice,
+    minPrice,
+    size,
+    page,
+    productsPerPage,
+  ]);
 
   const updateBreadcrumbs = async (category: Category | null) => {
     if (category) {
@@ -131,6 +163,7 @@ const CatalogPage = () => {
 
       setCurrentCategory(categoryId);
       setSearchQuery('');
+      setPage(1);
       setSearchError(null);
 
       if (categoryId) {
@@ -186,6 +219,10 @@ const CatalogPage = () => {
     }
   };
 
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
   return (
     <>
       <Header />
@@ -224,6 +261,17 @@ const CatalogPage = () => {
               cart={cart}
             />
           )}
+          <div className="pagination">
+            {Array.from({ length: totalPages }, (i, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`pagination-button ${page === index + 1 ? 'active' : ''}`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </>

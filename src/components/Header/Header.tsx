@@ -69,6 +69,11 @@ const Header = () => {
           <Link to="/catalog" className="header-link" onClick={closeMenu}>
             Catalog
           </Link>
+          <Link
+            to="/cart"
+            className="user-profile-link cart-link"
+            onClick={closeMenu}
+          />
           {isLoggedIn ? (
             <div className="loggedin-container">
               <Link

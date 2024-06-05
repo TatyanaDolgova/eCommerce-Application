@@ -33,6 +33,7 @@ const CatalogPage = () => {
   const [size, setSize] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [productsPerPage, setProductsPerPage] = useState<number>(6);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   useEffect(() => {
     const updateProductsPerPage = () => {
@@ -196,6 +197,7 @@ const CatalogPage = () => {
   };
 
   const handleAddToCart = async (productId: string) => {
+    setIsAddingToCart(true);
     try {
       let newCartId = cartId;
 
@@ -211,6 +213,8 @@ const CatalogPage = () => {
       setCart([...cart, productId]);
     } catch {
       console.error('Error adding to cart');
+    } finally {
+      setIsAddingToCart(false);
     }
   };
 
@@ -254,6 +258,7 @@ const CatalogPage = () => {
               products={products}
               onAddToCart={handleAddToCart}
               cart={cart}
+              isAddingToCart={isAddingToCart}
             />
           )}
           <div className="pagination">

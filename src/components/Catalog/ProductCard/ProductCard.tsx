@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 interface ProductCardProps {
   cart: string[];
+  isAddingToCart: boolean;
   onAddToCart: (productId: string) => void;
   product: ProductProjection;
 }
@@ -13,6 +14,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onAddToCart,
   cart,
+  isAddingToCart,
 }) => {
   const productSlug: string = product.slug['en-US'];
   const productID = product.id;
@@ -49,6 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <button
             className="add-to-cart-button"
             onClick={() => onAddToCart(productID)}
+            disabled={isAddingToCart}
           >
             {'Add to Cart 🛒'}
           </button>

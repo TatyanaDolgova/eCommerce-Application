@@ -52,6 +52,71 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     void fetchProduct();
   }, [fetchProduct]);
 
+  const checkCart = useCallback(async () => {
+    const cartRepository = props.cartRepository;
+
+    if (!cartRepository) {
+      throw new Error('CartRepository is not defined');
+    }
+
+    try {
+      const responce: Cart = await cartRepository.checkActiveCard();
+
+      setCartId(responce.id);
+
+      const productState = await cartRepository.checkProduct(productID);
+
+      setProductState(productState);
+    } catch (getActiveCartError) {
+      setProductState(false);
+    }
+  }, [props.cartRepository, productID]);
+
+  useEffect(() => {
+    void checkCart();
+  }, [checkCart]);
+
+  const getCartId = async (cartRepository: CardRepository): Promise<string> => {
+    if (!cartID) {
+      const cart: Cart = await cartRepository.createCart();
+
+      setCartId(cart.id);
+      setProductState(false);
+
+      return cart.id;
+    } else {
+      return cartID;
+    }
+  };
+
+  const addProduct = async () => {
+    const cartRepository = props.cartRepository;
+
+    if (!cartRepository) {
+      throw new Error('CartRepository is not defined');
+    }
+
+    const currentCartID = await getCartId(cartRepository);
+
+    await cartRepository.addToCart(currentCartID, productID);
+    setProductState(true);
+  };
+
+  const ShowCartOptions = () => {
+    if (!isProductInCart) {
+      return (
+        <BaseButton
+          classes="button add_product_button"
+          text="Add to cart"
+          type="button"
+          callback={addProduct}
+        />
+      );
+    } else {
+      return <p>Already in the Cart</p>;
+    }
+  };
+
   const ShowImage = () => {
     if (images.length > 1) {
       return <ProductSlider slides={images}></ProductSlider>;
@@ -139,16 +204,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                   </p>
                 </div>
               </div>
-              <button
-                className="button add_product_button"
-                // classes="button add_product_button"
-                // text="Add to cart"
-                type="button"
-                onClick={addProduct}
-                disabled={isProductInCart}
-              >
-                {'Add to cart'}
-              </button>
+              <ShowCartOptions />
             </div>
           </div>
         )}

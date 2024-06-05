@@ -29,7 +29,7 @@ class ProductRepository {
 
       return response.body.results;
     } catch (error) {
-      throw new Error('Error fetching products by category');
+      console.error('Error fetching products by category');
     }
   }
 
@@ -40,7 +40,7 @@ class ProductRepository {
 
       return categories;
     } catch (error) {
-      throw new Error('Error fetching categories');
+      console.error('Error fetching categories');
     }
   }
 

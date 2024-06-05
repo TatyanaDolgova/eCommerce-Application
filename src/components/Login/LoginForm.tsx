@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { UserContext, UserData } from '../../app-context/UserContext';
+import { cartRepository } from '../../services/CardRepository';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { userTokenStorage } from '../../services/LocalStorage';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
@@ -16,6 +17,14 @@ import showToast from '../../utils/notifications';
 import { emailProps, passwordProps } from '../../utils/validation';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
+
+interface LoginData {
+  anonymousCartSignInMode?: string | undefined;
+  anonymousId?: string | undefined;
+
+  email: string;
+  password: string;
+}
 
 function LoginForm(props: LoginFormProps) {
   const [passwordInputType, setPasswordInputType] = useState('password');
@@ -45,7 +54,17 @@ function LoginForm(props: LoginFormProps) {
   });
 
   async function submitLoginData(data: CustomerSignin) {
-    const response = await CustomerRepository.createLoggedInCustomer(data);
+    const anonymousCart = await cartRepository.checkActiveCard();
+    const loginData: LoginData = {
+      email: data.email,
+      password: data.password,
+    };
+
+    if (anonymousCart) {
+      loginData.anonymousId = anonymousCart.anonymousId;
+      loginData.anonymousCartSignInMode = 'MergeWithExistingcustomerCart';
+    }
+    const response = await CustomerRepository.createLoggedInCustomer(loginData);
 
     if (response instanceof Error) {
       CustomerRepository.createAnonymousCustomer();

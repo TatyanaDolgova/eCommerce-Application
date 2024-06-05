@@ -6,8 +6,8 @@ import './ProductList.css';
 
 interface ProductListProps {
   cart: string[];
+  isAddingToCart: boolean;
   onAddToCart: (productId: string) => void;
-
   products: ProductProjection[];
 }
 
@@ -15,6 +15,7 @@ const ProductList: React.FC<ProductListProps> = ({
   products,
   onAddToCart,
   cart,
+  isAddingToCart,
 }) => {
   return (
     <>
@@ -25,6 +26,7 @@ const ProductList: React.FC<ProductListProps> = ({
             product={product}
             onAddToCart={onAddToCart}
             cart={cart}
+            isAddingToCart={isAddingToCart}
           />
         ))}
       </div>

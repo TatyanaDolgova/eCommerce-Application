@@ -67,6 +67,9 @@
 
 .full_price_wrapper {
   color: var(--dark-moss-green);
+}
+
+.crossed {
   text-decoration: line-through;
 }
 

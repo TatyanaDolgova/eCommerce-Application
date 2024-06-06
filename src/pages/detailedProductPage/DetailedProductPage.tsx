@@ -26,6 +26,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const [productData, setProduct] = useState<ProductData>();
 
   const [images, setImages] = useState(defaultImages);
+  const [isDiscounted, setDiscount] = useState<boolean>(false);
 
   const fetchProduct = useCallback(async () => {
     try {
@@ -41,6 +42,13 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
         if (tempProductData && tempProductData.masterVariant.images) {
           setImages(tempProductData.masterVariant.images);
+        }
+
+        if (
+          tempProductData &&
+          tempProductData.masterVariant.prices?.[0]?.discounted
+        ) {
+          setDiscount(true);
         }
       }
     } catch (error) {
@@ -117,6 +125,31 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     }
   };
 
+  const setPrice = (price = 0) => {
+    return Math.floor(price / 100);
+  };
+
+  const ShowDiscountPrice = () => {
+    if (isDiscounted) {
+      return (
+        <div className="disc_price_wrapper">
+          <p className="disc_price">Sale price:</p>
+          <p className="disc_price">
+            {setPrice(
+              productData?.masterVariant.prices?.[0]?.discounted?.value
+                .centAmount,
+            )}
+          </p>
+          <p className="currency">
+            {productData?.masterVariant.prices?.[0]?.value?.currencyCode}
+          </p>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  };
+
   const ShowImage = () => {
     if (images.length > 1) {
       return <ProductSlider slides={images}></ProductSlider>;
@@ -125,10 +158,6 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     } else {
       return null;
     }
-  };
-
-  const setPrice = (price = 0) => {
-    return Math.floor(price / 100);
   };
 
   return (
@@ -148,7 +177,13 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                 {productData.metaDescription?.['en-US']}
               </div>
               <div className="detail_price_wrapper">
-                <div className="full_price_wrapper">
+                <div
+                  className={
+                    isDiscounted
+                      ? 'full_price_wrapper crossed'
+                      : 'full_price_wrapper'
+                  }
+                >
                   <p className="full_price">Full price:</p>
                   <p className="full_price">
                     {setPrice(
@@ -159,18 +194,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                     {productData.masterVariant.prices?.[0]?.value?.currencyCode}
                   </p>
                 </div>
-                <div className="disc_price_wrapper">
-                  <p className="disc_price">Sale price:</p>
-                  <p className="disc_price">
-                    {setPrice(
-                      productData.masterVariant.prices?.[0]?.discounted?.value
-                        .centAmount,
-                    )}
-                  </p>
-                  <p className="currency">
-                    {productData.masterVariant.prices?.[0]?.value?.currencyCode}
-                  </p>
-                </div>
+                <ShowDiscountPrice />
               </div>
               <ShowCartOptions />
             </div>

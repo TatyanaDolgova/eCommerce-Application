@@ -83,6 +83,24 @@ class CardRepository {
     return response.body;
   }
 
+  async deleteCart() {
+    const cart = await this.checkActiveCard();
+    const id = cart.id;
+    const queryArgs = {
+      version: cart.version,
+    };
+    const response = await this.getRoot()
+      .me()
+      .carts()
+      .withId({ ID: id })
+      .delete({
+        queryArgs,
+      })
+      .execute();
+
+    return response.body;
+  }
+
   async getCartById(cartId: string): Promise<Cart> {
     try {
       const response = await this.getRoot()

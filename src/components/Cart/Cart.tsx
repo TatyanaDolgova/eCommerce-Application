@@ -2,6 +2,9 @@ import { LineItem } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
 
 import { cartRepository } from '../../services/CardRepository';
+import showToast from '../../utils/notifications';
+import BaseButton from '../Button/Button';
+import ModalCartDelete from '../modals/ModalCartDelete';
 
 import EmptyCart from './EmptyCart';
 import ListItem from './ListItem';
@@ -10,6 +13,26 @@ const Cart = () => {
   const [listItems, setListItems] = useState<LineItem[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [currency, setCurrency] = useState('EUR');
+  const [modalOpen, setModalOpen] = useState(false);
+
+  function openModal() {
+    setModalOpen(true);
+  }
+
+  function closeModal() {
+    setModalOpen(false);
+  }
+
+  async function deleteCart() {
+    try {
+      await cartRepository.deleteCart();
+      closeModal();
+      showToast('Cart successfully cleared', false);
+      setListItems([]);
+    } catch {
+      showToast('Something went wrong. Try again', true);
+    }
+  }
 
   const fetchCart = async () => {
     try {
@@ -44,6 +67,15 @@ const Cart = () => {
             );
           })}
         </div>
+        <BaseButton
+          classes="button clear-cart-button"
+          text="Clear Shopping Cart"
+          type="button"
+          callback={openModal}
+        />
+        {modalOpen && (
+          <ModalCartDelete closeModal={closeModal} deleteCart={deleteCart} />
+        )}
         <div className="total">
           Total: {totalPrice} {currency}
         </div>

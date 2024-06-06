@@ -7,9 +7,11 @@ import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
 
 interface ListItemProps {
-  callback: Dispatch<SetStateAction<number>>;
+  callback: Dispatch<SetStateAction<LineItem[]>>;
   item: LineItem;
   key: string | undefined;
+
+  setPrice: Dispatch<SetStateAction<number>>;
 }
 
 const ListItem = (props: ListItemProps) => {
@@ -19,6 +21,7 @@ const ListItem = (props: ListItemProps) => {
   const [disabledButton, setDisabledButton] = useState(
     'button cart_item-button disabled',
   );
+  const [disabled, setDisabled] = useState(false);
   let itemImage = '';
 
   if (props.item.variant.images) {
@@ -49,12 +52,26 @@ const ListItem = (props: ListItemProps) => {
     }
   }
 
+  async function deleteItem() {
+    setDisabled(true);
+    const updCart: Cart = await cartRepository.removeFromCart(props.item.id);
+
+    if (updCart instanceof Error) {
+      console.error('Error removing item');
+    } else {
+      props.callback(updCart.lineItems);
+      props.setPrice(updCart.totalPrice.centAmount / 100);
+      setDisabled(false);
+    }
+  }
+
   useEffect(() => {
     void getCart();
     void checkDisabledButtonState(itemQuantity);
   }, []);
 
   async function changeQuantity(increase: boolean) {
+    setDisabled(true);
     let prodQuantity = listItem.quantity;
 
     if (increase) {
@@ -74,6 +91,8 @@ const ListItem = (props: ListItemProps) => {
       if (updatedCart instanceof Error) {
         showToast('Error modifying quantity', true);
       } else {
+        props.callback(updatedCart.lineItems);
+        props.setPrice(updatedCart.totalPrice.centAmount / 100);
         const findItem = updatedCart.lineItems.find(
           (el) => el.id === listItem.id,
         );
@@ -83,7 +102,7 @@ const ListItem = (props: ListItemProps) => {
           setItemQuantity(findItem.quantity);
           checkDisabledButtonState(findItem.quantity);
         }
-        props.callback(updatedCart.totalPrice.centAmount / 100);
+        setDisabled(false);
       }
     }
   }
@@ -97,7 +116,7 @@ const ListItem = (props: ListItemProps) => {
       ></img>
 
       <span>{props.item.name['en-US']}</span>
-      <div>
+      <div className="quantity-container">
         Quantity:
         <BaseButton
           classes={disabledButton}
@@ -106,6 +125,7 @@ const ListItem = (props: ListItemProps) => {
           callback={async () => {
             await changeQuantity(false);
           }}
+          disabled={disabled}
         />
         {itemQuantity}
         <BaseButton
@@ -115,6 +135,16 @@ const ListItem = (props: ListItemProps) => {
           callback={async () => {
             await changeQuantity(true);
           }}
+          disabled={disabled}
+        />
+        <BaseButton
+          classes="button cart_item-button cart_delete-button"
+          text=" "
+          type="button"
+          callback={async () => {
+            await deleteItem();
+          }}
+          disabled={disabled}
         />
       </div>
       <span className="strike-through">

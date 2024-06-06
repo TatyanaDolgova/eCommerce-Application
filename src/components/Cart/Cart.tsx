@@ -35,7 +35,12 @@ const Cart = () => {
         <div className="list-container">
           {listItems.map((item) => {
             return (
-              <ListItem key={item.key} item={item} callback={setTotalPrice} />
+              <ListItem
+                key={item.key}
+                item={item}
+                callback={setListItems}
+                setPrice={setTotalPrice}
+              />
             );
           })}
         </div>

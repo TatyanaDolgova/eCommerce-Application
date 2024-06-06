@@ -22,7 +22,8 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const productID = data.state as string;
   const defaultImages: Image[] = [];
   const [cartID, setCartId] = useState<string | null>(null);
-  const [isProductInCart, setProductState] = useState<boolean>(true);
+  const [isProductInCart, setProductState] = useState<boolean>(false);
+  const [lineItemID, setLineItemID] = useState<string>('');
   const [productData, setProduct] = useState<ProductData>();
 
   const [images, setImages] = useState(defaultImages);
@@ -72,9 +73,14 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
       setCartId(responce.id);
 
-      const productState = await cartRepository.checkProduct(productID);
+      const productState = await cartRepository.findProduct(productID);
 
-      setProductState(productState);
+      setLineItemID(productState);
+      if (productState) {
+        setProductState(true);
+      } else {
+        setProductState(false);
+      }
     } catch (getActiveCartError) {
       setProductState(false);
     }
@@ -110,18 +116,39 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     setProductState(true);
   };
 
+  const removeProduct = async () => {
+    const cartRepository = props.cartRepository;
+
+    if (!cartRepository) {
+      throw new Error('CartRepository is not defined');
+    }
+
+    await getCartId(cartRepository);
+
+    await cartRepository.removeFromCart(lineItemID);
+    setLineItemID('');
+    setProductState(false);
+  };
+
   const ShowCartOptions = () => {
     if (!isProductInCart) {
       return (
         <BaseButton
-          classes="button add_product_button"
+          classes="button control_product_button"
           text="Add to cart"
           type="button"
           callback={addProduct}
         />
       );
     } else {
-      return <p>Already in the Cart</p>;
+      return (
+        <BaseButton
+          classes="button control_product_button"
+          text="Remove from cart"
+          type="button"
+          callback={removeProduct}
+        />
+      );
     }
   };
 

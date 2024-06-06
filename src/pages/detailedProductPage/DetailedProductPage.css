@@ -77,14 +77,15 @@
   color: var(--error-message-color);
 }
 
-.add_product_button {
+.control_product_button {
+  width: 235px;
   height: 45px;
   position: relative;
   text-align: left;
   background-color: var(--fern-green);
 }
 
-.add_product_button::after {
+.control_product_button::after {
   content: '';
   display: block;
   position: absolute;

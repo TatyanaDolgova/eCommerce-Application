@@ -23,7 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const productImage = product.masterVariant.images?.[0].url;
   const priceOld = product.masterVariant.prices?.[0]?.value?.centAmount ?? 0;
   const priceNew =
-    product.masterVariant.prices?.[0].discounted?.value.centAmount ?? 0;
+    product.masterVariant.prices?.[0].discounted?.value.centAmount ?? null;
 
   const isInCart = cart.includes(productID);
 
@@ -40,11 +40,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
         >
           View Details
         </Link>
-        <div className="price-container">
-          <div className="price-old">{Math.floor(priceOld / 100)} €</div>
-          <div className="price-new">{Math.floor(priceNew / 100)} €</div>
-        </div>
-
+        {priceNew ? (
+          <div className="price-container">
+            <div className="price-old">{(priceOld / 100).toFixed(2)} €</div>
+            <div className="price-new">{(priceNew / 100).toFixed(2)} €</div>
+          </div>
+        ) : (
+          <div className="price-container">
+            <div className="price-old">{(priceOld / 100).toFixed(2)} €</div>
+          </div>
+        )}
         {isInCart ? (
           <div className="added-to-cart">Already in Cart</div>
         ) : (

@@ -1,9 +1,10 @@
 import { Squash as Hamburger } from 'hamburger-react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import './Header.css';
 import { UserContext, UserData } from '../../app-context/UserContext';
+import { cartRepository } from '../../services/CardRepository';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { userTokenStorage } from '../../services/LocalStorage';
 import BaseButton from '../Button/Button';
@@ -16,6 +17,7 @@ const Header = () => {
   const navigate = useNavigate();
   const redirectToMain = () => navigate('/home');
   const [isOpen, setOpen] = useState(false);
+  const [itemsQuantity, setItemsQuantity] = useState(0);
 
   const LogOutButton = () => {
     if (isLoggedIn) {
@@ -56,6 +58,21 @@ const Header = () => {
     setOpen(false);
   };
 
+  async function setQuantity() {
+    try {
+      const cart = await cartRepository.checkActiveCard();
+      const quantity = cart.lineItems.length;
+
+      setItemsQuantity(quantity);
+    } catch {
+      console.log('error fetching cart');
+    }
+  }
+
+  useEffect(() => {
+    void setQuantity();
+  }, []);
+
   return (
     <header className="header">
       <div className="header-wrapper">
@@ -69,11 +86,16 @@ const Header = () => {
           <Link to="/catalog" className="header-link" onClick={closeMenu}>
             Catalog
           </Link>
-          <Link
-            to="/cart"
-            className="user-profile-link cart-link"
-            onClick={closeMenu}
-          />
+          <div className="cart-link-container">
+            <Link
+              to="/cart"
+              className="user-profile-link cart-link"
+              onClick={closeMenu}
+            />
+            {itemsQuantity !== 0 && (
+              <span className="quantity-indicator">{itemsQuantity}</span>
+            )}
+          </div>
           {isLoggedIn ? (
             <div className="loggedin-container">
               <Link

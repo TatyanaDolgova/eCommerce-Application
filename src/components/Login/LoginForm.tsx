@@ -66,7 +66,7 @@ function LoginForm(props: LoginFormProps) {
     try {
       const anonymousCart = await cartRepository.checkActiveCard();
 
-      // loginData.anonymousId = anonymousCart.anonymousId;
+      loginData.anonymousId = anonymousCart.anonymousId;
       loginData.anonymousCartSignInMode = 'MergeWithExistingCustomerCart';
       loginData.anonymousCart = {
         id: anonymousCart.id,

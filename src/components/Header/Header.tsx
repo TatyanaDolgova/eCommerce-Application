@@ -1,6 +1,6 @@
 import { Squash as Hamburger } from 'hamburger-react';
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import './Header.css';
 import { UserContext, UserData } from '../../app-context/UserContext';
@@ -21,7 +21,7 @@ const Header = () => {
     if (isLoggedIn) {
       return (
         <BaseButton
-          classes="log_out_button header-link"
+          classes="log_out_button"
           callback={() => {
             CustomerRepository.logOutCusromer();
 
@@ -59,16 +59,19 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-wrapper">
-        <Link className="header-logo" to="/">
+        <NavLink className="header-logo" to="/">
           Plantify
-        </Link>
+        </NavLink>
         <nav className={`header-nav ${isOpen ? 'open' : ''}`}>
-          <Link to="/home" className="header-link" onClick={closeMenu}>
+          <NavLink to="/home" className="header-link" onClick={closeMenu}>
             Home
-          </Link>
-          <Link to="/catalog" className="header-link" onClick={closeMenu}>
+          </NavLink>
+          <NavLink to="/catalog" className="header-link" onClick={closeMenu}>
             Catalog
-          </Link>
+          </NavLink>
+          <NavLink to="/about-us" className="header-link" onClick={closeMenu}>
+            About Us
+          </NavLink>
           <Link
             to="/cart"
             className="user-profile-link cart-link"
@@ -86,17 +89,13 @@ const Header = () => {
           ) : (
             <ul className="header-links">
               <li>
-                <Link
-                  className="header-link sign-in-link"
-                  to="/login"
-                  onClick={closeMenu}
-                >
+                <Link className="sign-in-link" to="/login" onClick={closeMenu}>
                   Sign In
                 </Link>
               </li>
               <li>
                 <Link
-                  className="header-link sign-up-link"
+                  className="sign-up-link"
                   to="/registration"
                   onClick={closeMenu}
                 >

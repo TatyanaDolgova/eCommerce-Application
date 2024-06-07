@@ -99,7 +99,7 @@ const CatalogPage = () => {
       setCart(cartItems);
       setCartId(activeCart.id);
     } catch (error) {
-      await createNewCart();
+      // await createNewCart();
     }
   }
 

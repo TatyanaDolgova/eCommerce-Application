@@ -98,6 +98,32 @@
   z-index: 999;
 }
 
+.header-link,
+.sign-in-link,
+.sign-up-link,
+.log_out_button {
+  text-decoration: none;
+  margin: 0 15px;
+  position: relative;
+}
+
+.header-link::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.header-link:hover::after,
+.header-link.active::after {
+  width: 100%;
+}
+
 .no-scroll {
   overflow: hidden;
 }

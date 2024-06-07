@@ -19,6 +19,10 @@ import Input from '../Input/Input';
 import Label from '../Label/Label';
 
 interface LoginData {
+  anonymousCart?: {
+    id: string;
+    typeId: 'cart';
+  };
   anonymousCartSignInMode?: string | undefined;
   anonymousId?: string | undefined;
 
@@ -54,32 +58,41 @@ function LoginForm(props: LoginFormProps) {
   });
 
   async function submitLoginData(data: CustomerSignin) {
-    const anonymousCart = await cartRepository.checkActiveCard();
     const loginData: LoginData = {
       email: data.email,
       password: data.password,
     };
 
-    if (anonymousCart) {
+    try {
+      const anonymousCart = await cartRepository.checkActiveCard();
+
       loginData.anonymousId = anonymousCart.anonymousId;
-      loginData.anonymousCartSignInMode = 'MergeWithExistingcustomerCart';
-    }
-    const response = await CustomerRepository.createLoggedInCustomer(loginData);
-
-    if (response instanceof Error) {
-      CustomerRepository.createAnonymousCustomer();
-      if (response.message === serverErrorMessages.loginError.errorMessage) {
-        showToast(serverErrorMessages.loginError.userMessage, true);
-      }
-    } else {
-      const userState: UserData = {
-        loginStatus: true,
+      loginData.anonymousCartSignInMode = 'MergeWithExistingCustomerCart';
+      loginData.anonymousCart = {
+        id: anonymousCart.id,
+        typeId: 'cart',
       };
+    } catch {
+      console.log('no cart to fetch');
+    } finally {
+      const response =
+        await CustomerRepository.createLoggedInCustomer(loginData);
 
-      showToast('You are successfully logged in', false);
-      updateState({ user: userState });
-      userTokenStorage.setLoginState('true');
-      redirectToMain();
+      if (response instanceof Error) {
+        CustomerRepository.createAnonymousCustomer();
+        if (response.message === serverErrorMessages.loginError.errorMessage) {
+          showToast(serverErrorMessages.loginError.userMessage, true);
+        }
+      } else {
+        const userState: UserData = {
+          loginStatus: true,
+        };
+
+        showToast('You are successfully logged in', false);
+        updateState({ user: userState });
+        userTokenStorage.setLoginState('true');
+        redirectToMain();
+      }
     }
   }
 

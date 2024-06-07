@@ -45,6 +45,12 @@ const Cart = () => {
       setCurrency(cart.totalPrice.currencyCode);
     } catch {
       console.log('error fetching cart');
+      // const customer = await CustomerRepository.getCustomerInformation();
+      // const cartByID = await cartRepository.getCartByCustomerID(
+      //   customer.body.id,
+      // );
+
+      // console.log(cartByID);
     }
   };
 

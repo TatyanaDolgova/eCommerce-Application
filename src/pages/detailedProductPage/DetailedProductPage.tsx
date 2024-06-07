@@ -153,7 +153,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   };
 
   const setPrice = (price = 0) => {
-    return Math.floor(price / 100);
+    return Math.floor(price / 100).toFixed(2);
   };
 
   const ShowDiscountPrice = () => {

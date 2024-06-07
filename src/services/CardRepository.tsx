@@ -53,20 +53,6 @@ class CardRepository {
     }
   }
 
-  async checkProduct(productID: string) {
-    const cart = await this.getCartById(this.cardId);
-
-    const products: LineItem[] = cart.lineItems;
-
-    const item = products.find((product) => product.productId === productID);
-
-    if (item) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   async createCart(): Promise<Cart> {
     const cartDraft: CartDraft = {
       currency: 'EUR',
@@ -99,6 +85,20 @@ class CardRepository {
       .execute();
 
     return response.body;
+  }
+
+  async findProduct(productID: string) {
+    const cart = await this.getCartById(this.cardId);
+
+    const products: LineItem[] = cart.lineItems;
+
+    const item = products.find((product) => product.productId === productID);
+
+    if (item) {
+      return item.id;
+    } else {
+      return '';
+    }
   }
 
   async getCartById(cartId: string): Promise<Cart> {

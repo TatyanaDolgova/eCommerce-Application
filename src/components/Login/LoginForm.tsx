@@ -19,6 +19,10 @@ import Input from '../Input/Input';
 import Label from '../Label/Label';
 
 interface LoginData {
+  anonymousCart?: {
+    id: string;
+    typeId: 'cart';
+  };
   anonymousCartSignInMode?: string | undefined;
   anonymousId?: string | undefined;
 
@@ -62,8 +66,12 @@ function LoginForm(props: LoginFormProps) {
     try {
       const anonymousCart = await cartRepository.checkActiveCard();
 
-      loginData.anonymousId = anonymousCart.anonymousId;
-      loginData.anonymousCartSignInMode = 'MergeWithExistingcustomerCart';
+      // loginData.anonymousId = anonymousCart.anonymousId;
+      loginData.anonymousCartSignInMode = 'MergeWithExistingCustomerCart';
+      loginData.anonymousCart = {
+        id: anonymousCart.id,
+        typeId: 'cart',
+      };
     } catch {
       console.log('no cart to fetch');
     } finally {

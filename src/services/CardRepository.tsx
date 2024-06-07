@@ -101,6 +101,22 @@ class CardRepository {
     }
   }
 
+  // async getCartByCustomerID(
+  //   customerId: string,
+  // ): Promise<ClientResponse<CartPagedQueryResponse>> {
+  //   try {
+  //     const response = await this.getRoot()
+  //       .me()
+  //       .carts()
+  //       .get({ queryArgs: { where: `customerId = "${customerId}"` } })
+  //       .execute();
+
+  //     return response;
+  //   } catch (error) {
+  //     throw new Error('Error fetching cart');
+  //   }
+  // }
+
   async getCartById(cartId: string): Promise<Cart> {
     try {
       const response = await this.getRoot()

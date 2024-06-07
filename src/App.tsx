@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import './App.css';
+import AboutUsPage from './pages/aboutUsPage/AboutUsPage';
 import BasketPage from './pages/basket/BasketPage';
 import CatalogPage from './pages/catalog/CatalogPage';
 import DetailedProductPage from './pages/detailedProductPage/DetailedProductPage';
@@ -32,6 +33,7 @@ function App() {
         <Route path="/home" element={<MainPage />} />
         <Route path="/cart" element={<BasketPage />} />
         <Route path="/catalog" element={<CatalogPage />} />
+        <Route path="/about-us" element={<AboutUsPage />} />
         <Route
           path="/catalog/:ProductSlug"
           element={

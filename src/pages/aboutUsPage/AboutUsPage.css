@@ -1,0 +1,107 @@
+.about-us {
+  background-color: var(--cambridge-blue);
+  min-height: calc(100vh - 80px);
+  padding: 20px;
+  text-align: center;
+}
+
+.about-us-title {
+  text-align: center;
+  font-size: 36px;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+.about-us-description {
+  font-size: 16px;
+  color: var(--platinum);
+  line-height: 1.5;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+.about-us-subtitle {
+  font-size: 24px;
+  color: #fff;
+}
+
+.team-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.team-member {
+  flex: 1;
+  max-width: 300px;
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.team-member:hover {
+  transform: translateY(-5px);
+}
+
+.member-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.team-member-title {
+  margin-bottom: 10px;
+}
+
+.team-member-role {
+  font-size: 18px;
+  color: var(--silver);
+  margin-bottom: 15px;
+}
+
+.team-member-bio {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.team-member-contribut {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.contributions-list {
+  list-style-type: decimal;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.contributions-list li {
+  margin-bottom: 10px;
+}
+
+
+.team-collaboration {
+  margin-top: 40px;
+}
+
+.team-member-github {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: var(--dark-moss-green);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.team-member-github:hover {
+  background-color: var(--fern-green);
+}

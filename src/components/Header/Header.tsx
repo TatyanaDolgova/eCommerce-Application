@@ -69,6 +69,9 @@ const Header = () => {
           <Link to="/catalog" className="header-link" onClick={closeMenu}>
             Catalog
           </Link>
+          <Link to="/about-us" className="header-link" onClick={closeMenu}>
+            About Us
+          </Link>
           <Link
             to="/cart"
             className="user-profile-link cart-link"

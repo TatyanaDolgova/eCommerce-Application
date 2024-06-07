@@ -19,4 +19,16 @@ export const serverErrorMessages = {
     errorMessage: 'Write operations are temporarily unavailable',
     userMessage: 'Server is temporarily unavailable. Please, try again later',
   },
+  fetchingProductError: {
+    errorMessage: 'The Resource with ID was not found.',
+    userMessage: 'Server is temporarily unavailable. Please, try again later',
+  },
+  addToCartError: {
+    errorMessage: 'Request body does not contain valid JSON.',
+    userMessage: 'Server is temporarily unavailable. Please, try again later',
+  },
+  removeFromCartError: {
+    errorMessage: 'Request body does not contain valid JSON.',
+    userMessage: 'Server is temporarily unavailable. Please, try again later',
+  },
 };

@@ -64,8 +64,14 @@ const Cart = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data.promo);
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    try {
+      const discount = await cartRepository.applyDiscountCode(data.promo);
+
+      setTotalPrice(discount.totalPrice.centAmount / 100);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {

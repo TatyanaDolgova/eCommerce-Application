@@ -1,6 +1,6 @@
 import { Cart, Image, Product, ProductData } from '@commercetools/platform-sdk';
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import './DetailedProductPage.css';
 
@@ -192,7 +192,6 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     if (isDiscounted) {
       return (
         <div className="disc_price_wrapper">
-          <p className="disc_price">Sale price:</p>
           <p className="disc_price">
             {setPrice(
               productData?.masterVariant.prices?.[0]?.discounted?.value
@@ -229,6 +228,9 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
           <div className="detail_product_wrapper">
             <ShowImage />
             <div className="detail_product_info">
+              <NavLink to="/catalog" className="catalog_link">
+                &larr; Back to catalog
+              </NavLink>
               <h1 className="detail_product_header">
                 {productData.name['en-US']}
               </h1>
@@ -243,7 +245,6 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                       : 'full_price_wrapper'
                   }
                 >
-                  <p className="full_price">Full price:</p>
                   <p className="full_price">
                     {setPrice(
                       productData.masterVariant.prices?.[0]?.value?.centAmount,

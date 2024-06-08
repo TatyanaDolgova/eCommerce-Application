@@ -146,7 +146,7 @@
   gap: 10px;
 }
 
-@media (max-width: 925px) {
+@media screen and (max-width: 925px) {
   .header-links {
     gap: 10px;
     padding-right: 20px;
@@ -160,11 +160,11 @@
   .sign-in-link,
   .sign-up-link,
   .log_out_button {
-    margin: 0 5px;
+    margin: 0 10px;
   }
 }
 
-@media screen and (max-width: 840px) {
+@media screen and (max-width: 865px) {
   .header-burger {
     display: block;
   }

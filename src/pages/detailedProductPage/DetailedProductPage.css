@@ -43,6 +43,11 @@
   text-align: right;
   text-decoration: none;
   color: black;
+  transition: 0.3s;
+}
+
+.catalog_link:hover {
+  transform: scale(1.1);
 }
 
 .detail_product_header {

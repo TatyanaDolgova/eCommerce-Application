@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const EmptyCart = () => {
   return (
-    <div>
+    <div className="empty-cart">
       <p>Your cart is empty</p>
       <p>
         {' '}

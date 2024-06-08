@@ -27,10 +27,11 @@ const AddressField: React.FC<AddressFieldProps> = (
         addressId: props.address.id,
       },
     ];
+    const customerVersion = await CustomerRepository.getCustomerInformation();
 
     const response = await CustomerRepository.updateCustomer(
       props.customerID,
-      props.customerVersion,
+      customerVersion.body.version,
       action,
     );
 

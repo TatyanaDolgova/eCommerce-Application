@@ -41,6 +41,31 @@ class CardRepository {
     return response.body;
   }
 
+  async applyDiscountCode(promo: string) {
+    const cart = await this.checkActiveCard();
+    const cartID = cart.id;
+    const version = cart.version;
+
+    const response = await this.getRoot()
+      .me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({
+        body: {
+          version: version,
+          actions: [
+            {
+              action: 'addDiscountCode',
+              code: promo,
+            },
+          ],
+        },
+      })
+      .execute();
+
+    return response.body;
+  }
+
   async checkActiveCard(): Promise<Cart> {
     try {
       const responce = await this.getRoot().me().activeCart().get().execute();
@@ -50,20 +75,6 @@ class CardRepository {
       return responce.body;
     } catch (error) {
       throw new Error('No active cart exists.');
-    }
-  }
-
-  async checkProduct(productID: string) {
-    const cart = await this.getCartById(this.cardId);
-
-    const products: LineItem[] = cart.lineItems;
-
-    const item = products.find((product) => product.productId === productID);
-
-    if (item) {
-      return true;
-    } else {
-      return false;
     }
   }
 
@@ -100,6 +111,36 @@ class CardRepository {
 
     return response.body;
   }
+
+  async findProduct(productID: string) {
+    const cart = await this.getCartById(this.cardId);
+
+    const products: LineItem[] = cart.lineItems;
+
+    const item = products.find((product) => product.productId === productID);
+
+    if (item) {
+      return item.id;
+    } else {
+      return '';
+    }
+  }
+
+  // async getCartByCustomerID(
+  //   customerId: string,
+  // ): Promise<ClientResponse<CartPagedQueryResponse>> {
+  //   try {
+  //     const response = await this.getRoot()
+  //       .me()
+  //       .carts()
+  //       .get({ queryArgs: { where: `customerId = "${customerId}"` } })
+  //       .execute();
+
+  //     return response;
+  //   } catch (error) {
+  //     throw new Error('Error fetching cart');
+  //   }
+  // }
 
   async getCartById(cartId: string): Promise<Cart> {
     try {

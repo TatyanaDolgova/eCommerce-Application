@@ -11,6 +11,8 @@ import Header from '../../components/Header/Header';
 import Spinner from '../../components/Spinners/Spinner-category';
 import CardRepository from '../../services/CardRepository';
 import ProductRepository from '../../services/ProductRepository';
+import { serverErrorMessages } from '../../utils/ErrorHandler';
+import showToast from '../../utils/notifications';
 
 interface DetailedProductPageProps {
   cartRepository?: CardRepository;
@@ -22,10 +24,12 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const productID = data.state as string;
   const defaultImages: Image[] = [];
   const [cartID, setCartId] = useState<string | null>(null);
-  const [isProductInCart, setProductState] = useState<boolean>(true);
+  const [isProductInCart, setProductState] = useState<boolean>(false);
+  const [lineItemID, setLineItemID] = useState<string>('');
   const [productData, setProduct] = useState<ProductData>();
 
   const [images, setImages] = useState(defaultImages);
+  const [isDiscounted, setDiscount] = useState<boolean>(false);
 
   const fetchProduct = useCallback(async () => {
     try {
@@ -42,9 +46,16 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
         if (tempProductData && tempProductData.masterVariant.images) {
           setImages(tempProductData.masterVariant.images);
         }
+
+        if (
+          tempProductData &&
+          tempProductData.masterVariant.prices?.[0]?.discounted
+        ) {
+          setDiscount(true);
+        }
       }
     } catch (error) {
-      console.error('Error fetching product:', error);
+      showToast(serverErrorMessages.fetchingProductError.userMessage, true);
     }
   }, [productID, props.productRepository]);
 
@@ -64,9 +75,14 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
       setCartId(responce.id);
 
-      const productState = await cartRepository.checkProduct(productID);
+      const productState = await cartRepository.findProduct(productID);
 
-      setProductState(productState);
+      setLineItemID(productState);
+      if (productState) {
+        setProductState(true);
+      } else {
+        setProductState(false);
+      }
     } catch (getActiveCartError) {
       setProductState(false);
     }
@@ -98,22 +114,78 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
     const currentCartID = await getCartId(cartRepository);
 
-    await cartRepository.addToCart(currentCartID, productID);
-    setProductState(true);
+    try {
+      await cartRepository.addToCart(currentCartID, productID);
+      setProductState(true);
+      showToast('Great choice! Product is in the cart.', false);
+    } catch {
+      showToast(serverErrorMessages.addToCartError.userMessage, true);
+    }
+  };
+
+  const removeProduct = async () => {
+    const cartRepository = props.cartRepository;
+
+    if (!cartRepository) {
+      throw new Error('CartRepository is not defined');
+    }
+
+    await getCartId(cartRepository);
+
+    try {
+      await cartRepository.removeFromCart(lineItemID);
+      setLineItemID('');
+      setProductState(false);
+      showToast('The item has been removed from the cart.', false);
+    } catch {
+      showToast(serverErrorMessages.removeFromCartError.userMessage, true);
+    }
   };
 
   const ShowCartOptions = () => {
     if (!isProductInCart) {
       return (
         <BaseButton
-          classes="button add_product_button"
+          classes="button control_product_button"
           text="Add to cart"
           type="button"
           callback={addProduct}
         />
       );
     } else {
-      return <p>Already in the Cart</p>;
+      return (
+        <BaseButton
+          classes="button control_product_button"
+          text="Remove from cart"
+          type="button"
+          callback={removeProduct}
+        />
+      );
+    }
+  };
+
+  const setPrice = (price = 0) => {
+    return Math.floor(price / 100).toFixed(2);
+  };
+
+  const ShowDiscountPrice = () => {
+    if (isDiscounted) {
+      return (
+        <div className="disc_price_wrapper">
+          <p className="disc_price">Sale price:</p>
+          <p className="disc_price">
+            {setPrice(
+              productData?.masterVariant.prices?.[0]?.discounted?.value
+                .centAmount,
+            )}
+          </p>
+          <p className="currency">
+            {productData?.masterVariant.prices?.[0]?.value?.currencyCode}
+          </p>
+        </div>
+      );
+    } else {
+      return null;
     }
   };
 
@@ -125,10 +197,6 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     } else {
       return null;
     }
-  };
-
-  const setPrice = (price = 0) => {
-    return Math.floor(price / 100);
   };
 
   return (
@@ -148,7 +216,13 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                 {productData.metaDescription?.['en-US']}
               </div>
               <div className="detail_price_wrapper">
-                <div className="full_price_wrapper">
+                <div
+                  className={
+                    isDiscounted
+                      ? 'full_price_wrapper crossed'
+                      : 'full_price_wrapper'
+                  }
+                >
                   <p className="full_price">Full price:</p>
                   <p className="full_price">
                     {setPrice(
@@ -159,18 +233,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
                     {productData.masterVariant.prices?.[0]?.value?.currencyCode}
                   </p>
                 </div>
-                <div className="disc_price_wrapper">
-                  <p className="disc_price">Sale price:</p>
-                  <p className="disc_price">
-                    {setPrice(
-                      productData.masterVariant.prices?.[0]?.discounted?.value
-                        .centAmount,
-                    )}
-                  </p>
-                  <p className="currency">
-                    {productData.masterVariant.prices?.[0]?.value?.currencyCode}
-                  </p>
-                </div>
+                <ShowDiscountPrice />
               </div>
               <ShowCartOptions />
             </div>

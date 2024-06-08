@@ -56,10 +56,10 @@
 }
 
 .detail_price_wrapper {
-  width: 80%;
+  width: 100%;
   display: flex;
-  gap: 2%;
-  justify-content: space-between;
+  gap: 5%;
+  justify-content: flex-end;
   align-items: center;
 }
 

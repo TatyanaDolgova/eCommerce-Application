@@ -27,6 +27,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const [isProductInCart, setProductState] = useState<boolean>(false);
   const [lineItemID, setLineItemID] = useState<string>('');
   const [productData, setProduct] = useState<ProductData>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [images, setImages] = useState(defaultImages);
   const [isDiscounted, setDiscount] = useState<boolean>(false);
@@ -75,10 +76,10 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
       setCartId(responce.id);
 
-      const productState = await cartRepository.findProduct(productID);
+      const id = await cartRepository.findProduct(productID);
 
-      setLineItemID(productState);
-      if (productState) {
+      if (id) {
+        setLineItemID(id);
         setProductState(true);
       } else {
         setProductState(false);
@@ -108,6 +109,8 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const addProduct = async () => {
     const cartRepository = props.cartRepository;
 
+    setLoading(true);
+
     if (!cartRepository) {
       throw new Error('CartRepository is not defined');
     }
@@ -116,15 +119,29 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
     try {
       await cartRepository.addToCart(currentCartID, productID);
-      setProductState(true);
+
       showToast('Great choice! Product is in the cart.', false);
+
+      try {
+        const id = await cartRepository.findProduct(productID);
+
+        setLineItemID(id);
+        setLoading(false);
+
+        setProductState(true);
+      } catch {
+        showToast('Great choice! Product is in the cart.', false);
+      }
     } catch {
       showToast(serverErrorMessages.addToCartError.userMessage, true);
+      setLoading(false);
     }
   };
 
   const removeProduct = async () => {
     const cartRepository = props.cartRepository;
+
+    setLoading(true);
 
     if (!cartRepository) {
       throw new Error('CartRepository is not defined');
@@ -134,11 +151,12 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
     try {
       await cartRepository.removeFromCart(lineItemID);
-      setLineItemID('');
       setProductState(false);
+      setLoading(false);
       showToast('The item has been removed from the cart.', false);
     } catch {
       showToast(serverErrorMessages.removeFromCartError.userMessage, true);
+      setLoading(false);
     }
   };
 
@@ -150,6 +168,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
           text="Add to cart"
           type="button"
           callback={addProduct}
+          disabled={loading}
         />
       );
     } else {
@@ -159,14 +178,13 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
           text="Remove from cart"
           type="button"
           callback={removeProduct}
+          disabled={loading}
         />
       );
     }
   };
 
   const setPrice = (price = 0) => {
-    console.log(price);
-
     return (price / 100).toFixed(2);
   };
 

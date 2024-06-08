@@ -99,6 +99,11 @@
   background-size: contain;
 }
 
+.control_product_button:disabled {
+  pointer-events: none;
+  background-color: var(--cambridge-blue) ;
+}
+
 .zoomed_in {
   cursor: zoom-in;
 }

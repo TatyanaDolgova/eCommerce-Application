@@ -1,5 +1,6 @@
 import { LineItem } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { cartRepository } from '../../services/CardRepository';
 import showToast from '../../utils/notifications';
@@ -9,11 +10,23 @@ import ModalCartDelete from '../modals/ModalCartDelete';
 import EmptyCart from './EmptyCart';
 import ListItem from './ListItem';
 
+type FormFields = {
+  promo: string;
+};
+
 const Cart = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormFields>();
   const [listItems, setListItems] = useState<LineItem[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [currency, setCurrency] = useState('EUR');
   const [modalOpen, setModalOpen] = useState(false);
+  const [priceBeforeDiscount, setPriceBeforeDiscount] = useState<number | null>(
+    null,
+  );
 
   function openModal() {
     setModalOpen(true);
@@ -43,6 +56,13 @@ const Cart = () => {
 
       setTotalPrice(cart.totalPrice.centAmount / 100);
       setCurrency(cart.totalPrice.currencyCode);
+      if (cart.discountOnTotalPrice) {
+        setPriceBeforeDiscount(
+          (cart.totalPrice.centAmount +
+            cart.discountOnTotalPrice.discountedAmount.centAmount) /
+            100,
+        );
+      }
     } catch {
       console.log('error fetching cart');
       // const customer = await CustomerRepository.getCustomerInformation();
@@ -51,6 +71,23 @@ const Cart = () => {
       // );
 
       // console.log(cartByID);
+    }
+  };
+
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    try {
+      const discount = await cartRepository.applyDiscountCode(data.promo);
+
+      setTotalPrice(discount.totalPrice.centAmount / 100);
+      if (discount.discountOnTotalPrice) {
+        setPriceBeforeDiscount(
+          (discount.totalPrice.centAmount +
+            discount.discountOnTotalPrice.discountedAmount.centAmount) /
+            100,
+        );
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -69,21 +106,44 @@ const Cart = () => {
                 item={item}
                 callback={setListItems}
                 setPrice={setTotalPrice}
+                setPriceBeforeDiscount={setPriceBeforeDiscount}
               />
             );
           })}
         </div>
-        <BaseButton
-          classes="button clear-cart-button"
-          text="Clear Shopping Cart"
-          type="button"
-          callback={openModal}
-        />
-        {modalOpen && (
-          <ModalCartDelete closeModal={closeModal} deleteCart={deleteCart} />
-        )}
+        <div className="cart-buttons-container">
+          <BaseButton
+            classes="button clear-cart-button"
+            text="Clear Shopping Cart"
+            type="button"
+            callback={openModal}
+          />
+          {modalOpen && (
+            <ModalCartDelete closeModal={closeModal} deleteCart={deleteCart} />
+          )}
+          <form className="promo-container" onSubmit={handleSubmit(onSubmit)}>
+            <input
+              {...register('promo', { required: true })}
+              className="input promo-input"
+              type="text"
+              placeholder="Enter a discount code"
+            />
+            <BaseButton
+              text="Apply"
+              classes="button promo-button"
+              type="submit"
+            />
+          </form>
+        </div>
+
         <div className="total">
-          Total: {totalPrice} {currency}
+          Total:{' '}
+          {priceBeforeDiscount && (
+            <span className="strike-through">
+              {priceBeforeDiscount} {currency}
+            </span>
+          )}{' '}
+          {totalPrice} {currency}
         </div>
       </div>
     );

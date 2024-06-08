@@ -41,6 +41,31 @@ class CardRepository {
     return response.body;
   }
 
+  async applyDiscountCode(promo: string) {
+    const cart = await this.checkActiveCard();
+    const cartID = cart.id;
+    const version = cart.version;
+
+    const response = await this.getRoot()
+      .me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({
+        body: {
+          version: version,
+          actions: [
+            {
+              action: 'addDiscountCode',
+              code: promo,
+            },
+          ],
+        },
+      })
+      .execute();
+
+    return response.body;
+  }
+
   async checkActiveCard(): Promise<Cart> {
     try {
       const responce = await this.getRoot().me().activeCart().get().execute();

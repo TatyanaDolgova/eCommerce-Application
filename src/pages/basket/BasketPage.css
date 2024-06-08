@@ -19,6 +19,17 @@
   font-weight: 600;
 }
 
-.clear-cart-button {
+/* .clear-cart-button {
   margin-top: 20px;
+} */
+
+.cart-buttons-container {
+display: flex;
+justify-content: space-between;
+margin: 20px 0;
+}
+
+.promo-container {
+display: flex;
+gap: 20px;
 }

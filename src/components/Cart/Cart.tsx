@@ -65,12 +65,6 @@ const Cart = () => {
       }
     } catch {
       console.log('error fetching cart');
-      // const customer = await CustomerRepository.getCustomerInformation();
-      // const cartByID = await cartRepository.getCartByCustomerID(
-      //   customer.body.id,
-      // );
-
-      // console.log(cartByID);
     }
   };
 
@@ -87,7 +81,9 @@ const Cart = () => {
         );
       }
     } catch (err) {
-      console.log(err);
+      if (err instanceof Error) {
+        showToast(err.message, true);
+      }
     }
   };
 

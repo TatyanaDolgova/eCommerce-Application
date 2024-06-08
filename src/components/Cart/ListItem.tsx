@@ -21,6 +21,8 @@ const ListItem = (props: ListItemProps) => {
   const [disabledButton, setDisabledButton] = useState(
     'button cart_item-button disabled',
   );
+  const [value, setValue] = useState<string | null>(null);
+  const [valueBefore, setValueBefore] = useState<string | null>(null);
   const [disabled, setDisabled] = useState(false);
   let itemImage = '';
 
@@ -28,21 +30,17 @@ const ListItem = (props: ListItemProps) => {
     itemImage = props.item.variant.images[0].url;
   }
 
-  let valueBefore = null;
-
-  let value = null;
-
-  if (listItem.price.discounted) {
-    value = (listItem.price.discounted?.value.centAmount / 100).toFixed(2);
-    valueBefore = (listItem.price.value.centAmount / 100).toFixed(2);
-  } else {
-    value = (listItem.price.value.centAmount / 100).toFixed(2);
-  }
-
   async function getCart() {
     const activeCart = await cartRepository.checkActiveCard();
 
     setCart(activeCart);
+
+    if (listItem.price.discounted) {
+      setValue((listItem.price.discounted?.value.centAmount / 100).toFixed(2));
+      setValueBefore((listItem.price.value.centAmount / 100).toFixed(2));
+    } else {
+      setValue((listItem.price.value.centAmount / 100).toFixed(2));
+    }
   }
 
   function checkDisabledButtonState(quantity: number) {

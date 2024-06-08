@@ -11,6 +11,8 @@ import Header from '../../components/Header/Header';
 import Spinner from '../../components/Spinners/Spinner-category';
 import CardRepository from '../../services/CardRepository';
 import ProductRepository from '../../services/ProductRepository';
+import { serverErrorMessages } from '../../utils/ErrorHandler';
+import showToast from '../../utils/notifications';
 
 interface DetailedProductPageProps {
   cartRepository?: CardRepository;
@@ -53,7 +55,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
         }
       }
     } catch (error) {
-      console.error('Error fetching product:', error);
+      showToast(serverErrorMessages.fetchingProductError.userMessage, true);
     }
   }, [productID, props.productRepository]);
 
@@ -112,8 +114,13 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
     const currentCartID = await getCartId(cartRepository);
 
-    await cartRepository.addToCart(currentCartID, productID);
-    setProductState(true);
+    try {
+      await cartRepository.addToCart(currentCartID, productID);
+      setProductState(true);
+      showToast('Great choice! Product is in the cart.', false);
+    } catch {
+      showToast(serverErrorMessages.addToCartError.userMessage, true);
+    }
   };
 
   const removeProduct = async () => {
@@ -125,9 +132,14 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
     await getCartId(cartRepository);
 
-    await cartRepository.removeFromCart(lineItemID);
-    setLineItemID('');
-    setProductState(false);
+    try {
+      await cartRepository.removeFromCart(lineItemID);
+      setLineItemID('');
+      setProductState(false);
+      showToast('The item has been removed from the cart.', false);
+    } catch {
+      showToast(serverErrorMessages.removeFromCartError.userMessage, true);
+    }
   };
 
   const ShowCartOptions = () => {
@@ -153,7 +165,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   };
 
   const setPrice = (price = 0) => {
-    return Math.floor(price / 100);
+    return Math.floor(price / 100).toFixed(2);
   };
 
   const ShowDiscountPrice = () => {

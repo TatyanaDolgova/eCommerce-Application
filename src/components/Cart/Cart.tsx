@@ -67,6 +67,7 @@ const Cart = () => {
       }
     } catch {
       console.log('error fetching cart');
+
     } finally {
       setLoading(false);
     }
@@ -85,7 +86,9 @@ const Cart = () => {
         );
       }
     } catch (err) {
-      console.log(err);
+      if (err instanceof Error) {
+        showToast(err.message, true);
+      }
     }
   };
 
@@ -146,7 +149,6 @@ const Cart = () => {
                   />
                 </form>
               </div>
-
               <div className="total">
                 Total:{' '}
                 {priceBeforeDiscount && (

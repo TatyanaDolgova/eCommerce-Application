@@ -24,6 +24,9 @@ const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [currency, setCurrency] = useState('EUR');
   const [modalOpen, setModalOpen] = useState(false);
+  const [priceBeforeDiscount, setPriceBeforeDiscount] = useState<number | null>(
+    null,
+  );
 
   function openModal() {
     setModalOpen(true);
@@ -53,6 +56,13 @@ const Cart = () => {
 
       setTotalPrice(cart.totalPrice.centAmount / 100);
       setCurrency(cart.totalPrice.currencyCode);
+      if (cart.discountOnTotalPrice) {
+        setPriceBeforeDiscount(
+          (cart.totalPrice.centAmount +
+            cart.discountOnTotalPrice.discountedAmount.centAmount) /
+            100,
+        );
+      }
     } catch {
       console.log('error fetching cart');
       // const customer = await CustomerRepository.getCustomerInformation();
@@ -69,6 +79,13 @@ const Cart = () => {
       const discount = await cartRepository.applyDiscountCode(data.promo);
 
       setTotalPrice(discount.totalPrice.centAmount / 100);
+      if (discount.discountOnTotalPrice) {
+        setPriceBeforeDiscount(
+          (discount.totalPrice.centAmount +
+            discount.discountOnTotalPrice.discountedAmount.centAmount) /
+            100,
+        );
+      }
     } catch (err) {
       console.log(err);
     }
@@ -89,6 +106,7 @@ const Cart = () => {
                 item={item}
                 callback={setListItems}
                 setPrice={setTotalPrice}
+                setPriceBeforeDiscount={setPriceBeforeDiscount}
               />
             );
           })}
@@ -119,7 +137,13 @@ const Cart = () => {
         </div>
 
         <div className="total">
-          Total: {totalPrice} {currency}
+          Total:{' '}
+          {priceBeforeDiscount && (
+            <span className="strike-through">
+              {priceBeforeDiscount} {currency}
+            </span>
+          )}{' '}
+          {totalPrice} {currency}
         </div>
       </div>
     );

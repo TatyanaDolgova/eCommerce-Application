@@ -24,6 +24,7 @@
 
 .strike-through {
   text-decoration: line-through;
+  color: var( --silver);
 }
 
 .disabled {

@@ -10,8 +10,8 @@ interface ListItemProps {
   callback: Dispatch<SetStateAction<LineItem[]>>;
   item: LineItem;
   key: string | undefined;
-
   setPrice: Dispatch<SetStateAction<number>>;
+  setPriceBeforeDiscount: Dispatch<SetStateAction<number | null>>;
 }
 
 const ListItem = (props: ListItemProps) => {
@@ -61,6 +61,15 @@ const ListItem = (props: ListItemProps) => {
     } else {
       props.callback(updCart.lineItems);
       props.setPrice(updCart.totalPrice.centAmount / 100);
+      if (updCart.discountOnTotalPrice) {
+        props.setPriceBeforeDiscount(
+          (updCart.totalPrice.centAmount +
+            updCart.discountOnTotalPrice.discountedAmount.centAmount) /
+            100,
+        );
+      } else {
+        props.setPriceBeforeDiscount(null);
+      }
       setDisabled(false);
     }
   }
@@ -96,6 +105,16 @@ const ListItem = (props: ListItemProps) => {
         const findItem = updatedCart.lineItems.find(
           (el) => el.id === listItem.id,
         );
+
+        if (updatedCart.discountOnTotalPrice) {
+          props.setPriceBeforeDiscount(
+            (updatedCart.totalPrice.centAmount +
+              updatedCart.discountOnTotalPrice.discountedAmount.centAmount) /
+              100,
+          );
+        } else {
+          props.setPriceBeforeDiscount(null);
+        }
 
         if (findItem) {
           setListItem(findItem);

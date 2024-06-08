@@ -28,14 +28,15 @@ const ListItem = (props: ListItemProps) => {
     itemImage = props.item.variant.images[0].url;
   }
 
-  const value = (listItem.price.value.centAmount / 100).toFixed(2);
+  let valueBefore = null;
 
-  let discountValue = null;
+  let value = null;
 
   if (listItem.price.discounted) {
-    discountValue = (listItem.price.discounted?.value.centAmount / 100).toFixed(
-      2,
-    );
+    value = (listItem.price.discounted?.value.centAmount / 100).toFixed(2);
+    valueBefore = (listItem.price.value.centAmount / 100).toFixed(2);
+  } else {
+    value = (listItem.price.value.centAmount / 100).toFixed(2);
   }
 
   async function getCart() {
@@ -167,14 +168,14 @@ const ListItem = (props: ListItemProps) => {
         />
       </div>
       <span className="strike-through">
-        {value} {props.item.price.value.currencyCode}
-      </span>
-      <div>
-        {discountValue && (
+        {valueBefore && (
           <span>
-            {discountValue} {props.item.price.value.currencyCode}
+            {valueBefore} {props.item.price.value.currencyCode}
           </span>
         )}
+      </span>
+      <div>
+        {value} {props.item.price.value.currencyCode}
       </div>
     </div>
   );

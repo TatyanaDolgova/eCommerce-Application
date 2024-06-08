@@ -1,5 +1,6 @@
 import { LineItem } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { cartRepository } from '../../services/CardRepository';
 import showToast from '../../utils/notifications';
@@ -9,7 +10,16 @@ import ModalCartDelete from '../modals/ModalCartDelete';
 import EmptyCart from './EmptyCart';
 import ListItem from './ListItem';
 
+type FormFields = {
+  promo: string;
+};
+
 const Cart = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormFields>();
   const [listItems, setListItems] = useState<LineItem[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [currency, setCurrency] = useState('EUR');
@@ -54,6 +64,10 @@ const Cart = () => {
     }
   };
 
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
+    console.log(data.promo);
+  };
+
   useEffect(() => {
     void fetchCart();
   }, []);
@@ -73,15 +87,31 @@ const Cart = () => {
             );
           })}
         </div>
-        <BaseButton
-          classes="button clear-cart-button"
-          text="Clear Shopping Cart"
-          type="button"
-          callback={openModal}
-        />
-        {modalOpen && (
-          <ModalCartDelete closeModal={closeModal} deleteCart={deleteCart} />
-        )}
+        <div className="cart-buttons-container">
+          <BaseButton
+            classes="button clear-cart-button"
+            text="Clear Shopping Cart"
+            type="button"
+            callback={openModal}
+          />
+          {modalOpen && (
+            <ModalCartDelete closeModal={closeModal} deleteCart={deleteCart} />
+          )}
+          <form className="promo-container" onSubmit={handleSubmit(onSubmit)}>
+            <input
+              {...register('promo', { required: true })}
+              className="input promo-input"
+              type="text"
+              placeholder="Enter a discount code"
+            />
+            <BaseButton
+              text="Apply"
+              classes="button promo-button"
+              type="submit"
+            />
+          </form>
+        </div>
+
         <div className="total">
           Total: {totalPrice} {currency}
         </div>

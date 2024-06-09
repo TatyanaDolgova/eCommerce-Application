@@ -43,11 +43,9 @@ const ListItem = (props: ListItemProps) => {
 
   async function deleteItem() {
     setDisabled(true);
-    const updCart: Cart = await cartRepository.removeFromCart(props.item.id);
+    try {
+      const updCart: Cart = await cartRepository.removeFromCart(props.item.id);
 
-    if (updCart instanceof Error) {
-      console.error('Error removing item');
-    } else {
       props.callback(updCart.lineItems);
       props.setPrice(updCart.totalPrice.centAmount / 100);
       if (updCart.discountOnTotalPrice) {
@@ -59,6 +57,9 @@ const ListItem = (props: ListItemProps) => {
       } else {
         props.setPriceBeforeDiscount(null);
       }
+    } catch {
+      showToast('Error removing item', true);
+    } finally {
       setDisabled(false);
     }
   }
@@ -66,23 +67,20 @@ const ListItem = (props: ListItemProps) => {
   useEffect(() => {
     void getCart();
     void checkDisabledButtonState(props.item.quantity);
-  }, []);
+  }, [props.item.quantity]);
 
   async function changeQuantity(increase: boolean) {
     setDisabled(true);
+    try {
+      if (cart) {
+        const activeCart = await cartRepository.checkActiveCard();
+        const updatedCart = await cartRepository.modifyQuantity(
+          cart.id,
+          props.item.id,
+          increase ? props.item.quantity + 1 : props.item.quantity - 1,
+          activeCart?.version,
+        );
 
-    if (cart) {
-      const activeCart = await cartRepository.checkActiveCard();
-      const updatedCart = await cartRepository.modifyQuantity(
-        cart.id,
-        props.item.id,
-        increase ? props.item.quantity + 1 : props.item.quantity - 1,
-        activeCart?.version,
-      );
-
-      if (updatedCart instanceof Error) {
-        showToast('Error modifying quantity', true);
-      } else {
         props.callback(updatedCart.lineItems);
         props.setPrice(updatedCart.totalPrice.centAmount / 100);
         const findItem = updatedCart.lineItems.find(
@@ -103,8 +101,11 @@ const ListItem = (props: ListItemProps) => {
           setListItem(findItem);
           checkDisabledButtonState(findItem.quantity);
         }
-        setDisabled(false);
       }
+    } catch {
+      showToast('Error modifying quantity', true);
+    } finally {
+      setDisabled(false);
     }
   }
 

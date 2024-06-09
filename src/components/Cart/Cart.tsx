@@ -62,7 +62,7 @@ const Cart = () => {
         );
       }
     } catch {
-      console.log('error fetching cart');
+      showToast('Your cart is empty. Go to catalog', false);
     } finally {
       setLoading(false);
     }

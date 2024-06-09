@@ -6,6 +6,7 @@ import { cartRepository } from '../../services/CardRepository';
 import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
 import ModalCartDelete from '../modals/ModalCartDelete';
+import Spinner from '../Spinners/Spinner-category';
 
 import EmptyCart from './EmptyCart';
 import ListItem from './ListItem';
@@ -27,6 +28,7 @@ const Cart = () => {
   const [priceBeforeDiscount, setPriceBeforeDiscount] = useState<number | null>(
     null,
   );
+  const [isLoading, setLoading] = useState(true);
 
   function openModal() {
     setModalOpen(true);
@@ -65,6 +67,9 @@ const Cart = () => {
       }
     } catch {
       console.log('error fetching cart');
+
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,61 +96,74 @@ const Cart = () => {
     void fetchCart();
   }, []);
 
-  if (listItems.length !== 0) {
-    return (
-      <div>
-        <div className="list-container">
-          {listItems.map((item) => {
-            return (
-              <ListItem
-                key={item.key}
-                item={item}
-                callback={setListItems}
-                setPrice={setTotalPrice}
-                setPriceBeforeDiscount={setPriceBeforeDiscount}
-              />
-            );
-          })}
-        </div>
-        <div className="cart-buttons-container">
-          <BaseButton
-            classes="button clear-cart-button"
-            text="Clear Shopping Cart"
-            type="button"
-            callback={openModal}
-          />
-          {modalOpen && (
-            <ModalCartDelete closeModal={closeModal} deleteCart={deleteCart} />
+  return (
+    <div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div>
+          {listItems.length === 0 ? (
+            <EmptyCart />
+          ) : (
+            <div>
+              <div className="list-container">
+                {listItems.map((item) => {
+                  return (
+                    <ListItem
+                      key={item.key}
+                      item={item}
+                      callback={setListItems}
+                      setPrice={setTotalPrice}
+                      setPriceBeforeDiscount={setPriceBeforeDiscount}
+                    />
+                  );
+                })}
+              </div>
+              <div className="cart-buttons-container">
+                <BaseButton
+                  classes="button clear-cart-button"
+                  text="Clear Shopping Cart"
+                  type="button"
+                  callback={openModal}
+                />
+                {modalOpen && (
+                  <ModalCartDelete
+                    closeModal={closeModal}
+                    deleteCart={deleteCart}
+                  />
+                )}
+                <form
+                  className="promo-container"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <input
+                    {...register('promo', { required: true })}
+                    className="input promo-input"
+                    type="text"
+                    placeholder="Enter a discount code"
+                  />
+                  <BaseButton
+                    text="Apply"
+                    classes="button promo-button"
+                    type="submit"
+                  />
+                </form>
+              </div>
+              <div className="total">
+                Total:{' '}
+                {priceBeforeDiscount && (
+                  <span className="strike-through">
+                    {priceBeforeDiscount} {currency}
+                  </span>
+                )}{' '}
+                {totalPrice} {currency}
+              </div>
+            </div>
           )}
-          <form className="promo-container" onSubmit={handleSubmit(onSubmit)}>
-            <input
-              {...register('promo', { required: true })}
-              className="input promo-input"
-              type="text"
-              placeholder="Enter a discount code"
-            />
-            <BaseButton
-              text="Apply"
-              classes="button promo-button"
-              type="submit"
-            />
-          </form>
         </div>
-
-        <div className="total">
-          Total:{' '}
-          {priceBeforeDiscount && (
-            <span className="strike-through">
-              {priceBeforeDiscount} {currency}
-            </span>
-          )}{' '}
-          {totalPrice} {currency}
-        </div>
-      </div>
-    );
-  } else {
-    return <EmptyCart />;
-  }
+      )}
+    </div>
+  );
 };
 
 export default Cart;

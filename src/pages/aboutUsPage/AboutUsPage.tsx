@@ -92,6 +92,18 @@ const AboutUsPage = () => {
             </div>
           ))}
         </div>
+        <div className="rs-school-info">
+          <p className="thank-you-message">
+            Thank you RS School for teaching us everything.
+          </p>
+          <a
+            href="https://rs.school/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="rs-school-logo" />
+          </a>
+        </div>
       </div>
     </>
   );

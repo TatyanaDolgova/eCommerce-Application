@@ -84,6 +84,7 @@
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
+  margin-bottom: 10px;
 }
 
 .price-old {
@@ -96,6 +97,11 @@
   font-size: 28px;
   color: #e74c3c;
   font-weight: bold;
+}
+
+.price-norm {
+  font-size: 24px;
+  color: #000;
 }
 
 .price-old,

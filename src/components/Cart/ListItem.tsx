@@ -21,8 +21,6 @@ const ListItem = (props: ListItemProps) => {
   const [disabledButton, setDisabledButton] = useState(
     'button cart_item-button disabled',
   );
-  const [value, setValue] = useState<string | null>(null);
-  const [valueBefore, setValueBefore] = useState<string | null>(null);
   const [disabled, setDisabled] = useState(false);
   let itemImage = '';
 
@@ -34,13 +32,6 @@ const ListItem = (props: ListItemProps) => {
     const activeCart = await cartRepository.checkActiveCard();
 
     setCart(activeCart);
-
-    if (listItem.price.discounted) {
-      setValue((listItem.price.discounted?.value.centAmount / 100).toFixed(2));
-      setValueBefore((listItem.price.value.centAmount / 100).toFixed(2));
-    } else {
-      setValue((listItem.price.value.centAmount / 100).toFixed(2));
-    }
   }
 
   function checkDisabledButtonState(quantity: number) {
@@ -166,14 +157,18 @@ const ListItem = (props: ListItemProps) => {
         />
       </div>
       <span className="strike-through">
-        {valueBefore && (
+        {props.item.price.discounted && (
           <span>
-            {valueBefore} {props.item.price.value.currencyCode}
+            {props.item.price.value.centAmount / 100}{' '}
+            {props.item.price.value.currencyCode}
           </span>
         )}
       </span>
       <div>
-        {value} {props.item.price.value.currencyCode}
+        {props.item.price.discounted
+          ? props.item.price.discounted.value.centAmount / 100
+          : props.item.price.value.centAmount / 100}{' '}
+        {props.item.price.value.currencyCode}
       </div>
     </div>
   );

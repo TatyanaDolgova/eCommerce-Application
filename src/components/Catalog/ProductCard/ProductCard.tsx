@@ -47,7 +47,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         ) : (
           <div className="price-container">
-            <div className="price-old">{(priceOld / 100).toFixed(2)} €</div>
+            <div className="price-norm">{(priceOld / 100).toFixed(2)} €</div>
           </div>
         )}
         {isInCart ? (

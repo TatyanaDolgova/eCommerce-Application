@@ -105,7 +105,7 @@ const Cart = () => {
                 {listItems.map((item) => {
                   return (
                     <ListItem
-                      key={item.key}
+                      key={item.id}
                       item={item}
                       callback={setListItems}
                       setPrice={setTotalPrice}

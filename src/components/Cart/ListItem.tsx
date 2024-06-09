@@ -16,7 +16,6 @@ interface ListItemProps {
 
 const ListItem = (props: ListItemProps) => {
   const [listItem, setListItem] = useState(props.item);
-  const [itemQuantity, setItemQuantity] = useState(listItem.quantity);
   const [cart, setCart] = useState<Cart>();
   const [disabledButton, setDisabledButton] = useState(
     'button cart_item-button disabled',
@@ -66,24 +65,18 @@ const ListItem = (props: ListItemProps) => {
 
   useEffect(() => {
     void getCart();
-    void checkDisabledButtonState(itemQuantity);
+    void checkDisabledButtonState(props.item.quantity);
   }, []);
 
   async function changeQuantity(increase: boolean) {
     setDisabled(true);
-    let prodQuantity = listItem.quantity;
 
-    if (increase) {
-      prodQuantity++;
-    } else {
-      prodQuantity--;
-    }
     if (cart) {
       const activeCart = await cartRepository.checkActiveCard();
       const updatedCart = await cartRepository.modifyQuantity(
         cart.id,
         props.item.id,
-        prodQuantity,
+        increase ? props.item.quantity + 1 : props.item.quantity - 1,
         activeCart?.version,
       );
 
@@ -108,7 +101,6 @@ const ListItem = (props: ListItemProps) => {
 
         if (findItem) {
           setListItem(findItem);
-          setItemQuantity(findItem.quantity);
           checkDisabledButtonState(findItem.quantity);
         }
         setDisabled(false);
@@ -117,7 +109,7 @@ const ListItem = (props: ListItemProps) => {
   }
 
   return (
-    <div className="cart-item">
+    <div key={props.item.id} className="cart-item">
       <img
         className="cart_item-image"
         src={itemImage}
@@ -136,7 +128,7 @@ const ListItem = (props: ListItemProps) => {
           }}
           disabled={disabled}
         />
-        {itemQuantity}
+        {props.item.quantity}
         <BaseButton
           classes="button cart_item-button"
           text="+"

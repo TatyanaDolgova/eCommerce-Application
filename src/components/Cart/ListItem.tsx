@@ -1,7 +1,14 @@
 import './ListItem.css';
 import { Cart, LineItem } from '@commercetools/platform-sdk';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
+import { UserContext, UserData } from '../../app-context/UserContext';
 import { cartRepository } from '../../services/CardRepository';
 import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
@@ -22,6 +29,9 @@ const ListItem = (props: ListItemProps) => {
   );
   const [disabled, setDisabled] = useState(false);
   let itemImage = '';
+
+  const userContextState = useContext(UserContext);
+  const { updateState } = useContext(UserContext);
 
   if (props.item.variant.images) {
     itemImage = props.item.variant.images[0].url;
@@ -45,6 +55,17 @@ const ListItem = (props: ListItemProps) => {
     setDisabled(true);
     try {
       const updCart: Cart = await cartRepository.removeFromCart(props.item.id);
+
+      const quantity = updCart.lineItems.length;
+
+      if (userContextState.user) {
+        const userData: UserData = {
+          loginStatus: userContextState.user.loginStatus,
+          productCounter: quantity,
+        };
+
+        updateState({ user: userData });
+      }
 
       props.callback(updCart.lineItems);
       props.setPrice(updCart.totalPrice.centAmount / 100);

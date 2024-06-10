@@ -10,14 +10,16 @@ import { userTokenStorage } from '../../services/LocalStorage';
 import BaseButton from '../Button/Button';
 
 const Header = () => {
-  const userState = useContext(UserContext);
+  const userContextState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
-  const isLoggedIn = userState.user?.loginStatus;
+  const isLoggedIn = userContextState.user?.loginStatus;
+  const productCount = userContextState.user?.productCounter;
 
   const navigate = useNavigate();
   const redirectToMain = () => navigate('/home');
   const [isOpen, setOpen] = useState(false);
-  const [itemsQuantity, setItemsQuantity] = useState(0);
+
+  // const [itemsQuantity, setItemsQuantity] = useState(0);
 
   const LogOutButton = () => {
     if (isLoggedIn) {
@@ -27,11 +29,17 @@ const Header = () => {
           callback={() => {
             CustomerRepository.logOutCusromer();
 
-            const userData: UserData = {
-              loginStatus: false,
-            };
+            if (!userContextState.user) {
+              console.error('userContextState is not defined');
+            } else {
+              const userState: UserData = {
+                loginStatus: true,
+                productCounter: userContextState.user?.productCounter,
+              };
 
-            updateState({ user: userData });
+              updateState({ user: userState });
+            }
+
             userTokenStorage.clearLoginState();
             redirectToMain();
           }}
@@ -63,7 +71,14 @@ const Header = () => {
       const cart = await cartRepository.checkActiveCard();
       const quantity = cart.lineItems.length;
 
-      setItemsQuantity(quantity);
+      if (userContextState.user) {
+        const userData: UserData = {
+          loginStatus: userContextState.user?.loginStatus,
+          productCounter: quantity,
+        };
+
+        updateState({ user: userData });
+      }
     } catch {
       console.log('error fetching cart');
     }
@@ -95,8 +110,8 @@ const Header = () => {
               className="user-profile-link cart-link"
               onClick={closeMenu}
             />
-            {itemsQuantity !== 0 && (
-              <span className="quantity-indicator">{itemsQuantity}</span>
+            {productCount !== 0 && (
+              <span className="quantity-indicator">{productCount}</span>
             )}
           </div>
           {isLoggedIn ? (

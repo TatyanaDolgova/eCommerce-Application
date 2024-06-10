@@ -1,7 +1,8 @@
 import { LineItem } from '@commercetools/platform-sdk';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { UserContext, UserData } from '../../app-context/UserContext';
 import { cartRepository } from '../../services/CardRepository';
 import showToast from '../../utils/notifications';
 import BaseButton from '../Button/Button';
@@ -25,6 +26,8 @@ const Cart = () => {
     null,
   );
   const [isLoading, setLoading] = useState(true);
+  const userContextState = useContext(UserContext);
+  const { updateState } = useContext(UserContext);
 
   function openModal() {
     setModalOpen(true);
@@ -40,6 +43,15 @@ const Cart = () => {
       closeModal();
       showToast('Cart successfully cleared', false);
       setListItems([]);
+
+      if (userContextState.user) {
+        const userData: UserData = {
+          loginStatus: userContextState.user.loginStatus,
+          productCounter: 0,
+        };
+
+        updateState({ user: userData });
+      }
     } catch {
       showToast('Something went wrong. Try again', true);
     }

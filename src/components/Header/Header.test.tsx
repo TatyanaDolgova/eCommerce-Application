@@ -26,6 +26,7 @@ test('Should show LogOut button when the user is logged in', () => {
       updateState: () => {},
       user: {
         loginStatus: true,
+        productCounter: 0,
       },
     },
   };
@@ -44,6 +45,7 @@ test('Should not show LogOut button when the user is logged in', () => {
       updateState: () => {},
       user: {
         loginStatus: false,
+        productCounter: 0,
       },
     },
   };

@@ -32,6 +32,7 @@ interface LoginData {
 
 function LoginForm(props: LoginFormProps) {
   const [passwordInputType, setPasswordInputType] = useState('password');
+  const userContextState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
 
   const showPassword = () => {
@@ -84,12 +85,19 @@ function LoginForm(props: LoginFormProps) {
           showToast(serverErrorMessages.loginError.userMessage, true);
         }
       } else {
-        const userState: UserData = {
-          loginStatus: true,
-        };
+        if (!userContextState.user) {
+          console.error('userContextState is not defined');
+        } else {
+          const userState: UserData = {
+            loginStatus: true,
+            productCounter: userContextState.user?.productCounter,
+          };
+
+          updateState({ user: userState });
+        }
 
         showToast('You are successfully logged in', false);
-        updateState({ user: userState });
+        // updateState({ user: userState });
         userTokenStorage.setLoginState('true');
         redirectToMain();
       }

@@ -10,14 +10,16 @@ import { userTokenStorage } from '../../services/LocalStorage';
 import BaseButton from '../Button/Button';
 
 const Header = () => {
-  const userState = useContext(UserContext);
+  const userContextState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
-  const isLoggedIn = userState.user?.loginStatus;
+  const isLoggedIn = userContextState.user?.loginStatus;
+  const productCount = userContextState.user?.productCounter;
 
   const navigate = useNavigate();
   const redirectToMain = () => navigate('/home');
   const [isOpen, setOpen] = useState(false);
-  const [itemsQuantity, setItemsQuantity] = useState(0);
+
+  // const [itemsQuantity, setItemsQuantity] = useState(0);
 
   const LogOutButton = () => {
     if (isLoggedIn) {
@@ -27,13 +29,19 @@ const Header = () => {
           callback={() => {
             CustomerRepository.logOutCusromer();
 
-            const userData: UserData = {
-              loginStatus: false,
-              productCounter: userState.user?.productCounter,
-            };
+            if (!userContextState.user) {
+              console.error('userContextState is not defined');
+            } else {
+              const userState: UserData = {
+                loginStatus: true,
+                productCounter: userContextState.user?.productCounter,
+              };
+
+              updateState({ user: userState });
+            }
             // userState.user?.loginStatus = false;
 
-            updateState({ user: userData });
+            // updateState({ user: userData });
             userTokenStorage.clearLoginState();
             redirectToMain();
           }}
@@ -60,20 +68,20 @@ const Header = () => {
     setOpen(false);
   };
 
-  async function setQuantity() {
-    try {
-      const cart = await cartRepository.checkActiveCard();
-      const quantity = cart.lineItems.length;
+  // async function setQuantity() {
+  //   try {
+  //     const cart = await cartRepository.checkActiveCard();
+  //     const quantity = cart.lineItems.length;
 
-      setItemsQuantity(quantity);
-    } catch {
-      console.log('error fetching cart');
-    }
-  }
+  //     setItemsQuantity(quantity);
+  //   } catch {
+  //     console.log('error fetching cart');
+  //   }
+  // }
 
-  useEffect(() => {
-    void setQuantity();
-  }, []);
+  // useEffect(() => {
+  //   void setQuantity();
+  // }, []);
 
   return (
     <header className="header">
@@ -97,8 +105,8 @@ const Header = () => {
               className="user-profile-link cart-link"
               onClick={closeMenu}
             />
-            {itemsQuantity !== 0 && (
-              <span className="quantity-indicator">{itemsQuantity}</span>
+            {productCount !== 0 && (
+              <span className="quantity-indicator">{productCount}</span>
             )}
           </div>
           {isLoggedIn ? (

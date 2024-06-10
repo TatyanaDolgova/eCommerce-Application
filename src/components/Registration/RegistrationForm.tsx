@@ -70,6 +70,7 @@ function RegistrationForm() {
   const [disabledClass, setDisabledClass] = useState('');
   const [passwordInputType, setPasswordInputType] = useState('password');
   const { updateState } = useContext(UserContext);
+  const userContextState = useContext(UserContext);
 
   function setSameAddress() {
     setBillingCity(getValues('city'));
@@ -151,9 +152,16 @@ function RegistrationForm() {
           showToast(serverErrorMessages.loginError.userMessage, true);
         }
       } else {
-        const userState: UserData = {
-          loginStatus: true,
-        };
+        if (!userContextState.user) {
+          console.error('userContextState is not defined');
+        } else {
+          const userState: UserData = {
+            loginStatus: true,
+            productCounter: userContextState.user?.productCounter,
+          };
+
+          updateState({ user: userState });
+        }
         const customerData = await CustomerRepository.getCustomerInformation();
 
         const shipID = customerData.body.addresses[0].id ?? '';
@@ -175,7 +183,7 @@ function RegistrationForm() {
           customerData.body.version,
           actions,
         );
-        updateState({ user: userState });
+        // updateState({ user: userState });
         userTokenStorage.setLoginState('true');
         redirectToMain();
       }

@@ -1,9 +1,10 @@
 import { Cart, Image, Product, ProductData } from '@commercetools/platform-sdk';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import './DetailedProductPage.css';
 
+import { UserContext, UserData } from '../../app-context/UserContext';
 import BaseButton from '../../components/Button/Button';
 import { ProductSlider } from '../../components/DetailedProduct/ProductSlider';
 import { SingleImage } from '../../components/DetailedProduct/SingleImage';
@@ -28,6 +29,10 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const [lineItemID, setLineItemID] = useState<string>('');
   const [productData, setProduct] = useState<ProductData>();
   const [loading, setLoading] = useState<boolean>(false);
+  const userState = useContext(UserContext);
+  const { updateState } = useContext(UserContext);
+  const productCount: number | undefined = userState.user?.productCounter;
+  // const productCount: number | undefined = 0;
 
   const [images, setImages] = useState(defaultImages);
   const [isDiscounted, setDiscount] = useState<boolean>(false);
@@ -122,6 +127,15 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
       showToast('Great choice! Product is in the cart.', false);
 
+      if (productCount !== undefined) {
+        const userData: UserData = {
+          loginStatus: userState.user?.loginStatus,
+          productCounter: productCount + 1,
+        };
+
+        updateState({ user: userData });
+      }
+
       try {
         const id = await cartRepository.findProduct(productID);
 
@@ -154,6 +168,15 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
       setProductState(false);
       setLoading(false);
       showToast('The item has been removed from the cart.', false);
+
+      if (productCount !== undefined) {
+        const userData: UserData = {
+          loginStatus: userState.user?.loginStatus,
+          productCounter: productCount - 1,
+        };
+
+        updateState({ user: userData });
+      }
     } catch {
       showToast(serverErrorMessages.removeFromCartError.userMessage, true);
       setLoading(false);

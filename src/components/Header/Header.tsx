@@ -28,8 +28,8 @@ const Header = () => {
             CustomerRepository.logOutCusromer();
 
             const userState: UserData = {
-              loginStatus: true,
-              productCounter: userContextState.user?.productCounter,
+              loginStatus: false,
+              productCounter: 0,
             };
 
             updateState({ user: userState });
@@ -66,7 +66,7 @@ const Header = () => {
       const quantity = cart.lineItems.length;
 
       const userData: UserData = {
-        loginStatus: userContextState.user?.loginStatus,
+        loginStatus: userContextState.user.loginStatus,
         productCounter: quantity,
       };
 

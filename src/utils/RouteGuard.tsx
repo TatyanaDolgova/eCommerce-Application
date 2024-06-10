@@ -12,7 +12,7 @@ interface RouteGuardProps {
 export const RouteGuard = (params: RouteGuardProps) => {
   const currentLocation = useLocation();
   const userContext = useContext(UserContext);
-  const isLoggedIn = userContext.user?.loginStatus;
+  const isLoggedIn = userContext.user.loginStatus;
 
   if (isLoggedIn) {
     showToast(
@@ -29,7 +29,7 @@ export const RouteGuard = (params: RouteGuardProps) => {
 export const RouteGuardLoggedIn = (params: RouteGuardProps) => {
   const currentLocation = useLocation();
   const userContext = useContext(UserContext);
-  const isLoggedIn = userContext.user?.loginStatus;
+  const isLoggedIn = userContext.user.loginStatus;
 
   if (isLoggedIn) {
     return params.children;

@@ -58,14 +58,12 @@ const ListItem = (props: ListItemProps) => {
 
       const quantity = updCart.lineItems.length;
 
-      if (userContextState.user) {
-        const userData: UserData = {
-          loginStatus: userContextState.user.loginStatus,
-          productCounter: quantity,
-        };
+      const userData: UserData = {
+        loginStatus: userContextState.user.loginStatus,
+        productCounter: quantity,
+      };
 
-        updateState({ user: userData });
-      }
+      updateState({ user: userData });
 
       props.callback(updCart.lineItems);
       props.setPrice(updCart.totalPrice.centAmount / 100);

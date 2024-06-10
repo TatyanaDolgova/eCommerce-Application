@@ -28,17 +28,6 @@ export const UserContextProvider: React.FunctionComponent<UserContextProps> = (
     setState({ ...state, ...newState });
   };
 
-  // const userContextValue: UserState = {
-  //   updateState: updateState,
-  //   user: state.user,
-  // };
-
-  // return (
-  //   <UserContext.Provider value={userContextValue}>
-  //     {props.children}
-  //   </UserContext.Provider>
-  // );
-
   return (
     <UserContext.Provider value={{ ...state, updateState }}>
       {props.children}

@@ -16,7 +16,7 @@ export const UserContextProvider: React.FunctionComponent<UserContextProps> = (
     ? { loginStatus: true, productCounter: 0 }
     : { loginStatus: false, productCounter: 0 };
 
-  let defaultState: Partial<UserState> = { user: initialUSer };
+  let defaultState: UserState = { user: initialUSer, updateState: () => {} };
 
   if (props.state) {
     defaultState = props.state;
@@ -27,6 +27,17 @@ export const UserContextProvider: React.FunctionComponent<UserContextProps> = (
   const updateState = (newState: Partial<UserState>) => {
     setState({ ...state, ...newState });
   };
+
+  // const userContextValue: UserState = {
+  //   updateState: updateState,
+  //   user: state.user,
+  // };
+
+  // return (
+  //   <UserContext.Provider value={userContextValue}>
+  //     {props.children}
+  //   </UserContext.Provider>
+  // );
 
   return (
     <UserContext.Provider value={{ ...state, updateState }}>

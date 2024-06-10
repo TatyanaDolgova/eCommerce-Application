@@ -14,7 +14,7 @@ export interface UserData {
 
 export interface UserState {
   updateState: (newState: Partial<UserState>) => void;
-  user?: UserData;
+  user: UserData;
 }
 
 export const UserContext = React.createContext<UserState>(initialState);

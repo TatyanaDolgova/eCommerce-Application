@@ -12,14 +12,12 @@ import BaseButton from '../Button/Button';
 const Header = () => {
   const userContextState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
-  const isLoggedIn = userContextState.user?.loginStatus;
-  const productCount = userContextState.user?.productCounter;
+  const isLoggedIn = userContextState.user.loginStatus;
+  const productCount = userContextState.user.productCounter;
 
   const navigate = useNavigate();
   const redirectToMain = () => navigate('/home');
   const [isOpen, setOpen] = useState(false);
-
-  // const [itemsQuantity, setItemsQuantity] = useState(0);
 
   const LogOutButton = () => {
     if (isLoggedIn) {
@@ -29,16 +27,12 @@ const Header = () => {
           callback={() => {
             CustomerRepository.logOutCusromer();
 
-            if (!userContextState.user) {
-              console.error('userContextState is not defined');
-            } else {
-              const userState: UserData = {
-                loginStatus: true,
-                productCounter: userContextState.user?.productCounter,
-              };
+            const userState: UserData = {
+              loginStatus: true,
+              productCounter: userContextState.user?.productCounter,
+            };
 
-              updateState({ user: userState });
-            }
+            updateState({ user: userState });
 
             userTokenStorage.clearLoginState();
             redirectToMain();
@@ -71,14 +65,12 @@ const Header = () => {
       const cart = await cartRepository.checkActiveCard();
       const quantity = cart.lineItems.length;
 
-      if (userContextState.user) {
-        const userData: UserData = {
-          loginStatus: userContextState.user?.loginStatus,
-          productCounter: quantity,
-        };
+      const userData: UserData = {
+        loginStatus: userContextState.user?.loginStatus,
+        productCounter: quantity,
+      };
 
-        updateState({ user: userData });
-      }
+      updateState({ user: userData });
     } catch {
       console.log('error fetching cart');
     }

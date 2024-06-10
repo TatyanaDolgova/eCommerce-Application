@@ -37,7 +37,7 @@ const CatalogPage = () => {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const userContextState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
-  const productCounter = userContextState.user?.productCounter;
+  const productCounter = userContextState.user.productCounter;
 
   useEffect(() => {
     const updateProductsPerPage = () => {
@@ -215,14 +215,12 @@ const CatalogPage = () => {
 
       if (newCartId) await cartRepository.addToCart(newCartId, productId);
 
-      if (userContextState.user) {
-        const userData: UserData = {
-          loginStatus: userContextState.user.loginStatus,
-          productCounter: userContextState.user.productCounter + 1,
-        };
+      const userData: UserData = {
+        loginStatus: userContextState.user.loginStatus,
+        productCounter: userContextState.user.productCounter + 1,
+      };
 
-        updateState({ user: userData });
-      }
+      updateState({ user: userData });
 
       setCart([...cart, productId]);
     } catch {

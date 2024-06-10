@@ -152,14 +152,13 @@ function RegistrationForm() {
           showToast(serverErrorMessages.loginError.userMessage, true);
         }
       } else {
-        if (userContextState.user) {
-          const userState: UserData = {
-            loginStatus: true,
-            productCounter: userContextState.user?.productCounter,
-          };
+        const userState: UserData = {
+          loginStatus: true,
+          productCounter: userContextState.user.productCounter,
+        };
 
-          updateState({ user: userState });
-        }
+        updateState({ user: userState });
+
         const customerData = await CustomerRepository.getCustomerInformation();
 
         const shipID = customerData.body.addresses[0].id ?? '';

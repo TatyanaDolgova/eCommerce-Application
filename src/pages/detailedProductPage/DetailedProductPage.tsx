@@ -31,7 +31,6 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const userState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
-  const productCount: number | undefined = userState.user?.productCounter;
 
   const [images, setImages] = useState(defaultImages);
   const [isDiscounted, setDiscount] = useState<boolean>(false);
@@ -122,14 +121,16 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     const currentCartID = await getCartId(cartRepository);
 
     try {
-      await cartRepository.addToCart(currentCartID, productID);
+      const cart = await cartRepository.addToCart(currentCartID, productID);
+
+      const quantity = cart.lineItems.length;
 
       showToast('Great choice! Product is in the cart.', false);
 
-      if (productCount !== undefined) {
+      if (userState.user) {
         const userData: UserData = {
           loginStatus: userState.user?.loginStatus,
-          productCounter: productCount + 1,
+          productCounter: quantity,
         };
 
         updateState({ user: userData });
@@ -163,15 +164,17 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
     await getCartId(cartRepository);
 
     try {
-      await cartRepository.removeFromCart(lineItemID);
+      const cart = await cartRepository.removeFromCart(lineItemID);
+      const quantity = cart.lineItems.length;
+
       setProductState(false);
       setLoading(false);
       showToast('The item has been removed from the cart.', false);
 
-      if (productCount !== undefined) {
+      if (userState.user) {
         const userData: UserData = {
           loginStatus: userState.user?.loginStatus,
-          productCounter: productCount - 1,
+          productCounter: quantity,
         };
 
         updateState({ user: userData });

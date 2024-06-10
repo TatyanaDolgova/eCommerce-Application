@@ -1,6 +1,7 @@
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
+import { UserContext, UserData } from '../../app-context/UserContext';
 import Breadcrumbs from '../../components/Catalog/Breadcrumbs/Breadcrumbs';
 import CategorySidebar from '../../components/Catalog/CategorySidebar/CategorySidebar';
 import Filters from '../../components/Catalog/Filters/Filters';
@@ -34,6 +35,9 @@ const CatalogPage = () => {
   const [loading, setLoading] = useState(true);
   const [productsPerPage, setProductsPerPage] = useState<number>(6);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const userContextState = useContext(UserContext);
+  const { updateState } = useContext(UserContext);
+  const productCounter = userContextState.user?.productCounter;
 
   useEffect(() => {
     const updateProductsPerPage = () => {
@@ -210,6 +214,16 @@ const CatalogPage = () => {
       }
 
       if (newCartId) await cartRepository.addToCart(newCartId, productId);
+
+      if (userContextState.user) {
+        const userData: UserData = {
+          loginStatus: userContextState.user.loginStatus,
+          productCounter: userContextState.user.productCounter + 1,
+        };
+
+        updateState({ user: userData });
+      }
+
       setCart([...cart, productId]);
     } catch {
       console.error('Error adding to cart');

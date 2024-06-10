@@ -152,9 +152,7 @@ function RegistrationForm() {
           showToast(serverErrorMessages.loginError.userMessage, true);
         }
       } else {
-        if (!userContextState.user) {
-          console.error('userContextState is not defined');
-        } else {
+        if (userContextState.user) {
           const userState: UserData = {
             loginStatus: true,
             productCounter: userContextState.user?.productCounter,

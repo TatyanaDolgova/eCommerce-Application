@@ -16,11 +16,7 @@ type FormFields = {
 };
 
 const Cart = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormFields>();
+  const { register, handleSubmit } = useForm<FormFields>();
   const [listItems, setListItems] = useState<LineItem[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [currency, setCurrency] = useState('EUR');
@@ -66,8 +62,7 @@ const Cart = () => {
         );
       }
     } catch {
-      console.log('error fetching cart');
-
+      showToast('Your cart is empty. Go to catalog', false);
     } finally {
       setLoading(false);
     }
@@ -110,7 +105,7 @@ const Cart = () => {
                 {listItems.map((item) => {
                   return (
                     <ListItem
-                      key={item.key}
+                      key={item.id}
                       item={item}
                       callback={setListItems}
                       setPrice={setTotalPrice}

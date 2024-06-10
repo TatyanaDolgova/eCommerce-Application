@@ -16,13 +16,10 @@ interface ListItemProps {
 
 const ListItem = (props: ListItemProps) => {
   const [listItem, setListItem] = useState(props.item);
-  const [itemQuantity, setItemQuantity] = useState(listItem.quantity);
   const [cart, setCart] = useState<Cart>();
   const [disabledButton, setDisabledButton] = useState(
     'button cart_item-button disabled',
   );
-  const [value, setValue] = useState<string | null>(null);
-  const [valueBefore, setValueBefore] = useState<string | null>(null);
   const [disabled, setDisabled] = useState(false);
   let itemImage = '';
 
@@ -34,13 +31,6 @@ const ListItem = (props: ListItemProps) => {
     const activeCart = await cartRepository.checkActiveCard();
 
     setCart(activeCart);
-
-    if (listItem.price.discounted) {
-      setValue((listItem.price.discounted?.value.centAmount / 100).toFixed(2));
-      setValueBefore((listItem.price.value.centAmount / 100).toFixed(2));
-    } else {
-      setValue((listItem.price.value.centAmount / 100).toFixed(2));
-    }
   }
 
   function checkDisabledButtonState(quantity: number) {
@@ -53,11 +43,9 @@ const ListItem = (props: ListItemProps) => {
 
   async function deleteItem() {
     setDisabled(true);
-    const updCart: Cart = await cartRepository.removeFromCart(props.item.id);
+    try {
+      const updCart: Cart = await cartRepository.removeFromCart(props.item.id);
 
-    if (updCart instanceof Error) {
-      console.error('Error removing item');
-    } else {
       props.callback(updCart.lineItems);
       props.setPrice(updCart.totalPrice.centAmount / 100);
       if (updCart.discountOnTotalPrice) {
@@ -69,36 +57,30 @@ const ListItem = (props: ListItemProps) => {
       } else {
         props.setPriceBeforeDiscount(null);
       }
+    } catch {
+      showToast('Error removing item', true);
+    } finally {
       setDisabled(false);
     }
   }
 
   useEffect(() => {
     void getCart();
-    void checkDisabledButtonState(itemQuantity);
-  }, []);
+    void checkDisabledButtonState(props.item.quantity);
+  }, [props.item.quantity]);
 
   async function changeQuantity(increase: boolean) {
     setDisabled(true);
-    let prodQuantity = listItem.quantity;
+    try {
+      if (cart) {
+        const activeCart = await cartRepository.checkActiveCard();
+        const updatedCart = await cartRepository.modifyQuantity(
+          cart.id,
+          props.item.id,
+          increase ? props.item.quantity + 1 : props.item.quantity - 1,
+          activeCart?.version,
+        );
 
-    if (increase) {
-      prodQuantity++;
-    } else {
-      prodQuantity--;
-    }
-    if (cart) {
-      const activeCart = await cartRepository.checkActiveCard();
-      const updatedCart = await cartRepository.modifyQuantity(
-        cart.id,
-        props.item.id,
-        prodQuantity,
-        activeCart?.version,
-      );
-
-      if (updatedCart instanceof Error) {
-        showToast('Error modifying quantity', true);
-      } else {
         props.callback(updatedCart.lineItems);
         props.setPrice(updatedCart.totalPrice.centAmount / 100);
         const findItem = updatedCart.lineItems.find(
@@ -117,16 +99,18 @@ const ListItem = (props: ListItemProps) => {
 
         if (findItem) {
           setListItem(findItem);
-          setItemQuantity(findItem.quantity);
           checkDisabledButtonState(findItem.quantity);
         }
-        setDisabled(false);
       }
+    } catch {
+      showToast('Error modifying quantity', true);
+    } finally {
+      setDisabled(false);
     }
   }
 
   return (
-    <div className="cart-item">
+    <div key={props.item.id} className="cart-item">
       <img
         className="cart_item-image"
         src={itemImage}
@@ -145,7 +129,7 @@ const ListItem = (props: ListItemProps) => {
           }}
           disabled={disabled}
         />
-        {itemQuantity}
+        {props.item.quantity}
         <BaseButton
           classes="button cart_item-button"
           text="+"
@@ -166,14 +150,18 @@ const ListItem = (props: ListItemProps) => {
         />
       </div>
       <span className="strike-through">
-        {valueBefore && (
+        {props.item.price.discounted && (
           <span>
-            {valueBefore} {props.item.price.value.currencyCode}
+            {props.item.price.value.centAmount / 100}{' '}
+            {props.item.price.value.currencyCode}
           </span>
         )}
       </span>
       <div>
-        {value} {props.item.price.value.currencyCode}
+        {props.item.price.discounted
+          ? props.item.price.discounted.value.centAmount / 100
+          : props.item.price.value.centAmount / 100}{' '}
+        {props.item.price.value.currencyCode}
       </div>
     </div>
   );

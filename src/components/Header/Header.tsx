@@ -39,9 +39,7 @@ const Header = () => {
 
               updateState({ user: userState });
             }
-            // userState.user?.loginStatus = false;
 
-            // updateState({ user: userData });
             userTokenStorage.clearLoginState();
             redirectToMain();
           }}
@@ -68,20 +66,27 @@ const Header = () => {
     setOpen(false);
   };
 
-  // async function setQuantity() {
-  //   try {
-  //     const cart = await cartRepository.checkActiveCard();
-  //     const quantity = cart.lineItems.length;
+  async function setQuantity() {
+    try {
+      const cart = await cartRepository.checkActiveCard();
+      const quantity = cart.lineItems.length;
 
-  //     setItemsQuantity(quantity);
-  //   } catch {
-  //     console.log('error fetching cart');
-  //   }
-  // }
+      if (userContextState.user) {
+        const userData: UserData = {
+          loginStatus: userContextState.user?.loginStatus,
+          productCounter: quantity,
+        };
 
-  // useEffect(() => {
-  //   void setQuantity();
-  // }, []);
+        updateState({ user: userData });
+      }
+    } catch {
+      console.log('error fetching cart');
+    }
+  }
+
+  useEffect(() => {
+    void setQuantity();
+  }, []);
 
   return (
     <header className="header">

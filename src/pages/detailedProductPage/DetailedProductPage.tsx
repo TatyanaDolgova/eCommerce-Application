@@ -32,7 +32,6 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
   const userState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
   const productCount: number | undefined = userState.user?.productCounter;
-  // const productCount: number | undefined = 0;
 
   const [images, setImages] = useState(defaultImages);
   const [isDiscounted, setDiscount] = useState<boolean>(false);

@@ -29,7 +29,9 @@ const Header = () => {
 
             const userData: UserData = {
               loginStatus: false,
+              productCounter: userState.user?.productCounter,
             };
+            // userState.user?.loginStatus = false;
 
             updateState({ user: userData });
             userTokenStorage.clearLoginState();

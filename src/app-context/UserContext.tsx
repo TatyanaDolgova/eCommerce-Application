@@ -6,10 +6,8 @@ const initialState: UserState = {
 };
 
 export interface UserData {
-  firstName?: string;
-  id?: number;
   loginStatus?: boolean;
-  username?: string;
+  productCounter?: number;
 }
 
 export interface UserState {

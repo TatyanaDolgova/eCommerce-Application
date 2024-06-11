@@ -19,10 +19,6 @@
   font-weight: 600;
 }
 
-/* .clear-cart-button {
-  margin-top: 20px;
-} */
-
 .cart-buttons-container {
   display: flex;
   justify-content: space-between;
@@ -41,15 +37,14 @@
 }
 
 @media (max-width: 865px) {
-.cart-buttons-container {
-flex-direction: column;
-gap: 20px;
-}
+  .cart-buttons-container {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
 @media (max-width: 370px) {
-.promo-input {
-min-width: 150px;
-}
-
+  .promo-input {
+    min-width: 150px;
+  }
 }

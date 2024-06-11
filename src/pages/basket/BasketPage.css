@@ -19,10 +19,6 @@
   font-weight: 600;
 }
 
-/* .clear-cart-button {
-  margin-top: 20px;
-} */
-
 .cart-buttons-container {
   display: flex;
   justify-content: space-between;
@@ -38,4 +34,17 @@
   margin-top: 40px;
   font-size: x-large;
   text-align: center;
+}
+
+@media (max-width: 865px) {
+  .cart-buttons-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 370px) {
+  .promo-input {
+    min-width: 150px;
+  }
 }

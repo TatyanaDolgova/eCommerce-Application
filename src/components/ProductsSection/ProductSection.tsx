@@ -1,6 +1,6 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Pagination } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import '../modals/Modal.css';
@@ -53,10 +53,11 @@ const ProductSection = () => {
         <Spinner />
       ) : (
         <Swiper
-          modules={[Pagination]}
-          spaceBetween={50}
-          slidesPerView={1}
-          pagination={true}
+          modules={[Navigation, Pagination]}
+          spaceBetween={100}
+          slidesPerView={3}
+          navigation
+          pagination={{ clickable: true }}
           className="main_slider"
         >
           {products.map((slide) => (

@@ -4,18 +4,26 @@
 }
 
 .swiper.main_slider {
-  max-width: 900px;
+  max-width: unset;
+  height: 80%;
   max-height: unset;
   border-radius: 12px;
 }
 
 .product_example_card {
+  max-width: 600px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 5%;
 }
 
 .product_example_image {
   display: block;
-  max-width: 400px;
+  max-width: 300px;
+}
+
+.product_section_link {
+  margin-bottom: 0 auto;
 }

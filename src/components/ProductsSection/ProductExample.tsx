@@ -17,7 +17,9 @@ const ProductExampleCard = (props: ProductExampleCardProps) => {
       <div className="product_example_info">
         <h3>{props.productName}</h3>
         <p>{props.productDescription}</p>
-        <Link to="/catalog">See more on the catalog page!</Link>
+        <Link to="/catalog" className="product_section_link">
+          See more on the catalog page!
+        </Link>
       </div>
     </div>
   );

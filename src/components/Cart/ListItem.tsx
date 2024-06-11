@@ -168,19 +168,29 @@ const ListItem = (props: ListItemProps) => {
           disabled={disabled}
         />
       </div>
-      <span className="strike-through">
-        {props.item.price.discounted && (
-          <span>
-            {props.item.price.value.centAmount / 100}{' '}
-            {props.item.price.value.currencyCode}
-          </span>
-        )}
-      </span>
-      <div>
-        {props.item.price.discounted
-          ? props.item.price.discounted.value.centAmount / 100
-          : props.item.price.value.centAmount / 100}{' '}
-        {props.item.price.value.currencyCode}
+      <div className="prices">
+        <span className="strike-through">
+          {props.item.price.discounted && (
+            <span>
+              {props.item.price.value.centAmount / 100}{' '}
+              {props.item.price.value.currencyCode}
+            </span>
+          )}
+        </span>
+        <span>
+          {props.item.price.discounted
+            ? props.item.price.discounted.value.centAmount / 100
+            : props.item.price.value.centAmount / 100}{' '}
+          {props.item.price.value.currencyCode}
+        </span>
+        <span>
+          {props.item.price.discounted
+            ? (props.item.price.discounted.value.centAmount / 100) *
+              props.item.quantity
+            : (props.item.price.value.centAmount / 100) *
+              props.item.quantity}{' '}
+          {props.item.price.value.currencyCode}
+        </span>
       </div>
     </div>
   );

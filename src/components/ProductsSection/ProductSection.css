@@ -1,0 +1,21 @@
+.product_section {
+  padding: 20px;
+  background-color: var(--background-color);
+}
+
+.swiper.main_slider {
+  max-width: 900px;
+  max-height: unset;
+  border-radius: 12px;
+}
+
+.product_example_card {
+  display: flex;
+  justify-content: space-between;
+  gap: 5%;
+}
+
+.product_example_image {
+  display: block;
+  max-width: 400px;
+}

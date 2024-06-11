@@ -25,7 +25,7 @@ const CatalogPage = () => {
   >([]);
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [searchError, setSearchError] = useState<string | null>(null);
-  const [sortMethod, setSortMethod] = useState<string>('price asc');
+  const [sortMethod, setSortMethod] = useState<string>('name.en-US asc');
   const [searhcQuery, setSearchQuery] = useState<string>('');
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(100);
@@ -37,7 +37,6 @@ const CatalogPage = () => {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const userContextState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
-  const productCounter = userContextState.user.productCounter;
 
   useEffect(() => {
     const updateProductsPerPage = () => {
@@ -85,16 +84,6 @@ const CatalogPage = () => {
     }
   }
 
-  const createNewCart = async () => {
-    try {
-      const newCart = await cartRepository.createCart();
-
-      setCartId(newCart.id);
-    } catch (createError) {
-      throw Error('Error creating new cart');
-    }
-  };
-
   async function fetchCart() {
     try {
       const activeCart = await cartRepository.checkActiveCard();
@@ -103,7 +92,7 @@ const CatalogPage = () => {
       setCart(cartItems);
       setCartId(activeCart.id);
     } catch (error) {
-      // await createNewCart();
+      console.error('Error ');
     }
   }
 

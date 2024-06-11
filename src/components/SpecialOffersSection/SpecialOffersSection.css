@@ -1,5 +1,5 @@
 .special-offer_section {
-  padding: 20px 0;
+  padding: 20px;
   background-color: var(--background-color);
 }
 
@@ -40,4 +40,27 @@
 
 .red {
   color:var(--error-message-color)
+}
+
+@media (max-width: 800px) {
+  .special-offer_img {
+    height: 300px;
+  }
+
+  .offer {
+    font-size: 16px;
+  }
+}
+
+
+@media (max-width: 550px) {
+  .special-offer_img {
+    display: none;
+  }
+  .special-offer_container {
+    gap: 0;
+  }
+  .special-offer_h2 {
+    font-size: 24px;
+  }
 }

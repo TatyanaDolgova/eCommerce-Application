@@ -1,6 +1,6 @@
 .cart-item {
   display: grid;
-  grid-template-columns: 120px 2fr 2fr 1fr 1fr;
+  grid-template-columns: 120px 1fr 1fr 1fr;
   justify-content: space-between;
   align-items: center;
   background-color: var(--cambridge-blue);
@@ -8,6 +8,11 @@
   padding: 10px;
   font-size: larger;
   gap: 10px;
+}
+
+.prices {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .cart_item-image {

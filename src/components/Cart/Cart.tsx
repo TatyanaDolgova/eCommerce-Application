@@ -44,14 +44,12 @@ const Cart = () => {
       showToast('Cart successfully cleared', false);
       setListItems([]);
 
-      if (userContextState.user) {
-        const userData: UserData = {
-          loginStatus: userContextState.user.loginStatus,
-          productCounter: 0,
-        };
+      const userData: UserData = {
+        loginStatus: userContextState.user.loginStatus,
+        productCounter: 0,
+      };
 
-        updateState({ user: userData });
-      }
+      updateState({ user: userData });
     } catch {
       showToast('Something went wrong. Try again', true);
     }

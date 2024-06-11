@@ -127,14 +127,12 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
 
       showToast('Great choice! Product is in the cart.', false);
 
-      if (userState.user) {
-        const userData: UserData = {
-          loginStatus: userState.user?.loginStatus,
-          productCounter: quantity,
-        };
+      const userData: UserData = {
+        loginStatus: userState.user.loginStatus,
+        productCounter: quantity,
+      };
 
-        updateState({ user: userData });
-      }
+      updateState({ user: userData });
 
       try {
         const id = await cartRepository.findProduct(productID);
@@ -171,14 +169,12 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
       setLoading(false);
       showToast('The item has been removed from the cart.', false);
 
-      if (userState.user) {
-        const userData: UserData = {
-          loginStatus: userState.user?.loginStatus,
-          productCounter: quantity,
-        };
+      const userData: UserData = {
+        loginStatus: userState.user.loginStatus,
+        productCounter: quantity,
+      };
 
-        updateState({ user: userData });
-      }
+      updateState({ user: userData });
     } catch {
       showToast(serverErrorMessages.removeFromCartError.userMessage, true);
       setLoading(false);

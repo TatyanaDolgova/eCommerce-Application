@@ -136,7 +136,7 @@ const ListItem = (props: ListItemProps) => {
         alt={props.item.name['en-US']}
       ></img>
 
-      <span>{props.item.name['en-US']}</span>
+      <span className="item-name">{props.item.name['en-US']}</span>
       <div className="quantity-container">
         Quantity:
         <BaseButton

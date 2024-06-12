@@ -53,43 +53,45 @@ const ProductSection = () => {
       {!products ? (
         <Spinner />
       ) : (
-        <Swiper
-          modules={[Navigation, Pagination]}
-          slidesPerView={1}
-          spaceBetween={10}
-          navigation
-          pagination={{ clickable: true }}
-          className="main_slider"
-          breakpoints={{
-            768: {
-              slidesPerView: 2,
-              spaceBetween: 40,
-            },
-            1024: {
-              slidesPerView: 3,
-              spaceBetween: 50,
-            },
-          }}
-        >
-          {products.map((slide) => (
-            <SwiperSlide key={slide.name['en-US']}>
-              <ProductExampleCard
-                imageURL={slide.masterVariant.images?.[0].url || ''}
-                productDescription={slide.metaDescription?.['en-US'] || ''}
-                productName={slide.name['en-US']}
-                productID={slide.id}
-                productSlug={slide.slug['en-US']}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <div className="product_section_content_wrapper">
+          <Swiper
+            modules={[Navigation, Pagination]}
+            slidesPerView={1}
+            spaceBetween={10}
+            navigation
+            pagination={{ clickable: true }}
+            className="main_slider"
+            breakpoints={{
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 40,
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 50,
+              },
+            }}
+          >
+            {products.map((slide) => (
+              <SwiperSlide key={slide.name['en-US']}>
+                <ProductExampleCard
+                  imageURL={slide.masterVariant.images?.[0].url || ''}
+                  productDescription={slide.metaDescription?.['en-US'] || ''}
+                  productName={slide.name['en-US']}
+                  productID={slide.id}
+                  productSlug={slide.slug['en-US']}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <h2 className="product_section_text">
+            Interested? See more on
+            <Link to="/catalog" className="product_section_link">
+              the catalog page!
+            </Link>
+          </h2>
+        </div>
       )}
-      <h2 className="product_section_text">
-        Interested? See more on
-        <Link to="/catalog" className="product_section_link">
-          the catalog page!
-        </Link>
-      </h2>
     </section>
   );
 };

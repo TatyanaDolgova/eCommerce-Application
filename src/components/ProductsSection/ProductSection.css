@@ -1,6 +1,11 @@
 .product_section {
-  padding: 20px;
+  padding: 20px 40px;
   background-color: var(--background-color);
+}
+
+.product_section_title {
+  font-size: 36px;
+  text-align: center;
 }
 
 .swiper.main_slider {
@@ -10,9 +15,10 @@
   border-radius: 12px;
 }
 
-.product_section_title {
-  font-size: 36px;
-  text-align: center;
+.swiper.main_slider .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .swiper.main_slider .swiper-pagination{
@@ -24,7 +30,7 @@
 }
 
 .product_example_card {
-  max-width: 600px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;

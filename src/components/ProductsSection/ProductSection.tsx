@@ -55,11 +55,21 @@ const ProductSection = () => {
       ) : (
         <Swiper
           modules={[Navigation, Pagination]}
-          spaceBetween={100}
-          slidesPerView={3}
+          slidesPerView={1}
+          spaceBetween={10}
           navigation
           pagination={{ clickable: true }}
           className="main_slider"
+          breakpoints={{
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 40,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 50,
+            },
+          }}
         >
           {products.map((slide) => (
             <SwiperSlide key={slide.name['en-US']}>

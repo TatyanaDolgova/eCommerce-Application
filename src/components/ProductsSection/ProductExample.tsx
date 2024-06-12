@@ -10,7 +10,11 @@ interface ProductExampleCardProps {
 
 const ProductExampleCard = (props: ProductExampleCardProps) => {
   return (
-    <div className="product_example_card">
+    <Link
+      className="product_example_card"
+      to={`/catalog/${props.productSlug}`}
+      state={props.productID}
+    >
       <img
         className="product_example_image"
         src={props.imageURL}
@@ -19,16 +23,32 @@ const ProductExampleCard = (props: ProductExampleCardProps) => {
       <div className="product_example_info">
         <h3 className="product_example_title">{props.productName}</h3>
         <p>{props.productDescription}</p>
-        <Link
-          className="details_link"
-          to={`/catalog/${props.productSlug}`}
-          state={props.productID}
-        >
-          View Details
-        </Link>
       </div>
-    </div>
+    </Link>
   );
 };
+
+// const ProductExampleCard = (props: ProductExampleCardProps) => {
+//   return (
+//     <div className="product_example_card">
+//       <img
+//         className="product_example_image"
+//         src={props.imageURL}
+//         alt={props.productName}
+//       />
+//       <div className="product_example_info">
+//         <h3 className="product_example_title">{props.productName}</h3>
+//         <p>{props.productDescription}</p>
+//         <Link
+//           className="details_link"
+//           to={`/catalog/${props.productSlug}`}
+//           state={props.productID}
+//         >
+//           View Details
+//         </Link>
+//       </div>
+//     </div>
+//   );
+// };
 
 export default ProductExampleCard;

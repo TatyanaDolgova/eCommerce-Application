@@ -81,3 +81,15 @@
   transform: scale(1);
   opacity: 1;
 }
+
+@media (max-width: 500px) {
+  .product_section_title {
+    font-size: 24px;
+  }
+
+  .product_example_title,
+  .product_section_text,
+  .product_section_link {
+    font-size: 20px;
+  }
+}

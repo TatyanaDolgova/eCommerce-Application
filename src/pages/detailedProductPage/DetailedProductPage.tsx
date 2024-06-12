@@ -8,6 +8,7 @@ import { UserContext, UserData } from '../../app-context/UserContext';
 import BaseButton from '../../components/Button/Button';
 import { ProductSlider } from '../../components/DetailedProduct/ProductSlider';
 import { SingleImage } from '../../components/DetailedProduct/SingleImage';
+import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import Spinner from '../../components/Spinners/Spinner-category';
 import CardRepository from '../../services/CardRepository';
@@ -282,6 +283,7 @@ const DetailedProductPage = (props: DetailedProductPageProps) => {
           </div>
         )}
       </main>
+      <Footer />
     </>
   );
 };

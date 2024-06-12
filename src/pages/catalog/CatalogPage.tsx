@@ -8,6 +8,7 @@ import Filters from '../../components/Catalog/Filters/Filters';
 import ProductList from '../../components/Catalog/ProductList/ProductList';
 import Search from '../../components/Catalog/Search/Search';
 import SortingSelect from '../../components/Catalog/SortingSelect/SortingSelect';
+import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import Spinner from '../../components/Spinners/Spinner-category';
 import { cartRepository } from '../../services/CardRepository';
@@ -275,6 +276,7 @@ const CatalogPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

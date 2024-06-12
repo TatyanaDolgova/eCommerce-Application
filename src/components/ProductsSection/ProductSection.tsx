@@ -1,5 +1,6 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import React, { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -48,7 +49,7 @@ const ProductSection = () => {
 
   return (
     <section className="product_section">
-      <h2>Check out our products!</h2>
+      <h2 className="product_section_title">Check out our products!</h2>
       {!products ? (
         <Spinner />
       ) : (
@@ -66,11 +67,19 @@ const ProductSection = () => {
                 imageURL={slide.masterVariant.images?.[0].url || ''}
                 productDescription={slide.metaDescription?.['en-US'] || ''}
                 productName={slide.name['en-US']}
+                productID={slide.id}
+                productSlug={slide.slug['en-US']}
               />
             </SwiperSlide>
           ))}
         </Swiper>
       )}
+      <h2 className="product_section_text">
+        Interested? See more on
+        <Link to="/catalog" className="product_section_link">
+          the catalog page!
+        </Link>
+      </h2>
     </section>
   );
 };

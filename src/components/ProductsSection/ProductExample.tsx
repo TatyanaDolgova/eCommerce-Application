@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 interface ProductExampleCardProps {
   imageURL: string;
   productDescription: string;
+  productID: string;
   productName: string;
+  productSlug: string;
 }
 
 const ProductExampleCard = (props: ProductExampleCardProps) => {
@@ -15,10 +17,14 @@ const ProductExampleCard = (props: ProductExampleCardProps) => {
         alt={props.productName}
       />
       <div className="product_example_info">
-        <h3>{props.productName}</h3>
+        <h3 className="product_example_title">{props.productName}</h3>
         <p>{props.productDescription}</p>
-        <Link to="/catalog" className="product_section_link">
-          See more on the catalog page!
+        <Link
+          className="details_link"
+          to={`/catalog/${props.productSlug}`}
+          state={props.productID}
+        >
+          View Details
         </Link>
       </div>
     </div>

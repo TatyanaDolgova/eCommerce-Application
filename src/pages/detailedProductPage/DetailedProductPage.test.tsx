@@ -8,7 +8,7 @@ import ProductRepository from '../../services/ProductRepository';
 import DetailedProductPage from './DetailedProductPage';
 import { getTestProduct } from './TestData';
 
-test('should show srinner while loading data', () => {
+test('should show spinner while loading data', () => {
   class MockProductRepository extends ProductRepository {
     getProduct(productID: string): Promise<Product | undefined> {
       return new Promise((resolve) => {

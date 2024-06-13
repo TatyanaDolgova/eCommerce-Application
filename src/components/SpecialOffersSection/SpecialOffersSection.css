@@ -42,7 +42,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 5%;
+  gap: 2%;
 }
 
 .red {
@@ -59,11 +59,6 @@
   background-repeat: no-repeat;
   transition: 0.3s;
   transform: scale(0.9);
-}
-
-.copy-button:hover {
-  transform: scale(1.02);
-  background-color: inherit;
 }
 
 @media (max-width: 800px) {
@@ -86,5 +81,12 @@
   }
   .special-offer_h2 {
     font-size: 24px;
+  }
+}
+
+@media (hover: hover) {
+  .copy-button:hover {
+    transform: scale(1.02);
+    background-color: inherit;
   }
 }

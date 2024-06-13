@@ -1,11 +1,4 @@
-import BaseButton from '../Button/Button';
 import './SpecialOffersSection.css';
-
-enum Discounts {
-  FIRSTORDER,
-  SUMMERSALE,
-  WHOLESALE,
-}
 
 interface CopyButtonProps {
   value: string;

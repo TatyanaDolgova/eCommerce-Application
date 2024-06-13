@@ -38,8 +38,32 @@
   gap: 20px;
 }
 
+.code-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5%;
+}
+
 .red {
   color:var(--error-message-color)
+}
+
+.copy-button {
+  width: 25px;
+  height: 25px;
+  background-color: inherit;
+  background-image: url('../../assets/icons/copy-svgrepo-com.svg');
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transition: 0.3s;
+  transform: scale(0.9);
+}
+
+.copy-button:hover {
+  transform: scale(1.02);
+  background-color: inherit;
 }
 
 @media (max-width: 800px) {

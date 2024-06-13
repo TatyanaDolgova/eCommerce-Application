@@ -1,3 +1,4 @@
+import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 
 import './AboutUsPage.css';
@@ -105,6 +106,7 @@ const AboutUsPage = () => {
           </a>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

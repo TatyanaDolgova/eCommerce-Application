@@ -1,0 +1,16 @@
+.footer {
+  background-color: var(--fern-green);
+  padding: 2%;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.github-link {
+  display: inline-block;
+  height: 45px;
+  width: 45px;
+  background-image: url(../../assets/icons/github-mark.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+}

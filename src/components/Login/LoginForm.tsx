@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { UserContext, UserData } from '../../app-context/UserContext';
+import { cartRepository } from '../../services/CardRepository';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { userTokenStorage } from '../../services/LocalStorage';
 import { serverErrorMessages } from '../../utils/ErrorHandler';
@@ -17,8 +18,21 @@ import { emailProps, passwordProps } from '../../utils/validation';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
 
+interface LoginData {
+  anonymousCart?: {
+    id: string;
+    typeId: 'cart';
+  };
+  anonymousCartSignInMode?: string | undefined;
+  anonymousId?: string | undefined;
+
+  email: string;
+  password: string;
+}
+
 function LoginForm(props: LoginFormProps) {
   const [passwordInputType, setPasswordInputType] = useState('password');
+  const userContextState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
 
   const showPassword = () => {
@@ -45,22 +59,43 @@ function LoginForm(props: LoginFormProps) {
   });
 
   async function submitLoginData(data: CustomerSignin) {
-    const response = await CustomerRepository.createLoggedInCustomer(data);
+    const loginData: LoginData = {
+      email: data.email,
+      password: data.password,
+    };
 
-    if (response instanceof Error) {
-      CustomerRepository.createAnonymousCustomer();
-      if (response.message === serverErrorMessages.loginError.errorMessage) {
-        showToast(serverErrorMessages.loginError.userMessage, true);
-      }
-    } else {
-      const userState: UserData = {
-        loginStatus: true,
+    try {
+      const anonymousCart = await cartRepository.checkActiveCard();
+
+      loginData.anonymousId = anonymousCart.anonymousId;
+      loginData.anonymousCartSignInMode = 'MergeWithExistingCustomerCart';
+      loginData.anonymousCart = {
+        id: anonymousCart.id,
+        typeId: 'cart',
       };
+    } catch {
+      console.log('no cart to fetch');
+    } finally {
+      const response =
+        await CustomerRepository.createLoggedInCustomer(loginData);
 
-      showToast('You are successfully logged in', false);
-      updateState({ user: userState });
-      userTokenStorage.setLoginState('true');
-      redirectToMain();
+      if (response instanceof Error) {
+        CustomerRepository.createAnonymousCustomer();
+        if (response.message === serverErrorMessages.loginError.errorMessage) {
+          showToast(serverErrorMessages.loginError.userMessage, true);
+        }
+      } else {
+        const userState: UserData = {
+          loginStatus: true,
+          productCounter: userContextState.user.productCounter,
+        };
+
+        updateState({ user: userState });
+
+        showToast('You are successfully logged in', false);
+        userTokenStorage.setLoginState('true');
+        redirectToMain();
+      }
     }
   }
 

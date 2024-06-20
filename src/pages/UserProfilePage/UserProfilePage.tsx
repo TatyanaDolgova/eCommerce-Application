@@ -1,5 +1,6 @@
 import './UserProfilePage.css';
 
+import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import Addresses from '../../components/UserProfile/Addresses';
 import PersonalInfo from '../../components/UserProfile/PersonalInfo';
@@ -17,6 +18,7 @@ const UserProfilePage = () => {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

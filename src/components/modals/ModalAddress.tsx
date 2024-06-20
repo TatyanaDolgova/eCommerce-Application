@@ -51,10 +51,11 @@ function ModalAddress(modalAddressesProps: ModalAddressesProps) {
           },
         },
       ];
+      const customerVersion = await CustomerRepository.getCustomerInformation();
 
       const response: unknown = await CustomerRepository.updateCustomer(
         modalAddressesProps.customerID,
-        modalAddressesProps.version,
+        customerVersion.body.version,
         actions,
       );
 

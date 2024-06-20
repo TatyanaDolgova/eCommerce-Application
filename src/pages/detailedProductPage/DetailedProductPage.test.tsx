@@ -3,12 +3,13 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
+import { cartRepository } from '../../services/CardRepository';
 import ProductRepository from '../../services/ProductRepository';
 
 import DetailedProductPage from './DetailedProductPage';
 import { getTestProduct } from './TestData';
 
-test('should show srinner while loading data', () => {
+test('should show spinner while loading data', () => {
   class MockProductRepository extends ProductRepository {
     getProduct(productID: string): Promise<Product | undefined> {
       return new Promise((resolve) => {
@@ -21,7 +22,10 @@ test('should show srinner while loading data', () => {
 
   render(
     <BrowserRouter>
-      <DetailedProductPage productRepository={mockProductRepository} />
+      <DetailedProductPage
+        productRepository={mockProductRepository}
+        cartRepository={cartRepository}
+      />
     </BrowserRouter>,
   );
 
@@ -43,7 +47,10 @@ test('should show single image without modal if single image was returned', asyn
 
   render(
     <BrowserRouter>
-      <DetailedProductPage productRepository={mockProductRepository} />
+      <DetailedProductPage
+        productRepository={mockProductRepository}
+        cartRepository={cartRepository}
+      />
     </BrowserRouter>,
   );
 
@@ -67,7 +74,10 @@ test('should show slider without modal if several image was returned', async () 
 
   render(
     <BrowserRouter>
-      <DetailedProductPage productRepository={mockProductRepository} />
+      <DetailedProductPage
+        productRepository={mockProductRepository}
+        cartRepository={cartRepository}
+      />
     </BrowserRouter>,
   );
 
@@ -94,7 +104,10 @@ test('should show modal single image if single image was returned and clicked', 
 
   render(
     <BrowserRouter>
-      <DetailedProductPage productRepository={mockProductRepository} />
+      <DetailedProductPage
+        productRepository={mockProductRepository}
+        cartRepository={cartRepository}
+      />
     </BrowserRouter>,
   );
 
@@ -126,7 +139,10 @@ test('should show modal slider if seversl images was returned and clicked', asyn
 
   render(
     <BrowserRouter>
-      <DetailedProductPage productRepository={mockProductRepository} />
+      <DetailedProductPage
+        productRepository={mockProductRepository}
+        cartRepository={cartRepository}
+      />
     </BrowserRouter>,
   );
 

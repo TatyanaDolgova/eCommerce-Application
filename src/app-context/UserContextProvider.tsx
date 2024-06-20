@@ -13,10 +13,10 @@ export const UserContextProvider: React.FunctionComponent<UserContextProps> = (
   props: UserContextProps,
 ): JSX.Element => {
   const initialUSer: UserData = userTokenStorage.checkLoginState()
-    ? { loginStatus: true }
-    : { loginStatus: false };
+    ? { loginStatus: true, productCounter: 0 }
+    : { loginStatus: false, productCounter: 0 };
 
-  let defaultState: Partial<UserState> = { user: initialUSer };
+  let defaultState: UserState = { user: initialUSer, updateState: () => {} };
 
   if (props.state) {
     defaultState = props.state;

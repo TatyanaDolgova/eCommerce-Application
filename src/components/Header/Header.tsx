@@ -1,17 +1,19 @@
 import { Squash as Hamburger } from 'hamburger-react';
-import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import './Header.css';
 import { UserContext, UserData } from '../../app-context/UserContext';
+import { cartRepository } from '../../services/CardRepository';
 import { CustomerRepository } from '../../services/CustomerRepository';
 import { userTokenStorage } from '../../services/LocalStorage';
 import BaseButton from '../Button/Button';
 
 const Header = () => {
-  const userState = useContext(UserContext);
+  const userContextState = useContext(UserContext);
   const { updateState } = useContext(UserContext);
-  const isLoggedIn = userState.user?.loginStatus;
+  const isLoggedIn = userContextState.user.loginStatus;
+  const productCount = userContextState.user.productCounter;
 
   const navigate = useNavigate();
   const redirectToMain = () => navigate('/home');
@@ -21,15 +23,17 @@ const Header = () => {
     if (isLoggedIn) {
       return (
         <BaseButton
-          classes="log_out_button header-link"
+          classes="log_out_button"
           callback={() => {
             CustomerRepository.logOutCusromer();
 
-            const userData: UserData = {
+            const userState: UserData = {
               loginStatus: false,
+              productCounter: 0,
             };
 
-            updateState({ user: userData });
+            updateState({ user: userState });
+
             userTokenStorage.clearLoginState();
             redirectToMain();
           }}
@@ -56,19 +60,52 @@ const Header = () => {
     setOpen(false);
   };
 
+  async function setQuantity() {
+    try {
+      const cart = await cartRepository.checkActiveCard();
+      const quantity = cart.lineItems.length;
+
+      const userData: UserData = {
+        loginStatus: userContextState.user.loginStatus,
+        productCounter: quantity,
+      };
+
+      updateState({ user: userData });
+    } catch {
+      console.log('error fetching cart');
+    }
+  }
+
+  useEffect(() => {
+    void setQuantity();
+  }, []);
+
   return (
     <header className="header">
       <div className="header-wrapper">
-        <Link className="header-logo" to="/">
+        <NavLink className="header-logo" to="/">
           Plantify
-        </Link>
+        </NavLink>
         <nav className={`header-nav ${isOpen ? 'open' : ''}`}>
-          <Link to="/home" className="header-link" onClick={closeMenu}>
+          <NavLink to="/home" className="header-link" onClick={closeMenu}>
             Home
-          </Link>
-          <Link to="/catalog" className="header-link" onClick={closeMenu}>
+          </NavLink>
+          <NavLink to="/catalog" className="header-link" onClick={closeMenu}>
             Catalog
-          </Link>
+          </NavLink>
+          <NavLink to="/about-us" className="header-link" onClick={closeMenu}>
+            About Us
+          </NavLink>
+          <div className="cart-link-container">
+            <Link
+              to="/cart"
+              className="user-profile-link cart-link"
+              onClick={closeMenu}
+            />
+            {productCount !== 0 && (
+              <span className="quantity-indicator">{productCount}</span>
+            )}
+          </div>
           {isLoggedIn ? (
             <div className="loggedin-container">
               <Link
@@ -81,17 +118,13 @@ const Header = () => {
           ) : (
             <ul className="header-links">
               <li>
-                <Link
-                  className="header-link sign-in-link"
-                  to="/login"
-                  onClick={closeMenu}
-                >
+                <Link className="sign-in-link" to="/login" onClick={closeMenu}>
                   Sign In
                 </Link>
               </li>
               <li>
                 <Link
-                  className="header-link sign-up-link"
+                  className="sign-up-link"
                   to="/registration"
                   onClick={closeMenu}
                 >

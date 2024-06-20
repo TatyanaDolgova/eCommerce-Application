@@ -1,0 +1,92 @@
+.special-offer_section {
+  padding: 20px;
+  background-color: var(--background-color);
+}
+
+.special-offer_container {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+}
+
+.special-offer_img {
+  height: 400px;
+  border-radius: 10px;
+}
+
+.special-offer_img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.special-offer_h2 {
+  font-size: 36px;
+  text-align: center;
+}
+
+.offer {
+  font-size: 22px;
+  border: solid 1px var(--fern-green);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.offers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.code-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2%;
+}
+
+.red {
+  color:var(--error-message-color)
+}
+
+.copy-button {
+  width: 25px;
+  height: 25px;
+  background-color: inherit;
+  background-image: url('../../assets/icons/copy-svgrepo-com.svg');
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transition: 0.3s;
+  transform: scale(0.9);
+}
+
+@media (max-width: 800px) {
+  .special-offer_img {
+    height: 300px;
+  }
+
+  .offer {
+    font-size: 16px;
+  }
+}
+
+
+@media (max-width: 500px) {
+  .special-offer_img {
+    display: none;
+  }
+  .special-offer_container {
+    gap: 0;
+  }
+  .special-offer_h2 {
+    font-size: 24px;
+  }
+}
+
+@media (hover: hover) {
+  .copy-button:hover {
+    transform: scale(1.02);
+    background-color: inherit;
+  }
+}

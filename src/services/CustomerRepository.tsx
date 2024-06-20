@@ -74,14 +74,14 @@ export class CustomerRepository {
 
   public static async createLoggedInCustomer(customerData: CustomerSignin) {
     try {
-      CustomerRepository.setLoggedApiRoot(customerData);
-
       const customer: ClientResponse<CustomerSignInResult> =
         await CustomerRepository.apiRoot
           .me()
           .login()
           .post({ body: customerData })
           .execute();
+
+      CustomerRepository.setLoggedApiRoot(customerData);
 
       return customer;
     } catch (error) {

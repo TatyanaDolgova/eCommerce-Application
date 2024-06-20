@@ -1,4 +1,5 @@
 import { Category } from '@commercetools/platform-sdk';
+import { Squash as Hamburger } from 'hamburger-react';
 import { useEffect, useState } from 'react';
 
 import './CategorySidebar.css';
@@ -20,6 +21,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
   );
   const [allProductsSelected, setAllProductsSelected] =
     useState<boolean>(!currentCategory);
+  const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -30,10 +32,10 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
         if (categoriesResponse) {
           setCategories(categoriesResponse);
         } else {
-          throw new Error('Categories response is undefined');
+          console.error('Categories response is undefined');
         }
       } catch (error) {
-        throw new Error('Error fetching categories');
+        console.error('Error fetching categories');
       } finally {
         setLoading(false);
       }
@@ -59,6 +61,10 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
     onCategorySelect('');
   };
 
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
   const renderCategories = (
     categoriesForRender: Category[],
     parentId: string | null = null,
@@ -77,7 +83,10 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
               className={`category-item ${
                 !category.parent ? 'main-category' : 'subcategory'
               } ${selectedCategoryId === category.id ? 'selected' : ''}`}
-              onClick={() => handleCategorySelect(category.id)}
+              onClick={() => {
+                handleCategorySelect(category.id);
+                closeMenu();
+              }}
             >
               {category.name['en-US']}
             </div>
@@ -90,14 +99,22 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
 
   return (
     <div className="category-sidebar">
-      <h3 className="sidebar-title">Categories</h3>
+      <div className="sidebar-title-wrapper">
+        <h3 className="sidebar-title">Categories</h3>
+        <div className="burger-wrapper">
+          <Hamburger toggled={isOpen} size={30} toggle={setOpen} color="#fff" />
+        </div>
+      </div>
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul className="categories-container">
+        <ul className={`categories-container ${isOpen ? 'open' : ''}`}>
           <li
             className={`category-item main-category ${allProductsSelected ? 'selected' : ''}`}
-            onClick={handleAllProductsSelect}
+            onClick={() => {
+              handleAllProductsSelect();
+              closeMenu();
+            }}
           >
             All products
           </li>

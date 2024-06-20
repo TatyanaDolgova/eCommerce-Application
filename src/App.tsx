@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import './App.css';
+import AboutUsPage from './pages/aboutUsPage/AboutUsPage';
+import BasketPage from './pages/basket/BasketPage';
 import CatalogPage from './pages/catalog/CatalogPage';
 import DetailedProductPage from './pages/detailedProductPage/DetailedProductPage';
 import { LoginPage } from './pages/login/LoginPage';
@@ -8,6 +10,7 @@ import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import RegistrationPage from './pages/registration/RegistrationPage';
 import UserProfilePage from './pages/UserProfilePage/UserProfilePage';
+import { cartRepository } from './services/CardRepository';
 import { CustomerRepository } from './services/CustomerRepository';
 import { userTokenStorage } from './services/LocalStorage';
 import { productRepository } from './services/ProductRepository';
@@ -28,11 +31,16 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/home" element={<MainPage />} />
+        <Route path="/cart" element={<BasketPage />} />
         <Route path="/catalog" element={<CatalogPage />} />
+        <Route path="/about-us" element={<AboutUsPage />} />
         <Route
           path="/catalog/:ProductSlug"
           element={
-            <DetailedProductPage productRepository={productRepository} />
+            <DetailedProductPage
+              productRepository={productRepository}
+              cartRepository={cartRepository}
+            />
           }
         />
         <Route

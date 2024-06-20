@@ -1,20 +1,20 @@
 import React from 'react';
 
 const initialState: UserState = {
-  user: {},
+  user: {
+    productCounter: 0,
+  },
   updateState: (newState?: Partial<UserState>) => {},
 };
 
 export interface UserData {
-  firstName?: string;
-  id?: number;
   loginStatus?: boolean;
-  username?: string;
+  productCounter: number;
 }
 
 export interface UserState {
   updateState: (newState: Partial<UserState>) => void;
-  user?: UserData;
+  user: UserData;
 }
 
 export const UserContext = React.createContext<UserState>(initialState);

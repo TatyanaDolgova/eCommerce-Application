@@ -1,0 +1,170 @@
+.detail_product_page {
+  min-width: 100%;
+  min-height: 90vh;
+  padding: 2%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--background-color);
+}
+
+.detail_product_wrapper {
+  max-width: 90%;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  gap: 2%;
+  border-radius: 12px;
+}
+
+.detail_image {
+  min-width: 250px;
+  max-width: 45%;
+  max-height: 80vh;
+  border-radius: 12px;
+}
+
+.detail_image.extended_image {
+  min-width: 50%;
+  max-width: 450px;
+}
+
+.detail_product_info {
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.catalog_link {
+  width: 100%;
+  text-align: right;
+  text-decoration: none;
+  color: black;
+  transition: 0.3s;
+}
+
+.catalog_link:hover {
+  transform: scale(1.1);
+}
+
+.detail_product_header {
+  margin: 0;
+  color: var(--dark-moss-green);
+}
+
+.detail_product_description{
+  max-width: 400px;
+  text-align: justify;
+}
+
+.detail_price_wrapper {
+  width: 100%;
+  display: flex;
+  gap: 5%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.full_price_wrapper,
+.disc_price_wrapper {
+  display: flex;
+}
+
+.full_price,
+.disc_price {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.full_price_wrapper {
+  color: var(--dark-moss-green);
+}
+
+.full_price_wrapper.crossed {
+  text-decoration: line-through;
+}
+
+.disc_price_wrapper {
+  color: var(--error-message-color);
+}
+
+.control_product_button {
+  width: 235px;
+  height: 45px;
+  position: relative;
+  text-align: left;
+  background-color: var(--fern-green);
+}
+
+.control_product_button::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  width: 35px;
+  height: 35px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAP6SURBVHic7ZvNi1ZVHMe/P53UIkQMLXsx01YpLqxwIAohCFMXFi2CNkIUItX/UG5DWuRqyIoosMkWQm+Di6IWIflWNoM1owPl2MKXLCgyZz4trk/kM+fMc+8959zzTPN8YGCecw/f+c537rn3d15G6tFjbgMsA/YB7wGP5fbTOMBBrucwsB2Yl9tbIwC/4+Yk8AzQl9tjUoBTngBajAHPAwtye00CsKtDAC3OADuA+bk9Rwd4DZgqGcQw8BRguX1HBdgCfFsyBIAjwCO5fUcFMGAr8GXJEKaAN4HFub1HB3iI4hVZZmj8ANyb23MSgLXA28CVDiGMAjfk9psMYCUw0CGE/9czwQXw3AzDYkduf1WpXO6a2YCkdzyXV4fZaZ669f5HnvZ76hrJRd0Axjztsy6AWgBLPM+AidzeGgO46AhgCrgpt7cqhEx1xyQ90NZmkkaAqwG6TXBW0qeS9oQEcFrTA5CklQGaTbFa0sOSbg9Z9TkdyUxOnp7rASya6wGcCn0GuPhJ0t4A3RS8KOkOR/vHtRWBPs8Mcby2aAKAxcBfnrplXaj4qEP0Kl00LaZYvnMxItUvhVu4hsF8SXcG6sZkq6d9v5QmAKlL5gQUmzuPey6/L4UHcMbTvipQNxYPSrrV0X7SzIalsFJY8s8KXwdeDdSOgW8zZ7D1TWgAvjvgxmtf3cq/AYQOAd8d0M2cMLOR1oegAMzsV0kXgy01y+B/P8TYAp9tJfGBqGrAfk+hkW2BFFiIe9v/aHvflHfAqgjadXlU0s2O9sH2hhgB+N4EOYshX/WXJADfm+DuCNp12eJo+8bMRtsbUw6BLHcAsF7u4Tftry8Vi5ihP7BP0h+S2meAFyQdC9WvwQpJa9vakLTGzKYN1yinPIBRSWtiaCXisJltdF2IdRSu22sB5+0vxQtgpHOXrHzguxArgA8j6aTgkJmN+y5GCcDMvpA0EEMrMr9IemmmDlGPugGbJPVLWhJTtwaTksYlHTCz2TZZ69EoyU57UpwtflbSEypWic9LGpK018wuBejeJ+kFSRtVLHl9L2mfmQ0Fm44FsAI47pkmTwD319TdCfzt0X2DbjjHDMwDvvaYbHEOuKWi7mZgsoPuy6l+rypGn+xgssXuirpHSmj+CSytopviv0J8GxF1+wlYLmlDia6LJG0qqyulCWBZyX7LK2hW6evaCPGSIoCzJfv9XEFzQsWUNrZukgAORu6na9XcVyW6Xpb0eVndZACfdHhY/Qi4Fi1n0uyn84n1Gev+xqA4SDnkMTlMzf8toHjD/ObQnAReqaOZshI0SdtUVIJ3qVgi+0zSu2Z2JUD3NhUVZr+Kvc1hSW+Z2XfBpnv0mHv8AyWpuSFj6gpsAAAAAElFTkSuQmCC);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+.control_product_button:disabled {
+  pointer-events: none;
+  background-color: var(--cambridge-blue) ;
+}
+
+.zoomed_in {
+  cursor: zoom-in;
+}
+
+/* Swiper */
+
+.swiper {
+  max-width: 450px;
+  max-height: 600px;
+  border-radius: 12px;
+}
+
+.swiper-slide img {
+  border-radius: 12px;
+ }
+
+ .swiper-button-next::after,
+ .swiper-button-prev::after {
+  color: var(--dark-moss-green);
+ }
+
+ .swiper-pagination * {
+  color: var(--dark-moss-green);
+ }
+
+@media (max-width: 670px) {
+  .detail_product_wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .detail_product_header {
+    font-size: 28px;
+  }
+
+  .swiper {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 420px) {
+
+  .detail_product_header {
+    font-size: 24px;
+  }
+
+  .swiper {
+    max-width: 300px;
+  }
+}

@@ -32,47 +32,47 @@ export default class CtpClient {
   scopes: string[];
 
   constructor() {
-    this.projectKey = 'ecommerce2024rss';
+    this.projectKey = 'ecomm2024rss';
     this.oauthUri = 'https://auth.us-east-2.aws.commercetools.com';
     this.baseUri = 'https://api.us-east-2.aws.commercetools.com';
-    this.clientId = 'H6a8G0V7vTEhcXdlrn56U4PS';
-    this.clientSecret = 'JjhUofmYN-WS6xnABw6ZtWaoJNt07hOY';
+    this.clientId = 'GcybV_WuoGnZOlghHmTeDGeY';
+    this.clientSecret = 'AAv6YWOoYjT0Ab9Dqdwozvj1At0lDFpn';
     this.scopes = [
-      'manage_extensions:ecommerce2024rss',
-      'manage_my_orders:ecommerce2024rss',
-      'manage_stores:ecommerce2024rss',
-      'manage_products:ecommerce2024rss',
-      'create_anonymous_token:ecommerce2024rss',
-      'manage_attribute_groups:ecommerce2024rss',
-      'manage_states:ecommerce2024rss',
-      'introspect_oauth_tokens:ecommerce2024rss',
-      'manage_categories:ecommerce2024rss',
-      'manage_customers:ecommerce2024rss',
-      'manage_cart_discounts:ecommerce2024rss',
-      'manage_order_edits:ecommerce2024rss',
-      'manage_types:ecommerce2024rss',
-      'view_project_settings:ecommerce2024rss',
-      'manage_discount_codes:ecommerce2024rss',
-      'manage_orders:ecommerce2024rss',
-      'manage_my_profile:ecommerce2024rss',
-      'manage_standalone_prices:ecommerce2024rss',
-      'view_messages:ecommerce2024rss',
-      'manage_customers:ecommerce2024rss',
+      'manage_extensions:ecomm2024rss',
+      'manage_my_orders:ecomm2024rss',
+      'manage_stores:ecomm2024rss',
+      'manage_products:ecomm2024rss',
+      'create_anonymous_token:ecomm2024rss',
+      'manage_attribute_groups:ecomm2024rss',
+      'manage_states:ecomm2024rss',
+      'introspect_oauth_tokens:ecomm2024rss',
+      'manage_categories:ecomm2024rss',
+      'manage_customers:ecomm2024rss',
+      'manage_cart_discounts:ecomm2024rss',
+      'manage_order_edits:ecomm2024rss',
+      'manage_types:ecomm2024rss',
+      'view_project_settings:ecomm2024rss',
+      'manage_discount_codes:ecomm2024rss',
+      'manage_orders:ecomm2024rss',
+      'manage_my_profile:ecomm2024rss',
+      'manage_standalone_prices:ecomm2024rss',
+      'view_messages:ecomm2024rss',
+      'manage_customers:ecomm2024rss',
     ];
 
     this.anonCustomerScopes = [
-      'manage_orders:ecommerce2024rss',
-      'manage_my_profile:ecommerce2024rss',
-      'manage_my_orders:ecommerce2024rss',
-      'manage_products:ecommerce2024rss',
+      'manage_orders:ecomm2024rss',
+      'manage_my_profile:ecomm2024rss',
+      'manage_my_orders:ecomm2024rss',
+      'manage_products:ecomm2024rss',
     ];
 
     this.customerScopes = [
-      'manage_orders:ecommerce2024rss',
-      'manage_my_profile:ecommerce2024rss',
-      'manage_my_orders:ecommerce2024rss',
-      'manage_customers:ecommerce2024rss',
-      'manage_products:ecommerce2024rss',
+      'manage_orders:ecomm2024rss',
+      'manage_my_profile:ecomm2024rss',
+      'manage_my_orders:ecomm2024rss',
+      'manage_customers:ecomm2024rss',
+      'manage_products:ecomm2024rss',
     ];
   }
 

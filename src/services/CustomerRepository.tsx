@@ -16,7 +16,7 @@ export class CustomerRepository {
 
   static isAuthApiRoot: boolean;
 
-  static projectKey = 'ecommerce2024rss';
+  static projectKey = 'ecomm2024rss';
 
   static async changeCustomerPassword(
     customerId: string,

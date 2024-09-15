@@ -1,0 +1,19 @@
+.breadcrumb {
+  list-style-type: none;
+  padding: 20px 30px;
+  margin: 0;
+  background-color: var(--cambridge-blue);
+  color: #fff;
+}
+
+.breadcrumb-item {
+  display: inline;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.breadcrumb-item:hover {
+  text-decoration: underline;
+}

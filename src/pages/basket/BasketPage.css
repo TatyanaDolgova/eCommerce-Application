@@ -1,0 +1,50 @@
+.basket_page_container {
+  padding: 20px 40px;
+}
+
+.basket_page_container h2{
+  font-size: xx-large;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.total {
+  margin-top: 20px;
+  text-align: end;
+  font-size: xx-large;
+  font-weight: 600;
+}
+
+.cart-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.promo-container {
+  display: flex;
+  gap: 20px;
+}
+
+.empty-cart {
+  margin-top: 40px;
+  font-size: x-large;
+  text-align: center;
+}
+
+@media (max-width: 865px) {
+  .cart-buttons-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 370px) {
+  .promo-input {
+    min-width: 150px;
+  }
+}

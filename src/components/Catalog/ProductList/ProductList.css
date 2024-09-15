@@ -1,0 +1,13 @@
+.products-container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+@media screen and (max-width: 950px) {
+  .products-container {
+    justify-content: center;
+  }
+}
